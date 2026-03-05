@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ApprovalController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DocumentController as AdminDocumentController;
 use App\Http\Controllers\Admin\FreightRateController;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (auth()->guest()) {
-        return redirect()->route('login');
+        return view('landing');
     }
 
     if (auth()->user()->status !== 'approved' && ! auth()->user()->hasRole('admin')) {
@@ -41,7 +42,7 @@ Route::get('/', function () {
     }
 
     return redirect()->route('dashboard');
-})->middleware(['auth', 'verified'])->name('home');
+})->name('home');
 
 Route::get('pending-approval', function () {
     return view('auth.pending-approval');
@@ -85,6 +86,8 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin'])->prefix('admin
     Route::get('/documents', [AdminDocumentController::class, 'index'])->name('documents.index');
     Route::post('/documents/upload', [AdminDocumentController::class, 'upload'])->name('documents.upload');
     Route::delete('/documents/{document}', [AdminDocumentController::class, 'destroy'])->name('documents.destroy');
+
+    Route::resource('users', AdminUserController::class)->names('users')->except(['show']);
 });
 
 Route::middleware(['auth', 'verified', 'approved', 'role:buyer'])->prefix('buyer')->name('buyer.')->group(function () {

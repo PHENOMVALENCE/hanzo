@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -27,6 +28,7 @@ class User extends Authenticatable
         'city',
         'password',
         'status',
+        'avatar_path',
     ];
 
     /**
@@ -55,5 +57,10 @@ class User extends Authenticatable
     public function factory(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Factory::class);
+    }
+
+    public function avatarUrl(): ?string
+    {
+        return $this->avatar_path ? Storage::url($this->avatar_path) : null;
     }
 }

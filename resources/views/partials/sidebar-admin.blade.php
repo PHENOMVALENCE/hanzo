@@ -66,4 +66,11 @@
       <div data-i18n="Documents">Documents</div>
     </a>
   </li>
+  <li class="menu-header small text-uppercase"><span class="menu-header-text">System</span></li>
+  <li class="menu-item">
+    <a href="{{ route('admin.users.index') }}" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-group"></i>
+      <div data-i18n="User Management">User Management</div>
+    </a>
+  </li>
 </ul>

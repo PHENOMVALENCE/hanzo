@@ -32,16 +32,16 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+        <div class="d-flex flex-wrap justify-content-between align-items-center mt-4 gap-2">
+            <div>
+                @if (Route::has('password.request'))
+                    <a class="text-muted small" href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a>
+                @endif
+                @if (Route::has('register'))
+                    <a class="text-muted small ms-3" href="{{ route('register') }}">{{ __('Register as Buyer') }}</a>
+                @endif
+            </div>
+            <button type="submit" class="btn btn-hanzo px-4 py-2 rounded">{{ __('Log in') }}</button>
         </div>
     </form>
 </x-guest-layout>
