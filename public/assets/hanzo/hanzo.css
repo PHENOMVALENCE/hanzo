@@ -83,17 +83,36 @@
 
 /* ========== Page Header ========== */
 .hanzo-page-header { margin-bottom: var(--hanzo-section-pad); }
-.hanzo-page-title { font-size: 1.5rem; font-weight: 700; color: var(--hanzo-navy); margin-bottom: 0.25rem; }
-.hanzo-breadcrumb { font-size: 0.875rem; color: var(--hanzo-muted); }
-.hanzo-breadcrumb a { color: var(--hanzo-muted); text-decoration: none; }
-.hanzo-breadcrumb a:hover { color: var(--hanzo-navy); }
+.hanzo-page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e5e7eb;
+  margin-bottom: 0.25rem;
+}
+.hanzo-breadcrumb {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+.hanzo-breadcrumb a {
+  color: #9ca3af;
+  text-decoration: none;
+}
+.hanzo-breadcrumb a:hover { color: #e5e7eb; }
 .hanzo-page-header-actions { margin-top: 0.5rem; }
 
 /* ========== Empty State ========== */
 .hanzo-empty-state { text-align: center; padding: 3rem 2rem; }
 .hanzo-empty-state-icon { font-size: 3rem; color: var(--hanzo-slate-light); margin-bottom: 1rem; }
-.hanzo-empty-state-title { font-weight: 600; color: var(--hanzo-navy); margin-bottom: 0.5rem; }
-.hanzo-empty-state-text { color: var(--hanzo-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+.hanzo-empty-state-title {
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 0.5rem;
+}
+.hanzo-empty-state-text {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
 
 /* ========== Stepper / Milestone Tracker ========== */
 .hanzo-stepper { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
@@ -114,13 +133,36 @@
   border-bottom: 1px solid var(--hanzo-card-border);
 }
 .hanzo-doc-item:last-child { border-bottom: none; }
-.hanzo-doc-icon { width: 2.5rem; height: 2.5rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(15,23,42,0.06); color: var(--hanzo-navy); }
-.hanzo-doc-name { font-weight: 500; color: var(--hanzo-navy); }
-.hanzo-doc-meta { font-size: 0.75rem; color: var(--hanzo-muted); }
+.hanzo-doc-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15,23,42,0.35);
+  color: #e5e7eb;
+}
+.hanzo-doc-name {
+  font-weight: 500;
+  color: #e5e7eb;
+}
+.hanzo-doc-meta {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
 
 /* ========== Form Helpers ========== */
-.hanzo-form-label { font-weight: 500; color: var(--hanzo-navy); margin-bottom: 0.25rem; }
-.hanzo-form-helper { font-size: 0.8rem; color: var(--hanzo-muted); margin-top: 0.25rem; }
+.hanzo-form-label {
+  font-weight: 500;
+  color: #e5e7eb;
+  margin-bottom: 0.25rem;
+}
+.hanzo-form-helper {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
 .hanzo-form-error { font-size: 0.8rem; color: #dc2626; margin-top: 0.25rem; }
 .hanzo-file-upload { border: 2px dashed var(--hanzo-card-border); border-radius: 8px; padding: 1.5rem; text-align: center; transition: border-color 0.2s; }
 .hanzo-file-upload:hover { border-color: var(--hanzo-navy); }
@@ -150,15 +192,17 @@ body.hanzo-public { font-family: 'DM Sans', -apple-system, sans-serif; color: #3
 @keyframes hanzo-fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Category cards with images */
-.hanzo-section-categories { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); }
-.hanzo-section-title { color: var(--hanzo-navy); font-weight: 700; letter-spacing: -0.02em; }
+.hanzo-section-categories { background: radial-gradient(circle at top, rgba(15,23,42,0.35), transparent 55%), linear-gradient(180deg, #020617 0%, #0b1120 100%); }
+.hanzo-section-title { color: #e5e7eb; font-weight: 700; letter-spacing: -0.02em; }
 .hanzo-category-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .hanzo-category-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgba(15,23,42,0.15); }
 .hanzo-category-img { transition: transform 0.5s ease; }
 .hanzo-category-card:hover .hanzo-category-img { transform: scale(1.06); }
 .hanzo-category-icon { color: var(--hanzo-amber); transition: transform 0.3s; }
 .hanzo-category-card:hover .hanzo-category-icon { transform: scale(1.1); color: var(--hanzo-gold-alt); }
-.hanzo-category-title { color: var(--hanzo-navy); }
+.hanzo-category-title { color: #f9fafb; }
+.hanzo-category-card small,
+.hanzo-category-card p { color: rgba(226, 232, 240, 0.8) !important; }
 
 /* How it works - step cards */
 .hanzo-section-steps { background: #fff; }

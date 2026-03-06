@@ -1,41 +1,50 @@
 /**
  * HANZO Dashboard Theme
- * Clean, modern B2B trade platform
+ * Dark, premium B2B trade platform
  */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Primary palette */
-  --hanzo-navy: #0f172a;
-  --hanzo-navy-light: #1e293b;
-  --hanzo-amber: #f59e0b;
-  --hanzo-amber-soft: #fcd34d;
-  --hanzo-bg: #f8fafc;
-  --hanzo-bg-warm: #fffef9;
-  --hanzo-success: #059669;
-  --hanzo-info: #0284c7;
-  --hanzo-muted: #64748b;
+  /* Deep Analytical palette (dark data-heavy dashboard) */
+  /* Background / surface */
+  --hanzo-bg: #0f172a;            /* deep navy base */
+  --hanzo-bg-elevated: #111827;
+  --hanzo-bg-warm: #0b1120;
 
-  /* Semantic */
-  --hanzo-card-bg: #ffffff;
-  --hanzo-card-border: rgba(15, 23, 42, 0.06);
-  --hanzo-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --hanzo-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-  --hanzo-shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.06), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
-  --hanzo-sidebar-bg: linear-gradient(180deg, #0f172a 0%, #0c1222 100%);
+  --hanzo-navy: #0f172a;
+  --hanzo-navy-light: #1e293b;    /* surface for cards / nav */
+  --hanzo-navy-softer: #334155;
+
+  /* Accents */
+  --hanzo-amber: #7c3aed;         /* primary accent – vivid purple */
+  --hanzo-amber-soft: #a855f7;
+
+  --hanzo-success: #16a34a;
+  --hanzo-info: #3b82f6;          /* secondary – blue */
+  --hanzo-muted: #94a3b8;
+
+  /* Surfaces & shadows */
+  --hanzo-card-bg: #1e293b;       /* surface */
+  --hanzo-card-border: rgba(148, 163, 184, 0.22);
+  --hanzo-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.6);
+  --hanzo-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+  --hanzo-shadow-lg: 0 30px 90px rgba(15, 23, 42, 0.95);
+  --hanzo-sidebar-bg: linear-gradient(180deg, #020617 0%, #0f172a 40%, #020617 100%);
 }
 
 /* Typography */
 body {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
   background-color: var(--hanzo-bg) !important;
-  color: #334155;
+  color: #e2e8f0;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-family: 'Space Grotesk', system-ui, sans-serif !important;
   font-weight: 600 !important;
-  color: var(--hanzo-navy) !important;
+  color: #e5e7eb !important;
+  letter-spacing: -0.02em;
 }
 
 /* Sidebar collapse (layout-menu-fixed + layout-menu-collapsed) */
@@ -49,7 +58,16 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   }
 }
 
-/* Navbar */
+/* Navbar - full-width to align with content (no detached margin) */
+.layout-navbar.navbar-detached {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  border-radius: 0 !important;
+}
+
 .layout-navbar {
   background: var(--hanzo-card-bg) !important;
   box-shadow: var(--hanzo-shadow-sm) !important;
@@ -102,9 +120,24 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   letter-spacing: 0.05em;
 }
 
-/* Content */
+/* Content - align with sidebar, avoid clipping */
 .content-wrapper {
   background: var(--hanzo-bg) !important;
+}
+
+/* Unified padding so navbar and content align with sidebar */
+.layout-navbar.container-xxl,
+.layout-page .content-wrapper > .container-xxl.container-p-y {
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+@media (min-width: 1400px) {
+  .layout-navbar.container-xxl,
+  .layout-page .content-wrapper > .container-xxl.container-p-y {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
 }
 
 /* Cards */
@@ -178,9 +211,9 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 
 /* Buttons */
 .btn-primary {
-  background: var(--hanzo-navy) !important;
-  border-color: var(--hanzo-navy) !important;
-  color: #fff !important;
+  background: var(--hanzo-amber) !important;
+  border-color: var(--hanzo-amber) !important;
+  color: #f9fafb !important;
   font-weight: 600;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
@@ -188,20 +221,20 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 }
 
 .btn-primary:hover {
-  background: var(--hanzo-navy-light) !important;
-  border-color: var(--hanzo-navy-light) !important;
+  background: var(--hanzo-amber-soft) !important;
+  border-color: var(--hanzo-amber-soft) !important;
   transform: translateY(-1px);
 }
 
 .btn-outline-primary {
-  border-color: rgba(15, 23, 42, 0.3);
-  color: var(--hanzo-navy);
+  border-color: rgba(148, 163, 184, 0.7);
+  color: #e5e7eb;
   border-radius: 0.5rem;
 }
 
 .btn-outline-primary:hover {
-  background: rgba(15, 23, 42, 0.06);
-  border-color: var(--hanzo-navy);
+  background: rgba(15, 23, 42, 0.6);
+  border-color: var(--hanzo-amber);
 }
 
 /* Tables */
