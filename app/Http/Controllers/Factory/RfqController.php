@@ -57,6 +57,8 @@ class RfqController extends Controller
             'status' => 'submitted',
         ]);
 
+        $rfq->update(['status' => 'pricing_received']);
+
         return back()->with('success', 'Price submitted successfully.');
     }
 }

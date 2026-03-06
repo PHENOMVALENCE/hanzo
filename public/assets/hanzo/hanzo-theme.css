@@ -1,0 +1,306 @@
+/**
+ * HANZO Dashboard Theme
+ * Clean, modern B2B trade platform
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
+
+:root {
+  /* Primary palette */
+  --hanzo-navy: #0f172a;
+  --hanzo-navy-light: #1e293b;
+  --hanzo-amber: #f59e0b;
+  --hanzo-amber-soft: #fcd34d;
+  --hanzo-bg: #f8fafc;
+  --hanzo-bg-warm: #fffef9;
+  --hanzo-success: #059669;
+  --hanzo-info: #0284c7;
+  --hanzo-muted: #64748b;
+
+  /* Semantic */
+  --hanzo-card-bg: #ffffff;
+  --hanzo-card-border: rgba(15, 23, 42, 0.06);
+  --hanzo-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --hanzo-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --hanzo-shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.06), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --hanzo-sidebar-bg: linear-gradient(180deg, #0f172a 0%, #0c1222 100%);
+}
+
+/* Typography */
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  background-color: var(--hanzo-bg) !important;
+  color: #334155;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-weight: 600 !important;
+  color: var(--hanzo-navy) !important;
+}
+
+/* Sidebar collapse (layout-menu-fixed + layout-menu-collapsed) */
+html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
+  width: 5.25rem !important;
+}
+
+@media (min-width: 1200px) {
+  html.layout-menu-collapsed.layout-menu-fixed .layout-page {
+    padding-left: 5.25rem !important;
+  }
+}
+
+/* Navbar */
+.layout-navbar {
+  background: var(--hanzo-card-bg) !important;
+  box-shadow: var(--hanzo-shadow-sm) !important;
+  border-bottom: 1px solid var(--hanzo-card-border) !important;
+}
+
+.layout-menu-toggle .nav-link {
+  color: var(--hanzo-navy) !important;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem;
+  transition: background 0.2s;
+}
+
+.layout-menu-toggle .nav-link:hover {
+  background: rgba(15, 23, 42, 0.06) !important;
+}
+
+/* Sidebar */
+.bg-menu-theme,
+.layout-menu {
+  background: var(--hanzo-sidebar-bg) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.bg-menu-theme .menu-link {
+  color: rgba(255, 255, 255, 0.82) !important;
+  border-radius: 0.5rem;
+  margin: 0 0.5rem;
+  transition: all 0.2s;
+}
+
+.bg-menu-theme .menu-link:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.bg-menu-theme .menu-item.active > .menu-link {
+  color: var(--hanzo-amber-soft) !important;
+  background: rgba(245, 158, 11, 0.15) !important;
+}
+
+.bg-menu-theme .menu-header-text {
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-size: 0.7rem;
+}
+
+.bg-menu-theme .app-brand-text {
+  color: #fff !important;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Content */
+.content-wrapper {
+  background: var(--hanzo-bg) !important;
+}
+
+/* Cards */
+.card {
+  background: var(--hanzo-card-bg) !important;
+  border: 1px solid var(--hanzo-card-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--hanzo-shadow) !important;
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  box-shadow: var(--hanzo-shadow-lg) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.card-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--hanzo-card-border) !important;
+  font-weight: 600 !important;
+  color: var(--hanzo-navy) !important;
+  padding: 1rem 1.25rem !important;
+}
+
+/* Stat cards */
+.hanzo-stat-card {
+  border-radius: 12px !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.hanzo-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hanzo-navy), var(--hanzo-navy-light));
+  opacity: 0.6;
+}
+
+.hanzo-stat-card .avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.06) !important;
+  color: var(--hanzo-navy) !important;
+}
+
+.hanzo-stat-card h3 {
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+}
+
+/* Verified / Gold accent card */
+.card.card-verified,
+.card.card-factory,
+.hanzo-verified-card {
+  border-left: 4px solid var(--hanzo-amber) !important;
+}
+
+.card.card-verified::before,
+.hanzo-stat-card.card-verified::before {
+  background: linear-gradient(90deg, var(--hanzo-amber), #fbbf24) !important;
+  opacity: 1;
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--hanzo-navy) !important;
+  border-color: var(--hanzo-navy) !important;
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--hanzo-navy-light) !important;
+  border-color: var(--hanzo-navy-light) !important;
+  transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+  border-color: rgba(15, 23, 42, 0.3);
+  color: var(--hanzo-navy);
+  border-radius: 0.5rem;
+}
+
+.btn-outline-primary:hover {
+  background: rgba(15, 23, 42, 0.06);
+  border-color: var(--hanzo-navy);
+}
+
+/* Tables */
+.table {
+  --bs-table-striped-bg: rgba(15, 23, 42, 0.02);
+  --bs-table-hover-bg: rgba(15, 23, 42, 0.04);
+}
+
+.table thead th {
+  border-bottom: 2px solid rgba(15, 23, 42, 0.08);
+  font-weight: 600;
+  color: var(--hanzo-navy);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Badges */
+.badge {
+  font-weight: 500;
+  padding: 0.4em 0.7em;
+  border-radius: 6px;
+}
+
+.badge.bg-label-primary { background: rgba(15, 23, 42, 0.1) !important; color: var(--hanzo-navy) !important; }
+.badge.bg-label-success, .badge.bg-success { background: rgba(5, 150, 105, 0.12) !important; color: #047857 !important; }
+.badge.bg-label-warning, .badge.bg-warning { background: rgba(245, 158, 11, 0.15) !important; color: #b45309 !important; }
+.badge.bg-label-info, .badge.bg-info { background: rgba(2, 132, 199, 0.12) !important; color: #0369a1 !important; }
+.badge.bg-label-danger, .badge.bg-danger { background: rgba(239, 68, 68, 0.12) !important; color: #dc2626 !important; }
+
+/* Pagination */
+.page-item.active .page-link,
+.pagination li.active > a:not(.page-link) {
+  background: var(--hanzo-navy) !important;
+  border-color: var(--hanzo-navy) !important;
+  color: #fff !important;
+  border-radius: 6px;
+}
+
+/* Buyer role - amber accent */
+body.hanzo-role-buyer .btn-primary {
+  background: var(--hanzo-amber) !important;
+  border-color: var(--hanzo-amber) !important;
+  color: var(--hanzo-navy) !important;
+}
+
+body.hanzo-role-buyer .btn-primary:hover {
+  background: #d97706 !important;
+  border-color: #d97706 !important;
+  color: #fff !important;
+}
+
+/* Stat boxes */
+.hanzo-stat-box {
+  border-radius: 10px;
+  padding: 1rem !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hanzo-stat-box:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hanzo-shadow-lg) !important;
+}
+
+/* Dashboard cards - subtle gradient accent */
+.hanzo-stat-card::before {
+  border-radius: 12px 12px 0 0;
+}
+
+/* Form controls */
+.form-control, .form-select {
+  border-radius: 0.5rem;
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--hanzo-navy);
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+}
+
+/* Page header */
+.container-p-y h4 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.container-p-y .text-muted {
+  color: var(--hanzo-muted) !important;
+}
+
+/* Alerts */
+.alert {
+  border-radius: 0.5rem;
+  border: none;
+}
+
+/* Avatar in navbar */
+.navbar-dropdown .avatar-initial {
+  background: linear-gradient(135deg, var(--hanzo-navy), var(--hanzo-navy-light)) !important;
+  color: #fff !important;
+  font-weight: 600;
+}

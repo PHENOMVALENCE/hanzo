@@ -1,22 +1,22 @@
 @extends('layouts.buyer')
 
-@section('title', 'Quotes')
+@section('title', __('buyer.quotes.title'))
 
 @section('content')
-<h4 class="fw-bold mb-4">My Quotes</h4>
+<h4 class="fw-bold mb-4">{{ __('buyer.quotes.my_quotes') }}</h4>
 <div class="card">
   <div class="card-body">
     @if($quotations->isEmpty())
-      <p class="text-muted mb-0">No quotes yet.</p>
+      <p class="text-muted mb-0">{{ __('buyer.quotes.no_quotes') }}</p>
     @else
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th>Quote Code</th>
-              <th>RFQ</th>
-              <th>Total (USD)</th>
-              <th>Status</th>
+              <th>{{ __('buyer.quotes.quote_code') }}</th>
+              <th>{{ __('buyer.quotes.rfq') }}</th>
+              <th>{{ __('buyer.quotes.total_usd') }}</th>
+              <th>{{ __('buyer.rfqs.status') }}</th>
               <th></th>
             </tr>
           </thead>
@@ -27,7 +27,7 @@
               <td>{{ $q->rfq->code }}</td>
               <td>${{ number_format($q->total_landed_cost, 2) }}</td>
               <td><span class="badge bg-{{ $q->status === 'sent' ? 'info' : ($q->status === 'accepted' ? 'success' : 'secondary') }}">{{ $q->status }}</span></td>
-              <td><a href="{{ route('buyer.quotes.show', $q) }}" class="btn btn-sm btn-primary">View</a></td>
+              <td><a href="{{ route('buyer.quotes.show', $q) }}" class="btn btn-sm btn-primary">{{ __('buyer.rfqs.view') }}</a></td>
             </tr>
             @endforeach
           </tbody>

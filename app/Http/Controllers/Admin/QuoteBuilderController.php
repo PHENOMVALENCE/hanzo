@@ -18,10 +18,11 @@ class QuoteBuilderController extends Controller
 
     public function edit(Rfq $rfq): View
     {
-        $rfq->load(['buyer', 'category', 'assignedFactory', 'factoryQuotes']);
+        $rfq->load(['buyer', 'category', 'assignedFactory', 'factoryQuotes.factory']);
         $quotation = $rfq->quotations()->latest()->first();
+        $suggestedProductCost = $this->quoteService->getProductCostFromFactoryQuote($rfq);
 
-        return view('admin.quote-builder.edit', compact('rfq', 'quotation'));
+        return view('admin.quote-builder.edit', compact('rfq', 'quotation', 'suggestedProductCost'));
     }
 
     public function store(Request $request, Rfq $rfq): RedirectResponse

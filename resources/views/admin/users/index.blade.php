@@ -22,7 +22,7 @@
 <div class="card">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th>Photo</th>

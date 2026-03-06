@@ -16,8 +16,9 @@ class OrderPolicy
             return $order->buyer_id === $user->id;
         }
         if ($user->hasRole('factory')) {
-            $factoryId = $order->quotation->rfq->assigned_factory_id ?? null;
-            return $user->factory && $user->factory->id === $factoryId;
+            $rfq = optional($order->quotation)->rfq;
+            $factoryId = $rfq?->assigned_factory_id ?? null;
+            return $user->factory && $factoryId && $user->factory->id === $factoryId;
         }
         return false;
     }

@@ -8,6 +8,24 @@ use Illuminate\Support\Str;
 
 class QuoteService
 {
+    /**
+     * Get suggested product cost from the latest factory quote (unit_price × quantity).
+     * Returns null if no factory quote exists.
+     */
+    public function getProductCostFromFactoryQuote(Rfq $rfq): ?float
+    {
+        $factoryQuote = $rfq->factoryQuotes()
+            ->latest()
+            ->first();
+
+        if (! $factoryQuote || ! $factoryQuote->unit_price_usd) {
+            return null;
+        }
+
+        $quantity = (float) ($rfq->quantity ?? 0);
+        return round((float) $factoryQuote->unit_price_usd * $quantity, 2);
+    }
+
     public function buildFromRfq(Rfq $rfq, array $costBreakdown): Quotation
     {
         $total = ($costBreakdown['product_cost_usd'] ?? 0)

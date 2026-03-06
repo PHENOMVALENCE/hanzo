@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeUserMail;
+use App\Models\Factory;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -34,11 +37,17 @@ class UserController extends Controller
             'role' => ['required', Rule::in(['buyer', 'factory', 'admin'])],
             'status' => ['nullable', Rule::in(['pending', 'approved', 'suspended'])],
             'company_name' => ['nullable', 'string', 'max:255'],
+            'factory_name' => ['nullable', 'string', 'max:255'],
+            'location_china' => ['nullable', 'string', 'max:150'],
             'phone' => ['nullable', 'string', 'max:30'],
             'country' => ['nullable', 'string', 'max:80'],
             'city' => ['nullable', 'string', 'max:100'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'send_welcome_email' => ['nullable', 'boolean'],
         ]);
+
+        $sendWelcomeEmail = $request->boolean('send_welcome_email');
+        $plainPassword = $validated['password'];
 
         $validated['password'] = Hash::make($validated['password']);
         $validated['status'] = $validated['status'] ?? 'approved';
@@ -52,7 +61,22 @@ class UserController extends Controller
         $user = User::create($validated);
         $user->assignRole($validated['role']);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+        if ($validated['role'] === 'factory') {
+            Factory::firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'factory_name' => $validated['factory_name'] ?? $validated['company_name'] ?? $user->name,
+                    'location_china' => $validated['location_china'] ?? null,
+                    'verification_status' => 'pending',
+                ]
+            );
+        }
+
+        if ($sendWelcomeEmail) {
+            Mail::to($user->email)->send(new WelcomeUserMail($user, $plainPassword));
+        }
+
+        return redirect()->route('admin.users.index')->with('success', 'User created successfully.' . ($sendWelcomeEmail ? ' Welcome email sent.' : ''));
     }
 
     public function edit(User $user): View
@@ -69,6 +93,8 @@ class UserController extends Controller
             'role' => ['required', Rule::in(['buyer', 'factory', 'admin'])],
             'status' => ['required', Rule::in(['pending', 'approved', 'suspended'])],
             'company_name' => ['nullable', 'string', 'max:255'],
+            'factory_name' => ['nullable', 'string', 'max:255'],
+            'location_china' => ['nullable', 'string', 'max:150'],
             'phone' => ['nullable', 'string', 'max:30'],
             'country' => ['nullable', 'string', 'max:80'],
             'city' => ['nullable', 'string', 'max:100'],
@@ -90,6 +116,21 @@ class UserController extends Controller
 
         $user->save();
         $user->syncRoles([$validated['role']]);
+
+        if ($validated['role'] === 'factory') {
+            $factory = Factory::firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'factory_name' => $validated['factory_name'] ?? $validated['company_name'] ?? $user->name,
+                    'location_china' => $validated['location_china'] ?? null,
+                    'verification_status' => 'pending',
+                ]
+            );
+            $factory->update([
+                'factory_name' => $validated['factory_name'] ?? $validated['company_name'] ?? $factory->factory_name,
+                'location_china' => $validated['location_china'] ?? $factory->location_china,
+            ]);
+        }
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }

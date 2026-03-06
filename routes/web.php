@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ApprovalController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DocumentController as AdminDocumentController;
@@ -19,8 +20,16 @@ use App\Http\Controllers\Buyer\RfqController as BuyerRfqController;
 use App\Http\Controllers\Factory\DashboardController as FactoryDashboardController;
 use App\Http\Controllers\Factory\OrderController as FactoryOrderController;
 use App\Http\Controllers\Factory\RfqController as FactoryRfqController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+/* Public (no auth) */
+Route::get('/how-it-works', fn () => view('public.how-it-works'))->name('how-it-works');
+Route::get('/about', fn () => view('public.about'))->name('about');
+Route::get('/contact', fn () => view('public.contact'))->name('contact');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 
 Route::get('/', function () {
     if (auth()->guest()) {
@@ -49,7 +58,19 @@ Route::get('pending-approval', function () {
 })->middleware(['auth', 'verified'])->name('pending-approval');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+
+    if ($user->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    }
+    if ($user->hasRole('buyer')) {
+        return redirect()->route('buyer.dashboard');
+    }
+    if ($user->hasRole('factory')) {
+        return redirect()->route('factory.dashboard');
+    }
+
+    return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -90,7 +111,9 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin'])->prefix('admin
     Route::resource('users', AdminUserController::class)->names('users')->except(['show']);
 });
 
-Route::middleware(['auth', 'verified', 'approved', 'role:buyer'])->prefix('buyer')->name('buyer.')->group(function () {
+Route::post('/locale', [LocaleController::class, 'switch'])->name('locale.switch')->middleware(['web']);
+
+Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->prefix('buyer')->name('buyer.')->group(function () {
     Route::get('/dashboard', [BuyerDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/rfqs', [BuyerRfqController::class, 'index'])->name('rfqs.index');
@@ -122,6 +145,7 @@ Route::middleware(['auth', 'verified', 'approved', 'role:factory'])->prefix('fac
 
     Route::get('/orders', [FactoryOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [FactoryOrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order}/production-update', [FactoryOrderController::class, 'submitProductionUpdate'])->name('orders.production-update');
 });
 
 require __DIR__ . '/auth.php';

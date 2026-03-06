@@ -44,7 +44,7 @@ class HanzoSeeder extends Seeder
             [
                 'name' => 'Sample Factory',
                 'password' => Hash::make('password'),
-                'status' => 'pending',
+                'status' => 'approved',
                 'email_verified_at' => now(),
             ]
         );
@@ -56,9 +56,10 @@ class HanzoSeeder extends Seeder
             [
                 'factory_name' => 'Sample China Factory',
                 'location_china' => 'Guangdong',
-                'verification_status' => 'pending',
+                'verification_status' => 'approved',
             ]
         );
+        $factoryUser->update(['status' => 'approved']);
 
         $categories = [
             ['slug' => 'electronics', 'name' => 'Electronics', 'description' => 'Electronic components and devices', 'moq_default' => 100],

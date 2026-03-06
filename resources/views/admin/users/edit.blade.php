@@ -68,6 +68,25 @@
           <label class="form-label" for="company_name">Company Name</label>
           <input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name', $user->company_name) }}">
         </div>
+        @if($user->factory)
+        <div class="col-md-6">
+          <label class="form-label" for="factory_name">Factory Name</label>
+          <input type="text" class="form-control" id="factory_name" name="factory_name" value="{{ old('factory_name', $user->factory->factory_name) }}">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="location_china">Location in China</label>
+          <input type="text" class="form-control" id="location_china" name="location_china" value="{{ old('location_china', $user->factory->location_china) }}">
+        </div>
+        @else
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="factory_name">Factory Name <span class="text-muted">(when role is Factory)</span></label>
+          <input type="text" class="form-control" id="factory_name" name="factory_name" value="{{ old('factory_name') }}">
+        </div>
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="location_china">Location in China</label>
+          <input type="text" class="form-control" id="location_china" name="location_china" value="{{ old('location_china') }}">
+        </div>
+        @endif
         <div class="col-md-6">
           <label class="form-label" for="phone">Phone</label>
           <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $user->phone) }}">

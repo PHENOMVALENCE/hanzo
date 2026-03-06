@@ -1,9 +1,10 @@
 @extends('layouts.buyer')
 
-@section('title', 'Create RFQ')
+@section('title', __('labels.create_rfq'))
 
 @section('content')
-<h4 class="fw-bold mb-4">Create RFQ</h4>
+<h4 class="fw-bold mb-4">{{ __('labels.create_rfq') }}</h4>
+<p class="text-muted small mb-3">{{ __('labels.rfq_desc') }}</p>
 <form method="POST" action="{{ route('buyer.rfqs.store') }}" enctype="multipart/form-data">
   @csrf
   <div class="card mb-4">
@@ -49,7 +50,7 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">Submit RFQ</button>
+  <button type="submit" class="btn btn-primary">{{ __('labels.submit_rfq') }}</button>
   <a href="{{ route('buyer.rfqs.index') }}" class="btn btn-outline-secondary">Cancel</a>
 </form>
 @endsection

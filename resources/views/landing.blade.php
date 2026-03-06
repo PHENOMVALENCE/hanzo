@@ -1,149 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>HANZO - B2B Trade Platform | Structured Access to Global Manufacturing</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/fonts/boxicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/core.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/theme-default.css') }}">
-    <style>
-        :root {
-            --hanzo-navy: #0a1628;
-            --hanzo-navy-light: #132942;
-            --hanzo-gold: #d4af37;
-            --hanzo-gold-light: #e8c547;
-        }
-        body { font-family: 'Public Sans', sans-serif; background: linear-gradient(135deg, #0a1628 0%, #132942 100%); min-height: 100vh; color: #fff; }
-        .hanzo-hero { padding: 5rem 0; }
-        .hanzo-logo { font-size: 2.5rem; font-weight: 700; color: var(--hanzo-gold); letter-spacing: 0.1em; }
-        .hanzo-tagline { font-size: 1.25rem; color: rgba(255,255,255,0.85); }
-        .hanzo-sub { font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-top: 0.5rem; }
-        .btn-hanzo { background: var(--hanzo-gold); color: var(--hanzo-navy); border: none; font-weight: 600; padding: 0.6rem 1.5rem; border-radius: 0.375rem; }
-        .btn-hanzo:hover { background: var(--hanzo-gold-light); color: var(--hanzo-navy); }
-        .btn-hanzo-outline { border: 2px solid var(--hanzo-gold); color: var(--hanzo-gold); background: transparent; }
-        .btn-hanzo-outline:hover { background: var(--hanzo-gold); color: var(--hanzo-navy); }
-        .card-hanzo { background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.3); border-radius: 0.5rem; }
-        .nav-hanzo { background: rgba(10,22,40,0.95); border-bottom: 1px solid rgba(212,175,55,0.2); }
-        .footer-hanzo { border-top: 1px solid rgba(212,175,55,0.2); padding: 2rem 0; margin-top: 4rem; }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg nav-hanzo fixed-top">
-        <div class="container">
-            <a class="navbar-brand hanzo-logo" href="{{ url('/') }}">HANZO</a>
-            <button class="navbar-toggler border-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false">
-                <span class="navbar-toggler-icon text-light"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="nav">
-                <ul class="navbar-nav ms-auto gap-2">
-                    @auth
-                        <li class="nav-item">
-                            <a class="btn btn-hanzo" href="{{ url('/') }}">Dashboard</a>
-                        </li>
-                    @else
-                        <li class="nav-item"><a class="btn btn-hanzo-outline btn-sm" href="{{ route('login') }}">Log In</a></li>
-                        @if(Route::has('register'))
-                        <li class="nav-item"><a class="btn btn-hanzo btn-sm" href="{{ route('register') }}">Register as Buyer</a></li>
-                        @endif
-                    @endauth
-                </ul>
-            </div>
-        </div>
-    </nav>
+@extends('layouts.public')
 
-    <main class="container" style="padding-top: 6rem;">
-        <section class="hanzo-hero text-center">
-            <h1 class="hanzo-logo display-4 mb-3">HANZO</h1>
-            <p class="hanzo-tagline">B2B Trade Platform</p>
-            <p class="hanzo-sub">Structured Access to Global Manufacturing</p>
-            <p class="mt-4 mx-auto" style="max-width: 600px;">
-                HANZO connects verified Chinese factories with buyers in Tanzania and East Africa. 
-                A controlled platform where all communications and transactions flow through HANZO — 
-                protecting factory identities, generating transparent estimates, and managing orders from request to delivery.
-            </p>
+@section('title', 'HANZO - Structured Access to Global Manufacturing')
+
+@section('content')
+<section class="hanzo-hero py-5" style="margin-top: 56px; display: flex; align-items: center; min-height: 500px; background: linear-gradient(105deg, rgba(15,27,42,0.92) 0%, rgba(15,27,42,0.75) 50%, rgba(15,27,42,0.5) 100%), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1600') center/cover no-repeat; position: relative; overflow: hidden;">
+  <div class="hanzo-hero-pattern"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="display-5 fw-bold text-white mb-3 hanzo-hero-title">{{ __('landing.tagline') }}</h1>
+        <p class="lead text-white-50 mb-4 hanzo-hero-sub">{{ __('landing.subtitle') }}</p>
+        @guest
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{{ route('register') }}" class="btn btn-hanzo-primary btn-lg">{{ __('landing.request_quote') }}</a>
+          <a href="#categories" class="btn btn-outline-light btn-lg">{{ __('landing.explore_categories') }}</a>
+        </div>
+        @else
+        <div class="d-flex flex-wrap gap-2">
+          @if(auth()->user()->hasRole('buyer'))
+          <a href="{{ route('buyer.rfqs.create') }}" class="btn btn-hanzo-primary btn-lg">{{ __('landing.request_quote') }}</a>
+          @endif
+          @php $dash = auth()->user()->hasRole('admin') ? route('admin.dashboard') : (auth()->user()->hasRole('factory') ? route('factory.dashboard') : route('buyer.dashboard')); @endphp
+          <a href="{{ $dash }}" class="btn btn-outline-light btn-lg">Dashboard</a>
+        </div>
+        @endguest
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="categories" class="py-5 hanzo-section-categories">
+  <div class="container">
+    <h2 class="text-center mb-5 hanzo-section-title">{{ __('landing.categories') }}</h2>
+    <div class="row g-4">
+      @php
+        $categoryImages = [
+          'fashion' => ['bx-closet', 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400', __('landing.category_fashion'), __('landing.category_fashion_desc')],
+          'packaging' => ['bx-package', 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400', __('landing.category_packaging'), __('landing.category_packaging_desc')],
+          'consumer' => ['bx-home', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400', __('landing.category_consumer'), __('landing.category_consumer_desc')],
+          'machinery' => ['bx-cog', 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400', __('landing.category_machinery'), __('landing.category_machinery_desc')]
+        ];
+      @endphp
+      @foreach($categoryImages as $slug => $data)
+      <div class="col-md-6 col-lg-3">
+        <a href="{{ route('categories.index') }}#{{ $slug }}" class="text-decoration-none hanzo-category-card-link">
+          <div class="hanzo-card hanzo-category-card p-0 h-100 overflow-hidden">
+            <div class="hanzo-category-img" style="background-image: url('{{ $data[1] }}'); height: 140px; background-size: cover; background-position: center;"></div>
+            <div class="p-4 text-center">
+              <i class="bx {{ $data[0] }} bx-lg mb-2 hanzo-category-icon"></i>
+              <h5 class="hanzo-category-title">{{ $data[2] }}</h5>
+              <small class="text-muted">{{ $data[3] }}</small>
+            </div>
+          </div>
+        </a>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" class="py-5 hanzo-section-steps">
+  <div class="container">
+    <h2 class="text-center mb-5 hanzo-section-title">{{ __('landing.how_it_works') }}</h2>
+    <div class="row g-4 text-center">
+      @foreach([['bx-file', __('landing.step1'), __('landing.step1_desc')], ['bx-message-detail', __('landing.step2'), __('landing.step2_desc')], ['bx-factory', __('landing.step3'), __('landing.step3_desc')], ['bx-truck', __('landing.step4'), __('landing.step4_desc')]] as $i => $step)
+      <div class="col-6 col-lg-3">
+        <div class="hanzo-card hanzo-step-card p-4 h-100">
+          <div class="hanzo-step-number">{{ $i+1 }}</div>
+          <i class="bx {{ $step[0] }} bx-lg mb-2 hanzo-step-icon"></i>
+          <h5 class="hanzo-step-title">{{ $step[1] }}</h5>
+          <p class="text-muted small mb-0">{{ $step[2] }}</p>
+        </div>
+      </div>
+      @endforeach
+    </div>
+    <div class="text-center mt-4">
+      <a href="{{ route('how-it-works') }}" class="btn btn-hanzo-secondary">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<section id="estimate" class="py-5 hanzo-section-estimate">
+  <div class="container">
+    <h2 class="text-center mb-5 hanzo-section-title">{{ __('landing.estimate_costs') }}</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="hanzo-card p-4 p-lg-5">
+          <form id="hanzo-estimate-form" class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">{{ __('landing.category') }}</label>
+              <select class="form-select" name="category" id="est-category">
+                @forelse(\App\Models\Category::all() as $cat)
+                <option value="{{ $cat->slug }}">{{ $cat->name }}</option>
+                @empty
+                <option value="electronics">Electronics</option>
+                <option value="textiles">Textiles</option>
+                <option value="hardware">Hardware</option>
+                @endforelse
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ __('landing.quantity') }}</label>
+              <input type="number" class="form-control" name="quantity" id="est-quantity" value="5000" min="100">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ __('landing.shipping_method') }}</label>
+              <select class="form-select" name="method" id="est-method">
+                <option value="sea">Sea Freight</option>
+                <option value="air">Air Freight</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ __('landing.destination') }}</label>
+              <select class="form-select" name="destination" id="est-destination">
+                <option value="dar_es_salaam">Dar es Salaam</option>
+                <option value="nairobi">Nairobi</option>
+                <option value="kampala">Kampala</option>
+                <option value="kigali">Kigali</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-hanzo-primary w-100">{{ __('landing.calculate') }}</button>
+            </div>
+          </form>
+          <div id="hanzo-estimate-result" class="mt-4 d-none">
+            <hr>
+            <h5 class="mb-3" style="color: var(--hanzo-navy);">{{ __('landing.estimated_costs') }}</h5>
+            <ul class="list-unstyled mb-3" id="estimate-details"></ul>
+            <p class="mb-2"><strong>{{ __('landing.estimated_total') }}:</strong> <span id="estimate-total" class="text-primary fs-4"></span></p>
             @guest
-            <div class="mt-4 gap-2 d-flex justify-content-center flex-wrap">
-                <a href="{{ route('login') }}" class="btn btn-hanzo">Log In</a>
-                <a href="{{ route('register') }}" class="btn btn-hanzo-outline">Register as Buyer</a>
-            </div>
+            <a href="{{ route('register') }}" class="btn btn-hanzo-primary">{{ __('landing.request_official_quote') }}</a>
+            @else
+            @if(auth()->user()->hasRole('buyer'))
+            <a href="{{ route('buyer.rfqs.create') }}" class="btn btn-hanzo-primary">{{ __('landing.request_official_quote') }}</a>
+            @endif
             @endguest
-        </section>
-
-        <section class="py-5">
-            <h2 class="text-center mb-4" style="color: var(--hanzo-gold);">Product Categories</h2>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="card card-hanzo p-4 h-100 text-center">
-                        <i class="bx bx-closet bx-lg mb-2" style="color: var(--hanzo-gold);"></i>
-                        <h5>Fashion & Textile</h5>
-                        <small class="text-white-50">Fabric, shoes, handbags, watches, uniforms</small>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card card-hanzo p-4 h-100 text-center">
-                        <i class="bx bx-package bx-lg mb-2" style="color: var(--hanzo-gold);"></i>
-                        <h5>Packaging & Branding</h5>
-                        <small class="text-white-50">Plastic bottles, boxes, labels, cosmetic containers</small>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card card-hanzo p-4 h-100 text-center">
-                        <i class="bx bx-home bx-lg mb-2" style="color: var(--hanzo-gold);"></i>
-                        <h5>Consumer Goods</h5>
-                        <small class="text-white-50">Kitchen products, LED lights, baby products</small>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card card-hanzo p-4 h-100 text-center">
-                        <i class="bx bx-cog bx-lg mb-2" style="color: var(--hanzo-gold);"></i>
-                        <h5>Machinery & Equipment</h5>
-                        <small class="text-white-50">Sewing, food processing, packaging machines</small>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-5">
-            <h2 class="text-center mb-4" style="color: var(--hanzo-gold);">How It Works</h2>
-            <div class="row g-4 text-center">
-                <div class="col-md-4">
-                    <div class="card card-hanzo p-4">
-                        <span class="badge bg-warning text-dark rounded-circle p-2 mb-2">1</span>
-                        <h5>Submit Request</h5>
-                        <p class="text-white-50 small">Describe your product needs, quantity, and delivery location.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-hanzo p-4">
-                        <span class="badge bg-warning text-dark rounded-circle p-2 mb-2">2</span>
-                        <h5>Receive Quote</h5>
-                        <p class="text-white-50 small">Get transparent, itemized cost estimates before committing.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-hanzo p-4">
-                        <span class="badge bg-warning text-dark rounded-circle p-2 mb-2">3</span>
-                        <h5>Track Order</h5>
-                        <p class="text-white-50 small">Follow your order from production to delivery.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer-hanzo text-center text-white-50">
-        <div class="container">
-            <p class="mb-0">HANZO B2B Trade Platform &bull; Version 1.0 &bull; February 2026</p>
-            <p class="small mt-1">Tech Stack: PHP | Laravel | Bootstrap 5 | MySQL</p>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="{{ asset('assets/sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('assets/sneat/assets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('assets/sneat/assets/vendor/js/bootstrap.js') }}"></script>
-</body>
-</html>
+<section class="py-5 hanzo-section-trust">
+  <div class="container">
+    <h2 class="text-center text-white mb-4">{{ __('landing.trusted_trade') }}</h2>
+    <div class="row justify-content-center g-4">
+      @foreach([__('landing.verified_factories'), __('landing.transparent_pricing'), __('landing.logistics_managed')] as $item)
+      <div class="col-md-4 text-center">
+        <div class="d-flex align-items-center justify-content-center gap-2 text-white">
+          <i class="bx bx-check-circle" style="color: var(--hanzo-amber-soft); font-size: 1.25rem;"></i>
+          <span>{{ $item }}</span>
+        </div>
+      </div>
+      @endforeach
+    </div>
+    <p class="text-center text-white-50 mt-4 mb-0 small">{{ __('landing.secure_footer') }}</p>
+  </div>
+</section>
+@endsection
+
+@push('scripts')
+<script>
+document.getElementById('hanzo-estimate-form')?.addEventListener('submit', function(e) {
+  e.preventDefault();
+  var cat = document.getElementById('est-category').value;
+  var qty = document.getElementById('est-quantity').value;
+  var method = document.getElementById('est-method').value;
+  var dest = document.getElementById('est-destination').value;
+  fetch('/api/estimate?category=' + cat + '&qty=' + qty + '&method=' + method + '&destination=' + dest)
+    .then(r => r.json())
+    .then(data => {
+      var details = document.getElementById('estimate-details');
+      var methodLabel = method === 'sea' ? 'Sea' : 'Air';
+      details.innerHTML = '<li>Shipping (' + methodLabel + '): $' + (data.min || 0) + ' - $' + (data.max || 0) + '</li>';
+      if (data.message) details.innerHTML += '<li class="text-muted">' + data.message + '</li>';
+      document.getElementById('estimate-total').textContent = data.min || data.max ? '$' + (data.min || 0) + ' - $' + (data.max || 0) : 'Contact HANZO for estimate';
+      document.getElementById('hanzo-estimate-result').classList.remove('d-none');
+    })
+    .catch(function() {
+      document.getElementById('estimate-details').innerHTML = '<li class="text-muted">Enter details and calculate for an estimate.</li>';
+      document.getElementById('estimate-total').textContent = '—';
+      document.getElementById('hanzo-estimate-result').classList.remove('d-none');
+    });
+});
+</script>
+@endpush

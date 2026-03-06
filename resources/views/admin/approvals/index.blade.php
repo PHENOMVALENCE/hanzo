@@ -13,7 +13,7 @@
       <p class="text-muted mb-0">No pending {{ $type }}.</p>
     @else
       <div class="table-responsive">
-        <table class="table">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th>Name</th>

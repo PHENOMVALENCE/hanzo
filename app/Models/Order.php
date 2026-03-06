@@ -45,4 +45,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderMilestone::class);
     }
+
+    public function productionUpdates(): HasMany
+    {
+        return $this->hasMany(ProductionUpdate::class);
+    }
 }

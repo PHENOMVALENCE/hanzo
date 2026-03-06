@@ -1,8 +1,9 @@
 <div class="app-brand demo">
   <a href="{{ url('/') }}" class="app-brand-link">
+    <img src="{{ asset('assets/hanzo/logo.png') }}" alt="HANZO" style="height: 32px; width: auto;" class="app-brand-logo">
     <span class="app-brand-text demo menu-text fw-bolder ms-2">HANZO</span>
   </a>
-  <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+  <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block" title="Toggle sidebar">
     <i class="bx bx-chevron-left bx-sm align-middle"></i>
   </a>
 </div>
@@ -33,7 +34,7 @@
   <li class="menu-item">
     <a href="{{ route('admin.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-file"></i>
-      <div data-i18n="RFQs">RFQs</div>
+      <div data-i18n="Product Requests">{{ __('labels.rfqs') }}</div>
     </a>
   </li>
   <li class="menu-item">

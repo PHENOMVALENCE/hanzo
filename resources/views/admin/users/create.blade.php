@@ -53,6 +53,14 @@
           <label class="form-label" for="company_name">Company Name</label>
           <input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name') }}">
         </div>
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="factory_name">Factory Name <span class="text-muted">(for Factory role)</span></label>
+          <input type="text" class="form-control" id="factory_name" name="factory_name" value="{{ old('factory_name') }}" placeholder="e.g. Guangdong Textiles Ltd">
+        </div>
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="location_china">Location in China</label>
+          <input type="text" class="form-control" id="location_china" name="location_china" value="{{ old('location_china') }}" placeholder="e.g. Guangdong, Shenzhen">
+        </div>
         <div class="col-md-6">
           <label class="form-label" for="phone">Phone</label>
           <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
@@ -69,6 +77,14 @@
           <label class="form-label" for="avatar">Profile Photo</label>
           <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" name="avatar" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
           @error('avatar')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        </div>
+        <div class="col-12">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="send_welcome_email" name="send_welcome_email" value="1" {{ old('send_welcome_email', true) ? 'checked' : '' }}>
+            <label class="form-check-label" for="send_welcome_email">
+              Send welcome email with login credentials
+            </label>
+          </div>
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Create User</button>

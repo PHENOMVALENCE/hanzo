@@ -20,7 +20,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/sneat/assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/hanzo/logo.png') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,6 +37,8 @@
     <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assets/sneat/assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/hanzo/hanzo-theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/hanzo/hanzo.css') }}" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
@@ -52,7 +54,7 @@
     <script src="{{ asset('assets/sneat/assets/js/config.js') }}"></script>
   </head>
 
-  <body>
+  <body class="@if(auth()->user()) hanzo-role-{{ auth()->user()->getRoleNames()->first() ?? 'buyer' }} @endif">
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -108,6 +110,23 @@
 
     <!-- Main JS -->
     <script src="{{ asset('assets/sneat/assets/js/main.js') }}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      function toggleSidebar() {
+        var html = document.documentElement;
+        var menu = document.getElementById('layout-menu');
+        html.classList.toggle('layout-menu-collapsed');
+        if (menu) menu.classList.toggle('menu-collapsed');
+        window.dispatchEvent(new Event('resize'));
+      }
+      document.querySelectorAll('.layout-menu-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          toggleSidebar();
+        });
+      });
+    });
+    </script>
 
     <!-- Page JS -->
     @yield('page-js')

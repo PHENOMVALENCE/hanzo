@@ -32,7 +32,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/sneat/assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/hanzo/logo.png') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

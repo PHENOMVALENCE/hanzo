@@ -1,9 +1,9 @@
 @extends('layouts.buyer')
 
-@section('title', 'RFQ ' . $rfq->code)
+@section('title', __('labels.rfq') . ' ' . $rfq->code)
 
 @section('content')
-<h4 class="fw-bold mb-4">RFQ {{ $rfq->code }}</h4>
+<h4 class="fw-bold mb-4">{{ __('labels.rfq') }} {{ $rfq->code }}</h4>
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>
 @endif
@@ -13,9 +13,9 @@
     {{ $rfq->category->name }} | Qty: {{ number_format($rfq->quantity) }}
   </div>
   <div class="card-body">
-    <p><strong>Description:</strong> {{ $rfq->description ?? '-' }}</p>
-    <p><strong>Specs:</strong> {{ $rfq->specs ?? '-' }}</p>
-    <p><strong>Delivery:</strong> {{ $rfq->delivery_city ?? '-' }}, {{ $rfq->delivery_country ?? '-' }}</p>
+    <p><strong>{{ __('labels.description') }}:</strong> {{ $rfq->description ?? '-' }}</p>
+    <p><strong>{{ __('labels.specs') }}:</strong> {{ $rfq->specs ?? '-' }}</p>
+    <p><strong>{{ __('labels.delivery') }}:</strong> {{ $rfq->delivery_city ?? '-' }}, {{ $rfq->delivery_country ?? '-' }}</p>
   </div>
 </div>
 @if($rfq->quotations->isNotEmpty())
