@@ -189,8 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var orderData = @json(array_values($ordersByStatus));
   var orderLabels = @json(array_keys($ordersByStatus));
   var orderConfig = {
-    chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Public Sans' },
-    colors: ['#0d9488', '#14b8a6', '#0ea5e9', '#10b981'],
+    chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Inter' },
+    colors: ['#0B1F3A', '#123A6D', '#D89B2B', '#22C55E'],
     plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 4 } },
     dataLabels: { enabled: true },
     xaxis: { categories: orderLabels.map(l => l.replace(/_/g, ' ')) },
@@ -205,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var rfqData = @json(array_values($rfqsByStatus));
   var rfqLabels = @json(array_keys($rfqsByStatus));
   var rfqConfig = {
-    chart: { type: 'donut', fontFamily: 'Public Sans' },
-    colors: ['#0d9488', '#14b8a6', '#0ea5e9', '#f59e0b', '#10b981'],
+    chart: { type: 'donut', fontFamily: 'Inter' },
+    colors: ['#0B1F3A', '#123A6D', '#D89B2B', '#F59E0B', '#22C55E'],
     labels: rfqLabels.map(l => l.replace(/_/g, ' ')),
     series: rfqData,
     plotOptions: { pie: { donut: { size: '65%' } } },
@@ -217,8 +217,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   var milestoneConfig = {
-    chart: { type: 'donut', fontFamily: 'Public Sans' },
-    colors: ['#f59e0b', '#0ea5e9', '#8b5cf6', '#10b981'],
+    chart: { type: 'donut', fontFamily: 'Inter' },
+    colors: ['#F59E0B', '#123A6D', '#D89B2B', '#22C55E'],
     labels: ['Deposit Pending', 'In Production', 'In Transit', 'Delivered'],
     series: [@json($ordersByStatus['deposit_pending']), @json($ordersByStatus['in_production']), @json($ordersByStatus['shipped']), @json($ordersByStatus['delivered'])],
     plotOptions: { pie: { donut: { size: '65%' } } },

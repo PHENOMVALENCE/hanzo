@@ -9,19 +9,19 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/hanzo/logo.png') }}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/fonts/boxicons.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/core.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/theme-default.css') }}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="stylesheet" href="{{ asset('assets/hanzo/hanzo-theme.css') }}">
         <style>
-            .hanzo-auth { background: linear-gradient(135deg, #0f172a 0%, #134e4a 50%, #0d9488 100%); min-height: 100vh; }
+            .hanzo-auth { background: linear-gradient(135deg, #09162B 0%, #0B1F3A 50%, #123A6D 100%); min-height: 100vh; }
             .hanzo-logo { font-size: 1.75rem; font-weight: 700; color: #fff; letter-spacing: 0.1em; }
-            .hanzo-card { background: rgba(255,255,255,0.98); border: 1px solid rgba(13,148,136,0.2); border-radius: 12px; }
-            .btn-hanzo { background: #0d9488; color: #fff; border: none; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 0.5rem; }
-            .btn-hanzo:hover { background: #0f766e; color: #fff; }
-            .text-hanzo { color: #14b8a6; }
+            .hanzo-card { background: rgba(255,255,255,0.98); border: 1px solid rgba(216,155,43,0.2); border-radius: 12px; }
+            .btn-hanzo { background: linear-gradient(135deg, #F0B64D 0%, #D89B2B 100%); color: #0B1F3A; border: none; font-weight: 600; border-radius: 12px; padding: 0.6rem 1.25rem; box-shadow: 0 2px 12px rgba(216,155,43,0.35); transition: all 0.2s; }
+            .btn-hanzo:hover { background: linear-gradient(135deg, #F0B64D 0%, #c98a20 100%); color: #0B1F3A; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(216,155,43,0.4); }
+            .text-hanzo { color: var(--hanzo-gold); }
         </style>
     </head>
     <body class="font-sans antialiased">

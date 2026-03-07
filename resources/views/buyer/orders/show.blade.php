@@ -8,7 +8,7 @@
 @endif
 
 <div class="card mb-4 overflow-hidden">
-  <div class="card-header text-white py-4" style="background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%) !important; border: none;">
+  <div class="card-header text-white py-4" style="background: linear-gradient(135deg, #0B1F3A 0%, #123A6D 100%) !important; border: none;">
     <h4 class="mb-0">Order #{{ $order->order_code }}</h4>
   </div>
   <div class="card-body">

@@ -11,7 +11,7 @@
 @endif
 
 <div class="card mb-4 overflow-hidden">
-  <div class="card-header text-white py-4 d-flex flex-wrap justify-content-between align-items-center gap-2" style="background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%) !important; border: none;">
+  <div class="card-header text-white py-4 d-flex flex-wrap justify-content-between align-items-center gap-2" style="background: linear-gradient(135deg, #0B1F3A 0%, #123A6D 100%) !important; border: none;">
     <h4 class="mb-0">Quotation #{{ $quotation->quote_code }}</h4>
     @if($quotation->valid_until && $quotation->status === 'sent')
     <div class="d-flex align-items-center gap-2">

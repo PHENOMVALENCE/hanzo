@@ -8,6 +8,6 @@
   </div>
 </footer>
 <style>
-.hanzo-footer-public { background: var(--hanzo-navy); border-top: 1px solid rgba(245,158,11,0.2); }
-.hanzo-footer-public a:hover { color: var(--hanzo-amber-soft) !important; }
+.hanzo-footer-public { background: var(--hanzo-navy); border-top: 1px solid rgba(216,155,43,0.2); }
+.hanzo-footer-public a:hover { color: var(--hanzo-gold-soft) !important; }
 </style>

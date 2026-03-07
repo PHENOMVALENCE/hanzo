@@ -119,8 +119,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var barConfig = {
-    chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Public Sans' },
-    colors: ['#0d9488', '#14b8a6', '#10b981'],
+    chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Inter' },
+    colors: ['#0B1F3A', '#123A6D', '#22C55E'],
     plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 4 } },
     dataLabels: { enabled: true },
     xaxis: { categories: ['In Production', 'Shipped', 'Delivered'] },
@@ -131,8 +131,8 @@ document.addEventListener('DOMContentLoaded', function() {
     new ApexCharts(document.querySelector('#factoryOrderChart'), barConfig).render();
   }
   var donutConfig = {
-    chart: { type: 'donut', fontFamily: 'Public Sans' },
-    colors: ['#FFAB00', '#0ea5e9', '#10b981'],
+    chart: { type: 'donut', fontFamily: 'Inter' },
+    colors: ['#D89B2B', '#123A6D', '#22C55E'],
     labels: ['In Production', 'Shipped', 'Delivered'],
     series: [{{ $ordersInProduction }}, {{ $ordersShipped }}, {{ $ordersDelivered }}],
     plotOptions: { pie: { donut: { size: '65%' } } },

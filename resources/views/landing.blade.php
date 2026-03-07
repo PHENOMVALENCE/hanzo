@@ -3,7 +3,7 @@
 @section('title', 'HANZO - Structured Access to Global Manufacturing')
 
 @section('content')
-<section class="hanzo-hero py-5" style="margin-top: 56px; display: flex; align-items: center; min-height: 500px; background: linear-gradient(105deg, rgba(15,27,42,0.92) 0%, rgba(15,27,42,0.75) 50%, rgba(15,27,42,0.5) 100%), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1600') center/cover no-repeat; position: relative; overflow: hidden;">
+<section class="hanzo-hero hanzo-hero-overlay py-5" style="margin-top: 56px; display: flex; align-items: center; min-height: 500px; background: linear-gradient(90deg, rgba(9,22,43,0.92) 0%, rgba(11,31,58,0.78) 45%, rgba(11,31,58,0.45) 100%), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1600') center/cover no-repeat; position: relative; overflow: hidden;">
   <div class="hanzo-hero-pattern"></div>
   <div class="container position-relative">
     <div class="row align-items-center">
@@ -61,7 +61,7 @@
 
 <section id="how-it-works" class="py-5 hanzo-section-steps">
   <div class="container">
-    <h2 class="text-center mb-5 hanzo-section-title">{{ __('landing.how_it_works') }}</h2>
+    <h2 class="text-center mb-5 hanzo-section-title hanzo-section-title-dark">{{ __('landing.how_it_works') }}</h2>
     <div class="row g-4 text-center">
       @foreach([['bx-file', __('landing.step1'), __('landing.step1_desc')], ['bx-message-detail', __('landing.step2'), __('landing.step2_desc')], ['bx-factory', __('landing.step3'), __('landing.step3_desc')], ['bx-truck', __('landing.step4'), __('landing.step4_desc')]] as $i => $step)
       <div class="col-6 col-lg-3">
@@ -82,7 +82,7 @@
 
 <section id="estimate" class="py-5 hanzo-section-estimate">
   <div class="container">
-    <h2 class="text-center mb-5 hanzo-section-title">{{ __('landing.estimate_costs') }}</h2>
+    <h2 class="text-center mb-5 hanzo-section-title hanzo-section-title-dark">{{ __('landing.estimate_costs') }}</h2>
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="hanzo-card p-4 p-lg-5">
@@ -149,7 +149,7 @@
       @foreach([__('landing.verified_factories'), __('landing.transparent_pricing'), __('landing.logistics_managed')] as $item)
       <div class="col-md-4 text-center">
         <div class="d-flex align-items-center justify-content-center gap-2 text-white">
-          <i class="bx bx-check-circle" style="color: var(--hanzo-amber-soft); font-size: 1.25rem;"></i>
+          <i class="bx bx-check-circle" style="color: var(--hanzo-gold-soft); font-size: 1.25rem;"></i>
           <span>{{ $item }}</span>
         </div>
       </div>

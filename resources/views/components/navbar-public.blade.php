@@ -37,8 +37,9 @@
   </div>
 </nav>
 <style>
-.hanzo-nav-public { background: rgba(15,27,42,0.97); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(245,158,11,0.15); }
-.hanzo-logo { font-size: 1.5rem; font-weight: 700; color: var(--hanzo-amber-soft); letter-spacing: 0.1em; }
-.hanzo-nav-public .nav-link { color: rgba(255,255,255,0.9); }
-.hanzo-nav-public .nav-link:hover { color: var(--hanzo-amber-soft); }
+.hanzo-nav-public { background: var(--hanzo-navy) !important; backdrop-filter: blur(8px); border-bottom: 1px solid rgba(216,155,43,0.2); box-shadow: 0 2px 12px rgba(9,22,43,0.4); }
+.hanzo-logo { font-size: 1.5rem; font-weight: 700; color: var(--hanzo-gold-soft); letter-spacing: 0.1em; }
+.hanzo-nav-public .nav-link { color: rgba(255,255,255,0.9); transition: color 0.2s; }
+.hanzo-nav-public .nav-link:hover { color: var(--hanzo-gold-soft); }
+.hanzo-nav-public .btn-outline-light:hover { color: var(--hanzo-navy) !important; background: var(--hanzo-gold-soft) !important; border-color: var(--hanzo-gold-soft) !important; }
 </style>
