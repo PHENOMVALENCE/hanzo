@@ -13,7 +13,7 @@ class Rfq extends Model
 
     protected $fillable = [
         'code', 'buyer_id', 'category_id', 'description', 'specs', 'quantity',
-        'timeline_weeks', 'delivery_country', 'delivery_city', 'status',
+        'target_price_per_unit', 'timeline_weeks', 'delivery_country', 'delivery_city', 'status',
         'assigned_factory_id', 'assigned_admin_id',
     ];
 

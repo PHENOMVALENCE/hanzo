@@ -62,12 +62,14 @@ class HanzoSeeder extends Seeder
         $factoryUser->update(['status' => 'approved']);
 
         $categories = [
-            ['slug' => 'electronics', 'name' => 'Electronics', 'description' => 'Electronic components and devices', 'moq_default' => 100],
-            ['slug' => 'textiles', 'name' => 'Textiles', 'description' => 'Fabrics and garments', 'moq_default' => 500],
-            ['slug' => 'hardware', 'name' => 'Hardware', 'description' => 'Metal and hardware products', 'moq_default' => 200],
+            ['slug' => 'fashion', 'name' => 'Fashion', 'description' => 'Fashion and textiles', 'moq_default' => 500, 'price_min_per_unit' => 2.50, 'price_max_per_unit' => 25.00],
+            ['slug' => 'packaging', 'name' => 'Packaging', 'description' => 'Packaging and branding', 'moq_default' => 1000, 'price_min_per_unit' => 0.15, 'price_max_per_unit' => 3.00],
+            ['slug' => 'consumer-goods', 'name' => 'Consumer Goods', 'description' => 'Consumer products', 'moq_default' => 200, 'price_min_per_unit' => 1.00, 'price_max_per_unit' => 15.00],
+            ['slug' => 'machinery', 'name' => 'Machinery', 'description' => 'Machinery and equipment', 'moq_default' => 10, 'price_min_per_unit' => 150.00, 'price_max_per_unit' => 5000.00],
+            ['slug' => 'electronics', 'name' => 'Electronics', 'description' => 'Electronic components', 'moq_default' => 100, 'price_min_per_unit' => 5.00, 'price_max_per_unit' => 100.00],
         ];
         foreach ($categories as $c) {
-            Category::firstOrCreate(['slug' => $c['slug']], $c);
+            Category::updateOrCreate(['slug' => $c['slug']], $c);
         }
     }
 }

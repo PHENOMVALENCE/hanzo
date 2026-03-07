@@ -39,6 +39,9 @@ class UserController extends Controller
             'company_name' => ['nullable', 'string', 'max:255'],
             'factory_name' => ['nullable', 'string', 'max:255'],
             'location_china' => ['nullable', 'string', 'max:150'],
+            'contact_wechat' => ['nullable', 'string', 'max:100'],
+            'contact_phone' => ['nullable', 'string', 'max:50'],
+            'factory_notes' => ['nullable', 'string', 'max:2000'],
             'phone' => ['nullable', 'string', 'max:30'],
             'country' => ['nullable', 'string', 'max:80'],
             'city' => ['nullable', 'string', 'max:100'],
@@ -67,6 +70,9 @@ class UserController extends Controller
                 [
                     'factory_name' => $validated['factory_name'] ?? $validated['company_name'] ?? $user->name,
                     'location_china' => $validated['location_china'] ?? null,
+                    'contact_wechat' => $request->input('contact_wechat'),
+                    'contact_phone' => $request->input('contact_phone'),
+                    'notes' => $request->input('factory_notes'),
                     'verification_status' => 'pending',
                 ]
             );
@@ -95,6 +101,9 @@ class UserController extends Controller
             'company_name' => ['nullable', 'string', 'max:255'],
             'factory_name' => ['nullable', 'string', 'max:255'],
             'location_china' => ['nullable', 'string', 'max:150'],
+            'contact_wechat' => ['nullable', 'string', 'max:100'],
+            'contact_phone' => ['nullable', 'string', 'max:50'],
+            'factory_notes' => ['nullable', 'string', 'max:2000'],
             'phone' => ['nullable', 'string', 'max:30'],
             'country' => ['nullable', 'string', 'max:80'],
             'city' => ['nullable', 'string', 'max:100'],
@@ -129,6 +138,9 @@ class UserController extends Controller
             $factory->update([
                 'factory_name' => $validated['factory_name'] ?? $validated['company_name'] ?? $factory->factory_name,
                 'location_china' => $validated['location_china'] ?? $factory->location_china,
+                'contact_wechat' => $request->input('contact_wechat'),
+                'contact_phone' => $request->input('contact_phone'),
+                'notes' => $request->input('factory_notes'),
             ]);
         }
 

@@ -35,10 +35,28 @@
                   @csrf
                   <button type="submit" class="btn btn-sm btn-success">Approve</button>
                 </form>
-                <form method="POST" action="{{ route('admin.approvals.reject', $user->id) }}" class="d-inline">
-                  @csrf
-                  <button type="submit" class="btn btn-sm btn-danger">Reject</button>
-                </form>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $user->id }}">Reject</button>
+                <div class="modal fade" id="rejectModal{{ $user->id }}" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <form method="POST" action="{{ route('admin.approvals.reject', $user->id) }}">
+                        @csrf
+                        <div class="modal-header">
+                          <h5 class="modal-title">Reject {{ $user->name }}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                          <label class="form-label">Optional message (sent to buyer)</label>
+                          <textarea name="message" class="form-control" rows="3" placeholder="Reason for rejection..."></textarea>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn btn-danger">Reject</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
             @endforeach

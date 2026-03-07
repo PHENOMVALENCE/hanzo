@@ -3,6 +3,42 @@
 @section('title', __('buyer.dashboard.title'))
 
 @section('content')
+@if(!empty($showWelcomeGuide))
+<div class="modal fade show d-block" id="welcomeGuideModal" tabindex="-1" style="background: rgba(0,0,0,0.5);" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Welcome to HANZO</h5>
+        <button type="button" class="btn-close" id="welcomeGuideClose" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Thanks for joining! Here's a quick guide:</p>
+        <ul class="mb-0">
+          <li><strong>Request a Quote</strong> – Submit your product requirements; we'll match you with factories.</li>
+          <li><strong>Review Quotes</strong> – Receive official quotations and accept when ready.</li>
+          <li><strong>Track Orders</strong> – Follow your order from production to delivery.</li>
+        </ul>
+        <p class="mt-3 mb-0 text-muted small">Get started by requesting a quote below.</p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-primary" id="welcomeGuideGotIt">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+@push('page-js')
+<script>
+(function() {
+  function closeWelcome() {
+    var el = document.getElementById('welcomeGuideModal');
+    if (el) { el.style.display = 'none'; }
+  }
+  document.getElementById('welcomeGuideClose')?.addEventListener('click', closeWelcome);
+  document.getElementById('welcomeGuideGotIt')?.addEventListener('click', closeWelcome);
+})();
+</script>
+@endpush
+@endif
 <div class="row">
   <div class="col-12">
     <h4 class="fw-bold mb-2">{{ __('buyer.dashboard.title') }}</h4>

@@ -25,7 +25,8 @@ class DocumentController extends Controller
         $validated = $request->validate([
             'order_id' => ['required', 'integer', 'exists:orders,id'],
             'type' => ['required', 'string', 'in:invoice,packing_list,bl_awb,customs,delivery'],
-            'file' => ['required', 'file', 'max:10240'],
+            'description' => ['nullable', 'string', 'max:500'],
+            'file' => ['required', 'file', 'max:10240', 'mimes:pdf,jpeg,jpg,png'],
         ]);
 
         $file = $request->file('file');
@@ -35,6 +36,8 @@ class DocumentController extends Controller
             'order_id' => $validated['order_id'],
             'type' => $validated['type'],
             'file_path' => $path,
+            'original_name' => $file->getClientOriginalName(),
+            'description' => $validated['description'] ?? null,
             'uploaded_by' => auth()->id(),
         ]);
 

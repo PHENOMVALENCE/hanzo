@@ -77,6 +77,18 @@
           <label class="form-label" for="location_china">Location in China</label>
           <input type="text" class="form-control" id="location_china" name="location_china" value="{{ old('location_china', $user->factory->location_china) }}">
         </div>
+        <div class="col-md-6">
+          <label class="form-label" for="contact_wechat">WeChat <span class="text-muted small">(admin only)</span></label>
+          <input type="text" class="form-control" id="contact_wechat" name="contact_wechat" value="{{ old('contact_wechat', $user->factory->contact_wechat) }}">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="contact_phone">Factory Phone <span class="text-muted small">(admin only)</span></label>
+          <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ old('contact_phone', $user->factory->contact_phone) }}">
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="factory_notes">Internal Notes <span class="text-muted small">(admin only, e.g. performance)</span></label>
+          <textarea class="form-control" id="factory_notes" name="factory_notes" rows="2">{{ old('factory_notes', $user->factory->notes) }}</textarea>
+        </div>
         @else
         <div class="col-md-6 factory-fields">
           <label class="form-label" for="factory_name">Factory Name <span class="text-muted">(when role is Factory)</span></label>
@@ -85,6 +97,18 @@
         <div class="col-md-6 factory-fields">
           <label class="form-label" for="location_china">Location in China</label>
           <input type="text" class="form-control" id="location_china" name="location_china" value="{{ old('location_china') }}">
+        </div>
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="contact_wechat">WeChat</label>
+          <input type="text" class="form-control" id="contact_wechat" name="contact_wechat" value="{{ old('contact_wechat') }}">
+        </div>
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="contact_phone">Factory Phone</label>
+          <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ old('contact_phone') }}">
+        </div>
+        <div class="col-12 factory-fields">
+          <label class="form-label" for="factory_notes">Internal Notes</label>
+          <textarea class="form-control" id="factory_notes" name="factory_notes" rows="2">{{ old('factory_notes') }}</textarea>
         </div>
         @endif
         <div class="col-md-6">

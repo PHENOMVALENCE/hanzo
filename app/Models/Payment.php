@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Payment extends Model
 {
     protected $fillable = [
-        'order_id', 'type', 'amount_usd', 'method', 'reference', 'proof_path',
-        'status', 'verified_by', 'verified_at',
+        'order_id', 'type', 'amount_usd', 'method', 'reference', 'proof_path', 'mime_type',
+        'status', 'verified_by', 'verified_at', 'rejection_reason', 'admin_notes',
     ];
+
+    public const TYPES = ['deposit' => 'Deposit', 'balance' => 'Balance', 'full' => 'Full Payment'];
 
     protected function casts(): array
     {

@@ -16,16 +16,14 @@ class EstimateController extends Controller
     public function index(Request $request): JsonResponse
     {
         $request->validate([
-            'category' => ['required', 'string', 'max:100'],
+            'category' => ['required', 'integer', 'exists:categories,id'],
             'qty' => ['required', 'integer', 'min:1'],
-            'method' => ['required', 'string', 'max:50'],
             'destination' => ['required', 'string', 'max:100'],
         ]);
 
         $result = $this->estimatorService->estimate(
-            $request->category,
+            (int) $request->category,
             (int) $request->qty,
-            $request->method,
             $request->destination
         );
 

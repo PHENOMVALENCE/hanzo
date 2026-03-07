@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentController extends Controller
 {
-    public function download(Document $document): Response
+    public function download(Document $document): StreamedResponse
     {
         $this->authorize('view', $document);
 
@@ -16,7 +16,7 @@ class DocumentController extends Controller
             abort(404, 'File not found.');
         }
 
-        $filename = basename($document->file_path);
+        $filename = $document->original_name ?: basename($document->file_path);
 
         return Storage::disk('private')->response(
             $document->file_path,

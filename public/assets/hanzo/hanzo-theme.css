@@ -1,53 +1,56 @@
 /**
- * HANZO Dashboard Theme
- * Dark, premium B2B trade platform
+ * HANZO Theme – Sage & Teal
+ * Light, professional B2B trade platform
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap');
 
 :root {
-  /* Deep Analytical palette (dark data-heavy dashboard) */
-  /* Background / surface */
-  --hanzo-bg: #0f172a;            /* deep navy base */
-  --hanzo-bg-elevated: #111827;
-  --hanzo-bg-warm: #0b1120;
+  /* Light palette */
+  --hanzo-bg: #f8fafc;
+  --hanzo-bg-elevated: #ffffff;
+  --hanzo-bg-warm: #f1f5f9;
 
   --hanzo-navy: #0f172a;
-  --hanzo-navy-light: #1e293b;    /* surface for cards / nav */
-  --hanzo-navy-softer: #334155;
+  --hanzo-navy-light: #1e293b;
+  --hanzo-navy-softer: #475569;
 
-  /* Accents */
-  --hanzo-amber: #7c3aed;         /* primary accent – vivid purple */
-  --hanzo-amber-soft: #a855f7;
+  /* Accents – Teal primary, Sage secondary */
+  --hanzo-primary: #0d9488;
+  --hanzo-primary-hover: #0f766e;
+  --hanzo-secondary: #64748b;
+  --hanzo-sage: #14b8a6;
 
-  --hanzo-success: #16a34a;
-  --hanzo-info: #3b82f6;          /* secondary – blue */
-  --hanzo-muted: #94a3b8;
+  --hanzo-success: #059669;
+  --hanzo-info: #0ea5e9;
+  --hanzo-warning: #f59e0b;
+  --hanzo-danger: #ef4444;
+  --hanzo-muted: #64748b;
 
-  /* Surfaces & shadows */
-  --hanzo-card-bg: #1e293b;       /* surface */
-  --hanzo-card-border: rgba(148, 163, 184, 0.22);
-  --hanzo-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.6);
-  --hanzo-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
-  --hanzo-shadow-lg: 0 30px 90px rgba(15, 23, 42, 0.95);
-  --hanzo-sidebar-bg: linear-gradient(180deg, #020617 0%, #0f172a 40%, #020617 100%);
+  /* Surfaces */
+  --hanzo-card-bg: #ffffff;
+  --hanzo-card-border: rgba(15, 23, 42, 0.08);
+  --hanzo-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --hanzo-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+  --hanzo-shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
+  --hanzo-sidebar-bg: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
 }
 
 /* Typography */
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
   background-color: var(--hanzo-bg) !important;
-  color: #e2e8f0;
+  color: var(--hanzo-navy) !important;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-  font-family: 'Space Grotesk', system-ui, sans-serif !important;
+  font-family: 'Outfit', system-ui, sans-serif !important;
   font-weight: 600 !important;
-  color: #e5e7eb !important;
+  color: var(--hanzo-navy) !important;
   letter-spacing: -0.02em;
 }
 
-/* Sidebar collapse (layout-menu-fixed + layout-menu-collapsed) */
+/* Sidebar collapse */
 html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   width: 5.25rem !important;
 }
@@ -58,7 +61,7 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   }
 }
 
-/* Navbar - full-width to align with content (no detached margin) */
+/* Navbar */
 .layout-navbar.navbar-detached {
   width: 100% !important;
   max-width: 100% !important;
@@ -82,18 +85,18 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 }
 
 .layout-menu-toggle .nav-link:hover {
-  background: rgba(15, 23, 42, 0.06) !important;
+  background: var(--hanzo-bg-warm) !important;
 }
 
 /* Sidebar */
 .bg-menu-theme,
 .layout-menu {
   background: var(--hanzo-sidebar-bg) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .bg-menu-theme .menu-link {
-  color: rgba(255, 255, 255, 0.82) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
   border-radius: 0.5rem;
   margin: 0 0.5rem;
   transition: all 0.2s;
@@ -101,16 +104,16 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 
 .bg-menu-theme .menu-link:hover {
   color: #fff !important;
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(20, 184, 166, 0.2) !important;
 }
 
 .bg-menu-theme .menu-item.active > .menu-link {
-  color: var(--hanzo-amber-soft) !important;
-  background: rgba(245, 158, 11, 0.15) !important;
+  color: #fff !important;
+  background: var(--hanzo-sage) !important;
 }
 
 .bg-menu-theme .menu-header-text {
-  color: rgba(255, 255, 255, 0.45) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
   font-size: 0.7rem;
 }
 
@@ -120,12 +123,11 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   letter-spacing: 0.05em;
 }
 
-/* Content - align with sidebar, avoid clipping */
+/* Content */
 .content-wrapper {
   background: var(--hanzo-bg) !important;
 }
 
-/* Unified padding so navbar and content align with sidebar */
 .layout-navbar.container-xxl,
 .layout-page .content-wrapper > .container-xxl.container-p-y {
   padding-left: 1.25rem !important;
@@ -145,13 +147,13 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   background: var(--hanzo-card-bg) !important;
   border: 1px solid var(--hanzo-card-border) !important;
   border-radius: 12px !important;
-  box-shadow: var(--hanzo-shadow) !important;
+  box-shadow: var(--hanzo-shadow-sm) !important;
   transition: all 0.25s ease;
 }
 
 .card:hover {
-  box-shadow: var(--hanzo-shadow-lg) !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: var(--hanzo-shadow) !important;
+  border-color: rgba(13, 148, 136, 0.15) !important;
 }
 
 .card-header {
@@ -176,8 +178,8 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--hanzo-navy), var(--hanzo-navy-light));
-  opacity: 0.6;
+  background: linear-gradient(90deg, var(--hanzo-primary), var(--hanzo-sage));
+  opacity: 1;
 }
 
 .hanzo-stat-card .avatar {
@@ -187,8 +189,8 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 23, 42, 0.06) !important;
-  color: var(--hanzo-navy) !important;
+  background: rgba(13, 148, 136, 0.1) !important;
+  color: var(--hanzo-primary) !important;
 }
 
 .hanzo-stat-card h3 {
@@ -196,24 +198,24 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   font-weight: 700 !important;
 }
 
-/* Verified / Gold accent card */
+/* Verified / accent card */
 .card.card-verified,
 .card.card-factory,
 .hanzo-verified-card {
-  border-left: 4px solid var(--hanzo-amber) !important;
+  border-left: 4px solid var(--hanzo-primary) !important;
 }
 
 .card.card-verified::before,
 .hanzo-stat-card.card-verified::before {
-  background: linear-gradient(90deg, var(--hanzo-amber), #fbbf24) !important;
+  background: linear-gradient(90deg, var(--hanzo-primary), var(--hanzo-sage)) !important;
   opacity: 1;
 }
 
 /* Buttons */
 .btn-primary {
-  background: var(--hanzo-amber) !important;
-  border-color: var(--hanzo-amber) !important;
-  color: #f9fafb !important;
+  background: var(--hanzo-primary) !important;
+  border-color: var(--hanzo-primary) !important;
+  color: #fff !important;
   font-weight: 600;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
@@ -221,30 +223,37 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 }
 
 .btn-primary:hover {
-  background: var(--hanzo-amber-soft) !important;
-  border-color: var(--hanzo-amber-soft) !important;
+  background: var(--hanzo-primary-hover) !important;
+  border-color: var(--hanzo-primary-hover) !important;
   transform: translateY(-1px);
 }
 
 .btn-outline-primary {
-  border-color: rgba(148, 163, 184, 0.7);
-  color: #e5e7eb;
+  border-color: var(--hanzo-primary);
+  color: var(--hanzo-primary);
   border-radius: 0.5rem;
 }
 
 .btn-outline-primary:hover {
-  background: rgba(15, 23, 42, 0.6);
-  border-color: var(--hanzo-amber);
+  background: rgba(13, 148, 136, 0.1);
+  border-color: var(--hanzo-primary-hover);
+  color: var(--hanzo-primary-hover);
+}
+
+.btn-warning {
+  background: #f59e0b !important;
+  border-color: #f59e0b !important;
+  color: #fff !important;
 }
 
 /* Tables */
 .table {
-  --bs-table-striped-bg: rgba(15, 23, 42, 0.02);
-  --bs-table-hover-bg: rgba(15, 23, 42, 0.04);
+  --bs-table-striped-bg: rgba(13, 148, 136, 0.03);
+  --bs-table-hover-bg: rgba(13, 148, 136, 0.06);
 }
 
 .table thead th {
-  border-bottom: 2px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 2px solid var(--hanzo-card-border);
   font-weight: 600;
   color: var(--hanzo-navy);
   font-size: 0.75rem;
@@ -259,31 +268,31 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   border-radius: 6px;
 }
 
-.badge.bg-label-primary { background: rgba(15, 23, 42, 0.1) !important; color: var(--hanzo-navy) !important; }
-.badge.bg-label-success, .badge.bg-success { background: rgba(5, 150, 105, 0.12) !important; color: #047857 !important; }
+.badge.bg-label-primary { background: rgba(13, 148, 136, 0.12) !important; color: var(--hanzo-primary-hover) !important; }
+.badge.bg-label-success, .badge.bg-success { background: rgba(5, 150, 105, 0.12) !important; color: var(--hanzo-success) !important; }
 .badge.bg-label-warning, .badge.bg-warning { background: rgba(245, 158, 11, 0.15) !important; color: #b45309 !important; }
-.badge.bg-label-info, .badge.bg-info { background: rgba(2, 132, 199, 0.12) !important; color: #0369a1 !important; }
-.badge.bg-label-danger, .badge.bg-danger { background: rgba(239, 68, 68, 0.12) !important; color: #dc2626 !important; }
+.badge.bg-label-info, .badge.bg-info { background: rgba(14, 165, 233, 0.12) !important; color: var(--hanzo-info) !important; }
+.badge.bg-label-danger, .badge.bg-danger { background: rgba(239, 68, 68, 0.12) !important; color: var(--hanzo-danger) !important; }
 
 /* Pagination */
 .page-item.active .page-link,
 .pagination li.active > a:not(.page-link) {
-  background: var(--hanzo-navy) !important;
-  border-color: var(--hanzo-navy) !important;
+  background: var(--hanzo-primary) !important;
+  border-color: var(--hanzo-primary) !important;
   color: #fff !important;
   border-radius: 6px;
 }
 
-/* Buyer role - amber accent */
+/* Buyer role */
 body.hanzo-role-buyer .btn-primary {
-  background: var(--hanzo-amber) !important;
-  border-color: var(--hanzo-amber) !important;
-  color: var(--hanzo-navy) !important;
+  background: var(--hanzo-primary) !important;
+  border-color: var(--hanzo-primary) !important;
+  color: #fff !important;
 }
 
 body.hanzo-role-buyer .btn-primary:hover {
-  background: #d97706 !important;
-  border-color: #d97706 !important;
+  background: var(--hanzo-primary-hover) !important;
+  border-color: var(--hanzo-primary-hover) !important;
   color: #fff !important;
 }
 
@@ -296,23 +305,19 @@ body.hanzo-role-buyer .btn-primary:hover {
 
 .hanzo-stat-box:hover {
   transform: translateY(-4px);
-  box-shadow: var(--hanzo-shadow-lg) !important;
-}
-
-/* Dashboard cards - subtle gradient accent */
-.hanzo-stat-card::before {
-  border-radius: 12px 12px 0 0;
+  box-shadow: var(--hanzo-shadow) !important;
 }
 
 /* Form controls */
 .form-control, .form-select {
   border-radius: 0.5rem;
-  border-color: rgba(15, 23, 42, 0.12);
+  border-color: rgba(15, 23, 42, 0.15);
+  background: var(--hanzo-card-bg) !important;
 }
 
 .form-control:focus, .form-select:focus {
-  border-color: var(--hanzo-navy);
-  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+  border-color: var(--hanzo-primary);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
 }
 
 /* Page header */
@@ -333,7 +338,13 @@ body.hanzo-role-buyer .btn-primary:hover {
 
 /* Avatar in navbar */
 .navbar-dropdown .avatar-initial {
-  background: linear-gradient(135deg, var(--hanzo-navy), var(--hanzo-navy-light)) !important;
+  background: linear-gradient(135deg, var(--hanzo-primary), var(--hanzo-sage)) !important;
   color: #fff !important;
   font-weight: 600;
+}
+
+/* Landed cost boxes */
+.hanzo-landed-cost {
+  background: var(--hanzo-bg-warm) !important;
+  border: 1px solid var(--hanzo-card-border);
 }

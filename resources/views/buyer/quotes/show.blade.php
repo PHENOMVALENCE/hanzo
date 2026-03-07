@@ -11,10 +11,19 @@
 @endif
 
 <div class="card mb-4 overflow-hidden">
-  <div class="card-header bg-dark text-white py-4 d-flex justify-content-between align-items-center" style="background: linear-gradient(rgba(20,27,45,0.9), rgba(20,27,45,0.95)) !important;">
+  <div class="card-header text-white py-4 d-flex flex-wrap justify-content-between align-items-center gap-2" style="background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%) !important; border: none;">
     <h4 class="mb-0">Quotation #{{ $quotation->quote_code }}</h4>
-    @if($quotation->valid_until)
-    <span class="badge bg-warning text-dark">Valid for {{ $quotation->valid_until->diffInDays(now()) }} days</span>
+    @if($quotation->valid_until && $quotation->status === 'sent')
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge bg-{{ $quotation->valid_until->isPast() ? 'danger' : 'warning text-dark' }}" id="validityBadge">
+        @if($quotation->valid_until->isPast())
+          Expired
+        @else
+          Valid for <span id="validityCountdown">{{ $quotation->valid_until->diffInDays(now()) }}</span> days
+        @endif
+      </span>
+      <small class="opacity-75">(until {{ $quotation->valid_until->format('M j, Y') }})</small>
+    </div>
     @endif
   </div>
   <div class="card-body">
@@ -24,10 +33,12 @@
           <h5 class="mb-3">Cost Breakdown</h5>
           <table class="table table-sm mb-0">
             <tr><td>Product Cost</td><td class="text-end">${{ number_format($quotation->product_cost_usd, 2) }}</td></tr>
-            <tr><td>Shipping & Freight</td><td class="text-end">${{ number_format($quotation->freight_cost + $quotation->china_local_shipping + $quotation->export_handling, 2) }}</td></tr>
+            <tr><td>Shipping & Freight</td><td class="text-end">${{ number_format($quotation->freight_cost + $quotation->china_local_shipping + $quotation->export_handling + ($quotation->insurance_cost ?? 0), 2) }}</td></tr>
             <tr><td>Customs & Clearing</td><td class="text-end">${{ number_format($quotation->clearing_cost, 2) }}</td></tr>
             <tr><td>Local Delivery</td><td class="text-end">${{ number_format($quotation->local_delivery_cost, 2) }}</td></tr>
-            <tr><td>HANZO Fee</td><td class="text-end">${{ number_format($quotation->hanzo_fee ?? 0, 2) }}</td></tr>
+            @if(($quotation->hanzo_fee ?? 0) > 0)
+            <tr><td>Fees & Handling</td><td class="text-end">${{ number_format($quotation->hanzo_fee, 2) }}</td></tr>
+            @endif
           </table>
           <hr>
           <div class="d-flex justify-content-between align-items-center">
@@ -61,4 +72,29 @@
 </div>
 
 <a href="{{ route('buyer.quotes.index') }}" class="btn btn-outline-secondary">{{ __('buyer.quotes.back') }}</a>
+
+@if($quotation->valid_until && $quotation->status === 'sent' && !$quotation->valid_until->isPast())
+@push('page-js')
+<script>
+(function() {
+  var until = new Date('{{ $quotation->valid_until->toIso8601String() }}');
+  function update() {
+    var now = new Date();
+    if (now >= until) {
+      var badge = document.getElementById('validityBadge');
+      var span = document.getElementById('validityCountdown');
+      if (badge) { badge.className = 'badge bg-danger'; badge.textContent = 'Expired'; }
+      if (span) span.textContent = '0';
+      return;
+    }
+    var days = Math.ceil((until - now) / (24*60*60*1000));
+    var span = document.getElementById('validityCountdown');
+    if (span) span.textContent = days;
+  }
+  update();
+  setInterval(update, 60000);
+})();
+</script>
+@endpush
+@endif
 @endsection

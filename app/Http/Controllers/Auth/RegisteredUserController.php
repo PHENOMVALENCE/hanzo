@@ -24,6 +24,7 @@ class RegisteredUserController extends Controller
 
     /**
      * Handle an incoming registration request.
+     * Buyers self-register with status=pending until Admin approves.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -31,20 +32,29 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'company' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['required', 'string', 'max:50'],
+            'city' => ['required', 'string', 'max:100'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'company_name' => $request->company,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'city' => $request->city,
             'password' => Hash::make($request->password),
+            'status' => 'pending',
         ]);
+
+        $user->assignRole('buyer');
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('pending-approval', absolute: false));
     }
 }

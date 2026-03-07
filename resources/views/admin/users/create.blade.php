@@ -61,6 +61,18 @@
           <label class="form-label" for="location_china">Location in China</label>
           <input type="text" class="form-control" id="location_china" name="location_china" value="{{ old('location_china') }}" placeholder="e.g. Guangdong, Shenzhen">
         </div>
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="contact_wechat">WeChat</label>
+          <input type="text" class="form-control" id="contact_wechat" name="contact_wechat" value="{{ old('contact_wechat') }}">
+        </div>
+        <div class="col-md-6 factory-fields">
+          <label class="form-label" for="contact_phone">Factory Phone</label>
+          <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ old('contact_phone') }}">
+        </div>
+        <div class="col-12 factory-fields">
+          <label class="form-label" for="factory_notes">Internal Notes</label>
+          <textarea class="form-control" id="factory_notes" name="factory_notes" rows="2">{{ old('factory_notes') }}</textarea>
+        </div>
         <div class="col-md-6">
           <label class="form-label" for="phone">Phone</label>
           <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">

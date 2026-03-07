@@ -40,11 +40,14 @@ class ApprovalController extends Controller
         return back()->with('success', 'User approved successfully.');
     }
 
-    public function reject(int $id): RedirectResponse
+    public function reject(Request $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
-        $user->update(['status' => 'suspended']);
+        $user->update([
+            'status' => 'suspended',
+            'approval_message' => $request->input('message'),
+        ]);
 
-        return back()->with('success', 'User rejected.');
+        return back()->with('success', 'Application rejected.');
     }
 }

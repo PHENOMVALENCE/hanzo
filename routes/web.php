@@ -75,6 +75,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -101,6 +102,8 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin'])->prefix('admin
     Route::post('/orders/{order}/milestone', [AdminOrderController::class, 'updateMilestone'])->name('orders.updateMilestone');
 
     Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/{payment}', [AdminPaymentController::class, 'show'])->name('payments.show');
+    Route::get('/payments/{payment}/proof', [AdminPaymentController::class, 'proof'])->name('payments.proof');
     Route::post('/payments/{payment}/verify', [AdminPaymentController::class, 'verify'])->name('payments.verify');
     Route::post('/payments/{payment}/reject', [AdminPaymentController::class, 'reject'])->name('payments.reject');
 
@@ -133,7 +136,6 @@ Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->pre
     Route::post('/orders/{order}/payments', [BuyerPaymentController::class, 'store'])->name('payments.store');
 
     Route::get('/orders/{order}/documents', [BuyerDocumentController::class, 'index'])->name('orders.documents');
-    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
 });
 
 Route::middleware(['auth', 'verified', 'approved', 'role:factory'])->prefix('factory')->name('factory.')->group(function () {

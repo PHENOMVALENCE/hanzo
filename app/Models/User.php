@@ -29,6 +29,8 @@ class User extends Authenticatable
         'password',
         'status',
         'avatar_path',
+        'first_login_at',
+        'approval_message',
     ];
 
     /**
@@ -51,6 +53,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'first_login_at' => 'datetime',
         ];
     }
 

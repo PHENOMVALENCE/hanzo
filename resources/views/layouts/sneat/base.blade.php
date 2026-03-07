@@ -129,6 +129,7 @@
     </script>
 
     <!-- Page JS -->
+    @stack('page-js')
     @yield('page-js')
   </body>
 </html>

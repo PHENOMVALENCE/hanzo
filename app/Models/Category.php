@@ -10,11 +10,15 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['slug', 'name', 'description', 'moq_default', 'active'];
+    protected $fillable = ['slug', 'name', 'description', 'moq_default', 'price_min_per_unit', 'price_max_per_unit', 'active'];
 
     protected function casts(): array
     {
-        return ['active' => 'boolean'];
+        return [
+            'active' => 'boolean',
+            'price_min_per_unit' => 'decimal:2',
+            'price_max_per_unit' => 'decimal:2',
+        ];
     }
 
     public function rfqs(): HasMany

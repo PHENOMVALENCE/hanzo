@@ -28,7 +28,7 @@ class RfqController extends Controller
 
     public function create(): View
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('active', true)->orderBy('name')->get();
 
         return view('buyer.rfqs.create', compact('categories'));
     }
@@ -37,16 +37,17 @@ class RfqController extends Controller
     {
         $validated = $request->validate([
             'category_id' => ['required', 'integer', 'exists:categories,id'],
-            'description' => ['nullable', 'string', 'max:2000'],
-            'specs' => ['nullable', 'string', 'max:2000'],
+            'description' => ['required', 'string', 'max:2000'],
             'quantity' => ['required', 'integer', 'min:1'],
-            'timeline_weeks' => ['nullable', 'integer', 'min:1'],
-            'delivery_country' => ['nullable', 'string', 'max:100'],
-            'delivery_city' => ['nullable', 'string', 'max:100'],
-            'attachments.*' => ['nullable', 'file', 'max:5120'],
+            'target_price_per_unit' => ['nullable', 'numeric', 'min:0'],
+            'timeline_weeks' => ['required', 'integer', 'in:4,6,8,12'],
+            'delivery_city' => ['required', 'string', 'max:100'],
+            'attachments' => ['nullable', 'array', 'max:5'],
+            'attachments.*' => ['file', 'max:5120', 'mimes:jpeg,jpg,png,gif,webp,pdf'],
         ]);
+        $validated['delivery_country'] = $validated['delivery_city'] === 'Other' ? null : $validated['delivery_city'];
 
-        $files = $request->hasFile('attachments') ? $request->file('attachments') : [];
+        $files = $request->hasFile('attachments') ? array_slice($request->file('attachments'), 0, 5) : [];
         $rfq = $this->rfqService->create(auth()->user(), $validated, $files);
 
         return redirect()->route('buyer.rfqs.show', $rfq)->with('success', 'RFQ created successfully.');

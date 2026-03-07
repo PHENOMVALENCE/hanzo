@@ -11,8 +11,10 @@ class PaymentService
     public function create(Order $order, string $type, float $amount, ?string $method, ?string $reference, ?UploadedFile $proof = null): Payment
     {
         $proofPath = null;
+        $mimeType = null;
         if ($proof) {
             $proofPath = $proof->store('payments/' . $order->id, 'private');
+            $mimeType = $proof->getMimeType();
         }
 
         return Payment::create([
@@ -22,16 +24,18 @@ class PaymentService
             'method' => $method,
             'reference' => $reference,
             'proof_path' => $proofPath,
+            'mime_type' => $mimeType,
             'status' => 'pending',
         ]);
     }
 
-    public function verify(Payment $payment, int $verifiedBy): void
+    public function verify(Payment $payment, int $verifiedBy, ?string $adminNotes = null): void
     {
         $payment->update([
             'status' => 'verified',
             'verified_by' => $verifiedBy,
             'verified_at' => now(),
+            'admin_notes' => $adminNotes,
         ]);
 
         $order = $payment->order;
@@ -40,12 +44,13 @@ class PaymentService
         }
     }
 
-    public function reject(Payment $payment, int $verifiedBy): void
+    public function reject(Payment $payment, int $verifiedBy, ?string $rejectionReason = null): void
     {
         $payment->update([
             'status' => 'rejected',
             'verified_by' => $verifiedBy,
             'verified_at' => now(),
+            'rejection_reason' => $rejectionReason,
         ]);
     }
 }

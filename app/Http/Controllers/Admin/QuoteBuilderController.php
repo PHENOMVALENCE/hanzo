@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\FreightRate;
 use App\Models\Quotation;
 use App\Models\Rfq;
 use App\Services\QuoteService;
@@ -21,8 +22,34 @@ class QuoteBuilderController extends Controller
         $rfq->load(['buyer', 'category', 'assignedFactory', 'factoryQuotes.factory']);
         $quotation = $rfq->quotations()->latest()->first();
         $suggestedProductCost = $this->quoteService->getProductCostFromFactoryQuote($rfq);
+        $rfqSwitcher = Rfq::with(['buyer', 'category'])
+            ->whereNotNull('assigned_factory_id')
+            ->orderBy('code')
+            ->get();
+        $factories = \App\Models\Factory::orderBy('factory_name')->get();
+        $rates = \App\Models\FreightRate::where('active', true)->get();
+        $freightRates = [
+            'sea' => $rates->where('method', 'sea')->values()->toArray(),
+            'air' => $rates->where('method', 'air')->values()->toArray(),
+        ];
+        $clearingSuggest = $this->getClearingSuggest($rfq->delivery_city);
 
-        return view('admin.quote-builder.edit', compact('rfq', 'quotation', 'suggestedProductCost'));
+        return view('admin.quote-builder.edit', compact('rfq', 'quotation', 'suggestedProductCost', 'rfqSwitcher', 'factories', 'freightRates', 'clearingSuggest'));
+    }
+
+    protected function getClearingSuggest(?string $destination): ?array
+    {
+        if (! $destination) {
+            return config('clearing_rates.destinations.other');
+        }
+        $key = strtolower(trim($destination));
+        $destinations = config('clearing_rates.destinations', []);
+        foreach ($destinations as $k => $v) {
+            if (str_contains($key, $k) || str_contains($k, $key)) {
+                return $v;
+            }
+        }
+        return $destinations['other'] ?? null;
     }
 
     public function store(Request $request, Rfq $rfq): RedirectResponse

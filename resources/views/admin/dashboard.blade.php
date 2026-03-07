@@ -17,7 +17,9 @@
 @php
   $pendingBuyers = \App\Models\User::role('buyer')->where('status', 'pending')->count();
   $pendingFactories = \App\Models\User::role('factory')->where('status', 'pending')->count();
-  $openRfqs = \App\Models\Rfq::whereIn('status', ['new','assigned'])->count();
+  $pendingApprovals = $pendingBuyers + $pendingFactories;
+  $openRfqsNeedingAssignment = \App\Models\Rfq::where('status', 'new')->count();
+  $paymentsPending = \App\Models\Payment::where('status', 'pending')->count();
   $totalOrders = \App\Models\Order::count();
   $totalValue = \App\Models\Order::with('quotation')->get()->sum(fn($o) => $o->quotation?->total_landed_cost ?? 0);
   $ordersByStatus = [
@@ -33,6 +35,18 @@
     'in_production' => \App\Models\Rfq::whereIn('status', ['accepted','in_production'])->count(),
     'delivered' => \App\Models\Rfq::whereIn('status', ['shipped','delivered'])->count(),
   ];
+  $activities = [];
+  foreach (\App\Models\Rfq::with('buyer','category')->latest()->take(5)->get() as $r) {
+    $activities[] = ['time'=>$r->created_at,'text'=>'New request '.$r->code.' from '.($r->buyer?->name ?? '?').' ('.($r->category?->name ?? '-').')','icon'=>'bx-file'];
+  }
+  foreach (\App\Models\Payment::with('order')->where('status','pending')->latest()->take(3)->get() as $p) {
+    $activities[] = ['time'=>$p->created_at,'text'=>'Payment $'.number_format($p->amount_usd,0).' pending (Order '.($p->order?->order_code ?? '?').')','icon'=>'bx-money'];
+  }
+  foreach (\App\Models\Quotation::with('rfq')->where('status','sent')->latest()->take(3)->get() as $q) {
+    $activities[] = ['time'=>$q->updated_at,'text'=>'Quote '.$q->quote_code.' sent for '.($q->rfq?->code ?? '?'),'icon'=>'bx-send'];
+  }
+  usort($activities, fn($a,$b) => $b['time']->timestamp <=> $a['time']->timestamp);
+  $recentActivities = array_slice($activities, 0, 10);
 @endphp
 
 <div class="row mb-4">
@@ -40,8 +54,9 @@
     <div class="card hanzo-stat-card h-100">
       <div class="card-body d-flex justify-content-between align-items-start">
         <div>
-          <span class="d-block text-muted small text-uppercase letter-spacing">Pending Buyers</span>
-          <h3 class="mb-0 mt-1">{{ $pendingBuyers }}</h3>
+          <span class="d-block text-muted small text-uppercase letter-spacing">Pending Approvals</span>
+          <h3 class="mb-0 mt-1">{{ $pendingApprovals }}</h3>
+          <small class="text-muted">{{ $pendingBuyers }} buyers, {{ $pendingFactories }} factories</small>
           <a href="{{ route('admin.approvals.buyers') }}" class="btn btn-sm btn-outline-primary mt-2">View</a>
         </div>
         <span class="avatar avatar-lg rounded bg-label-primary"><i class="bx bx-user-check bx-lg"></i></span>
@@ -52,11 +67,12 @@
     <div class="card hanzo-stat-card h-100">
       <div class="card-body d-flex justify-content-between align-items-start">
         <div>
-          <span class="d-block text-muted small text-uppercase letter-spacing">Pending Factories</span>
-          <h3 class="mb-0 mt-1">{{ $pendingFactories }}</h3>
-          <a href="{{ route('admin.approvals.factories') }}" class="btn btn-sm btn-outline-info mt-2">View</a>
+          <span class="d-block text-muted small text-uppercase letter-spacing">Open Requests</span>
+          <h3 class="mb-0 mt-1">{{ $openRfqsNeedingAssignment }}</h3>
+          <small class="text-muted">Needing assignment</small>
+          <a href="{{ route('admin.rfqs.index') }}" class="btn btn-sm btn-outline-success mt-2">View</a>
         </div>
-        <span class="avatar avatar-lg rounded bg-label-info"><i class="bx bx-building bx-lg"></i></span>
+        <span class="avatar avatar-lg rounded bg-label-success"><i class="bx bx-file bx-lg"></i></span>
       </div>
     </div>
   </div>
@@ -64,11 +80,11 @@
     <div class="card hanzo-stat-card h-100">
       <div class="card-body d-flex justify-content-between align-items-start">
         <div>
-          <span class="d-block text-muted small text-uppercase letter-spacing">Open RFQs</span>
-          <h3 class="mb-0 mt-1">{{ $openRfqs }}</h3>
-          <a href="{{ route('admin.rfqs.index') }}" class="btn btn-sm btn-outline-success mt-2">View</a>
+          <span class="d-block text-muted small text-uppercase letter-spacing">Payments Pending</span>
+          <h3 class="mb-0 mt-1">{{ $paymentsPending }}</h3>
+          <a href="{{ route('admin.payments.index') }}" class="btn btn-sm btn-outline-info mt-2">Verify</a>
         </div>
-        <span class="avatar avatar-lg rounded bg-label-success"><i class="bx bx-file bx-lg"></i></span>
+        <span class="avatar avatar-lg rounded bg-label-info"><i class="bx bx-money bx-lg"></i></span>
       </div>
     </div>
   </div>
@@ -110,7 +126,30 @@
           <i class="bx bx-group me-2"></i> Manage Users
         </a>
         <a href="{{ route('admin.approvals.buyers') }}" class="btn btn-outline-primary w-100 mb-2">Pending Buyers ({{ $pendingBuyers }})</a>
-        <a href="{{ route('admin.approvals.factories') }}" class="btn btn-outline-info w-100">Pending Factories ({{ $pendingFactories }})</a>
+        <a href="{{ route('admin.approvals.factories') }}" class="btn btn-outline-info w-100 mb-4">Pending Factories ({{ $pendingFactories }})</a>
+      </div>
+    </div>
+    <div class="card mt-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Recent Activity</h5>
+        <a href="{{ route('admin.rfqs.index') }}" class="btn btn-sm btn-link">View all</a>
+      </div>
+      <div class="card-body">
+        @if(empty($recentActivities))
+          <p class="text-muted small mb-0">No recent activity.</p>
+        @else
+          <ul class="list-unstyled mb-0">
+            @foreach($recentActivities as $a)
+            <li class="d-flex align-items-start gap-2 py-2 border-bottom border-light">
+              <i class="bx {{ $a['icon'] }} mt-1 text-muted"></i>
+              <div>
+                <span class="small">{{ $a['text'] }}</span>
+                <br><span class="text-muted" style="font-size:0.75rem">{{ $a['time']->diffForHumans() }}</span>
+              </div>
+            </li>
+            @endforeach
+          </ul>
+        @endif
       </div>
     </div>
   </div>
@@ -151,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var orderLabels = @json(array_keys($ordersByStatus));
   var orderConfig = {
     chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Public Sans' },
-    colors: ['#141B2D', '#1f2b4a', '#FFAB00', '#10b981'],
+    colors: ['#0d9488', '#14b8a6', '#0ea5e9', '#10b981'],
     plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 4 } },
     dataLabels: { enabled: true },
     xaxis: { categories: orderLabels.map(l => l.replace(/_/g, ' ')) },
@@ -167,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var rfqLabels = @json(array_keys($rfqsByStatus));
   var rfqConfig = {
     chart: { type: 'donut', fontFamily: 'Public Sans' },
-    colors: ['#141B2D', '#1f2b4a', '#FFAB00', '#0ea5e9', '#10b981'],
+    colors: ['#0d9488', '#14b8a6', '#0ea5e9', '#f59e0b', '#10b981'],
     labels: rfqLabels.map(l => l.replace(/_/g, ' ')),
     series: rfqData,
     plotOptions: { pie: { donut: { size: '65%' } } },

@@ -17,13 +17,13 @@
 
 /* ========== Buttons ========== */
 .btn-hanzo-primary {
-  background: var(--hanzo-gold-alt) !important;
-  border-color: var(--hanzo-gold-alt) !important;
-  color: var(--hanzo-navy) !important;
+  background: var(--hanzo-primary, #0d9488) !important;
+  border-color: var(--hanzo-primary, #0d9488) !important;
+  color: #fff !important;
   font-weight: 600;
   border-radius: 0.5rem;
 }
-.btn-hanzo-primary:hover { background: #d97706 !important; border-color: #d97706 !important; color: #fff !important; }
+.btn-hanzo-primary:hover { background: var(--hanzo-primary-hover, #0f766e) !important; border-color: var(--hanzo-primary-hover) !important; color: #fff !important; }
 .btn-hanzo-secondary {
   border: 2px solid var(--hanzo-navy);
   color: var(--hanzo-navy);
@@ -86,18 +86,18 @@
 .hanzo-page-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #e5e7eb;
+  color: var(--hanzo-navy);
   margin-bottom: 0.25rem;
 }
 .hanzo-breadcrumb {
   font-size: 0.875rem;
-  color: #9ca3af;
+  color: var(--hanzo-muted);
 }
 .hanzo-breadcrumb a {
-  color: #9ca3af;
+  color: var(--hanzo-muted);
   text-decoration: none;
 }
-.hanzo-breadcrumb a:hover { color: #e5e7eb; }
+.hanzo-breadcrumb a:hover { color: var(--hanzo-navy); }
 .hanzo-page-header-actions { margin-top: 0.5rem; }
 
 /* ========== Empty State ========== */
@@ -105,11 +105,11 @@
 .hanzo-empty-state-icon { font-size: 3rem; color: var(--hanzo-slate-light); margin-bottom: 1rem; }
 .hanzo-empty-state-title {
   font-weight: 600;
-  color: #e5e7eb;
+  color: var(--hanzo-navy);
   margin-bottom: 0.5rem;
 }
 .hanzo-empty-state-text {
-  color: #9ca3af;
+  color: var(--hanzo-muted);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -140,27 +140,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15,23,42,0.35);
-  color: #e5e7eb;
+  background: rgba(13,148,136,0.12);
+  color: var(--hanzo-primary);
 }
 .hanzo-doc-name {
   font-weight: 500;
-  color: #e5e7eb;
+  color: var(--hanzo-navy);
 }
 .hanzo-doc-meta {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--hanzo-muted);
 }
 
 /* ========== Form Helpers ========== */
 .hanzo-form-label {
   font-weight: 500;
-  color: #e5e7eb;
+  color: var(--hanzo-navy);
   margin-bottom: 0.25rem;
 }
 .hanzo-form-helper {
   font-size: 0.8rem;
-  color: #9ca3af;
+  color: var(--hanzo-muted);
   margin-top: 0.25rem;
 }
 .hanzo-form-error { font-size: 0.8rem; color: #dc2626; margin-top: 0.25rem; }
@@ -198,8 +198,8 @@ body.hanzo-public { font-family: 'DM Sans', -apple-system, sans-serif; color: #3
 .hanzo-category-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgba(15,23,42,0.15); }
 .hanzo-category-img { transition: transform 0.5s ease; }
 .hanzo-category-card:hover .hanzo-category-img { transform: scale(1.06); }
-.hanzo-category-icon { color: var(--hanzo-amber); transition: transform 0.3s; }
-.hanzo-category-card:hover .hanzo-category-icon { transform: scale(1.1); color: var(--hanzo-gold-alt); }
+.hanzo-category-icon { color: var(--hanzo-sage, #14b8a6); transition: transform 0.3s; }
+.hanzo-category-card:hover .hanzo-category-icon { transform: scale(1.1); color: var(--hanzo-primary, #0d9488); }
 .hanzo-category-title { color: #f9fafb; }
 .hanzo-category-card small,
 .hanzo-category-card p { color: rgba(226, 232, 240, 0.8) !important; }
@@ -207,9 +207,9 @@ body.hanzo-public { font-family: 'DM Sans', -apple-system, sans-serif; color: #3
 /* How it works - step cards */
 .hanzo-section-steps { background: #fff; }
 .hanzo-step-card { position: relative; transition: all 0.3s ease; border-left: 4px solid transparent; }
-.hanzo-step-card:hover { border-left-color: var(--hanzo-amber); box-shadow: 0 12px 24px -8px rgba(15,23,42,0.12); }
-.hanzo-step-number { position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; background: linear-gradient(135deg, var(--hanzo-amber), #fbbf24); color: var(--hanzo-navy); font-weight: 700; font-size: 0.85rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.hanzo-step-icon { color: var(--hanzo-amber) !important; transition: color 0.3s, transform 0.3s; }
+.hanzo-step-card:hover { border-left-color: var(--hanzo-primary, #0d9488); box-shadow: 0 12px 24px -8px rgba(15,23,42,0.12); }
+.hanzo-step-number { position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; background: linear-gradient(135deg, var(--hanzo-primary, #0d9488), var(--hanzo-sage, #14b8a6)); color: #fff; font-weight: 700; font-size: 0.85rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.hanzo-step-icon { color: var(--hanzo-primary, #0d9488) !important; transition: color 0.3s, transform 0.3s; }
 .hanzo-step-card:hover .hanzo-step-icon { color: var(--hanzo-navy); }
 .hanzo-step-title { color: var(--hanzo-navy); }
 

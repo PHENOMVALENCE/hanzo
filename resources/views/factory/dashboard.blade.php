@@ -120,7 +120,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   var barConfig = {
     chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Public Sans' },
-    colors: ['#141B2D', '#FFAB00', '#10b981'],
+    colors: ['#0d9488', '#14b8a6', '#10b981'],
     plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 4 } },
     dataLabels: { enabled: true },
     xaxis: { categories: ['In Production', 'Shipped', 'Delivered'] },
