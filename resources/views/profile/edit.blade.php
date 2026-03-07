@@ -1,29 +1,144 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@php
+  $layout = auth()->user()->hasRole('admin') ? 'layouts.admin' : (auth()->user()->hasRole('factory') ? 'layouts.factory' : 'layouts.buyer');
+@endphp
+@extends($layout)
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
+@section('title', __('Profile'))
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
+@section('content')
+<div class="row">
+  <div class="col-12">
+    <h4 class="fw-bold mb-4">{{ __('Profile') }}</h4>
+  </div>
+</div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
+@if(session('status') === 'profile-updated')
+  <div class="alert alert-success">{{ __('Saved.') }}</div>
+@endif
+@if(session('status') === 'password-updated')
+  <div class="alert alert-success">{{ __('Password saved.') }}</div>
+@endif
+
+{{-- Profile information --}}
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0">{{ __('Profile Information') }}</h5>
+  </div>
+  <div class="card-body">
+    <p class="text-muted small mb-4">{{ __("Update your account's profile information, email address, and profile photo.") }}</p>
+    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="row g-3">
+      @csrf
+      @method('patch')
+      <div class="col-12">
+        <label class="form-label">{{ __('Profile Photo') }}</label>
+        <div class="d-flex align-items-center gap-3">
+          @if($user->avatarUrl())
+            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="rounded-circle" style="width:64px;height:64px;object-fit:cover;">
+          @else
+            <span class="avatar-initial rounded-circle bg-label-primary d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;font-size:1.5rem;">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
+          @endif
+          <input type="file" name="avatar" class="form-control" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="max-width:280px;">
         </div>
+        @error('avatar')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="name">{{ __('Name') }} *</label>
+        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+        @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="email">{{ __('Email') }} *</label>
+        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+        @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{-- Update password --}}
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0">{{ __('Update Password') }}</h5>
+  </div>
+  <div class="card-body">
+    <p class="text-muted small mb-4">{{ __('Ensure your account is using a long, random password to stay secure.') }}</p>
+    <form method="post" action="{{ route('password.update') }}" class="row g-3">
+      @csrf
+      @method('put')
+      <div class="col-md-6">
+        <label class="form-label" for="current_password">{{ __('Current Password') }}</label>
+        <input type="password" class="form-control @error('current_password', 'updatePassword') is-invalid @enderror" id="current_password" name="current_password" autocomplete="current-password">
+        @error('current_password', 'updatePassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
+      </div>
+      <div class="col-12"></div>
+      <div class="col-md-6">
+        <label class="form-label" for="password">{{ __('New Password') }}</label>
+        <input type="password" class="form-control @error('password', 'updatePassword') is-invalid @enderror" id="password" name="password" autocomplete="new-password">
+        @error('password', 'updatePassword')<div class="invalid-feedback">{{ $message }}</div>@enderror
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="password_confirmation">{{ __('Confirm Password') }}</label>
+        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" autocomplete="new-password">
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{-- Delete account --}}
+<div class="card">
+  <div class="card-header">
+    <h5 class="mb-0 text-danger">{{ __('Delete Account') }}</h5>
+  </div>
+  <div class="card-body">
+    <p class="text-muted small mb-4">{{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}</p>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteAccount">
+      {{ __('Delete Account') }}
+    </button>
+  </div>
+</div>
+
+{{-- Delete confirmation modal --}}
+<div class="modal fade" id="confirmDeleteAccount" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{{ route('profile.destroy') }}">
+        @csrf
+        @method('delete')
+        <div class="modal-header">
+          <h5 class="modal-title">{{ __('Are you sure you want to delete your account?') }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted">{{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm.') }}</p>
+          <div class="mb-0">
+            <label class="form-label" for="delete_password">{{ __('Password') }}</label>
+            <input type="password" class="form-control @error('password', 'userDeletion') is-invalid @enderror" id="delete_password" name="password" placeholder="{{ __('Password') }}">
+            @error('password', 'userDeletion')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+          <button type="submit" class="btn btn-danger">{{ __('Delete Account') }}</button>
+        </div>
+      </form>
     </div>
-</x-app-layout>
+  </div>
+</div>
+
+@if($errors->userDeletion->isNotEmpty())
+@push('page-js')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var m = document.getElementById('confirmDeleteAccount');
+  if (m) new bootstrap.Modal(m).show();
+});
+</script>
+@endpush
+@endif
+@endsection
