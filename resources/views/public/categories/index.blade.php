@@ -3,12 +3,12 @@
 @section('title', __('landing.categories'))
 
 @section('content')
-<div style="padding-top: 5rem;">
-  <div class="container py-5">
+<div class="hanzo-page-top">
+  <div class="container py-4 py-lg-5">
     <h1 class="text-center mb-5" style="color: var(--hanzo-navy);">{{ __('landing.categories') }}</h1>
     <div class="row g-4">
       @forelse($categories as $cat)
-      <div class="col-md-6 col-lg-3">
+      <div class="col-12 col-sm-6 col-lg-3">
         <a href="{{ route('categories.show', $cat) }}" class="text-decoration-none hanzo-category-card-link">
           <div class="hanzo-card hanzo-category-card p-0 h-100 overflow-hidden">
             <div class="hanzo-category-img" style="background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400'); height: 120px; background-size: cover; background-position: center;"></div>

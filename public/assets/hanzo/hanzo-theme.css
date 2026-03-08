@@ -383,3 +383,216 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 .footer a:hover {
   color: var(--hanzo-gold-soft) !important;
 }
+
+/* ========== Mobile & tablet optimizations ========== */
+/* Safe area for notched devices */
+@supports (padding: max(0px)) {
+  .layout-navbar .container-xxl,
+  .hanzo-nav-public .container {
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
+  }
+  .hanzo-footer-public .container,
+  .footer .container,
+  .footer .container-fluid {
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .layout-navbar.container-xxl,
+  .layout-page .content-wrapper > .container-xxl.container-p-y,
+  .container-p-y {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .layout-navbar.container-xxl,
+  .layout-page .content-wrapper > .container-xxl.container-p-y,
+  .container-p-y {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  .container-p-y h4 {
+    font-size: 1.25rem;
+  }
+  .hanzo-stat-card h3 {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Tables: horizontal scroll + touch-friendly */
+.table-responsive {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+@media (max-width: 767.98px) {
+  .table thead th,
+  .table tbody td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  .table thead th {
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+}
+
+/* Navbar: larger touch targets */
+@media (max-width: 991.98px) {
+  .layout-menu-toggle .nav-link {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .layout-navbar .nav-link,
+  .layout-navbar .dropdown-toggle {
+    padding: 0.75rem 0.5rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Card header on mobile */
+@media (max-width: 767.98px) {
+  .card-header {
+    padding: 1rem 1rem !important;
+    font-size: 0.95rem !important;
+  }
+  .card-body {
+    padding: 1rem !important;
+  }
+}
+
+/* ========== Dashboard & sidebar mobile revisions ========== */
+@media (max-width: 1199.98px) {
+  /* Sidebar: fixed width for consistency, shadow for depth */
+  .layout-menu {
+    width: min(300px, 85vw) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Overlay: darker, more visible tap target */
+  .layout-overlay {
+    background: rgba(9, 22, 43, 0.6) !important;
+    opacity: 1 !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Sidebar menu links: touch-friendly */
+  .layout-menu .menu-inner .menu-item .menu-link {
+    min-height: 48px !important;
+    padding: 0.75rem 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem;
+  }
+
+  .layout-menu .menu-inner .menu-item .menu-icon {
+    flex-shrink: 0;
+  }
+
+  /* Sidebar app brand: larger close area */
+  .layout-menu .app-brand {
+    padding: 1rem 1rem !important;
+  }
+
+  .layout-menu .app-brand .layout-menu-toggle {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem !important;
+  }
+
+  .layout-menu .app-brand .layout-menu-toggle i {
+    font-size: 1.25rem !important;
+  }
+
+  .layout-menu .menu-inner .menu-header {
+    padding: 1rem 1rem 0.5rem !important;
+  }
+
+  /* Prevent scroll when sidebar open */
+  html.layout-menu-expanded {
+    overflow: hidden;
+  }
+}
+
+/* Topbar: ensure menu toggle always visible and touch-friendly */
+@media (max-width: 1199.98px) {
+  .layout-menu-toggle .nav-link {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem !important;
+  }
+
+  .layout-navbar .container-xxl {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Dropdowns: full width on very small screens, proper positioning */
+  .layout-navbar .dropdown-menu {
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .layout-navbar .container-xxl {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* Dashboard content: stat cards and charts */
+@media (max-width: 767.98px) {
+  .container-p-y .row > [class*="col-"] {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .hanzo-stat-card .card-body {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem;
+  }
+
+  .hanzo-stat-card .avatar {
+    align-self: flex-start;
+  }
+
+  .hanzo-stat-card .btn-sm {
+    min-height: 40px;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Chart containers: reduce height on mobile */
+  #orderAnalyticsChart,
+  #rfqPipelineChart,
+  #orderMilestoneChart {
+    min-height: 220px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  #orderAnalyticsChart,
+  #rfqPipelineChart,
+  #orderMilestoneChart {
+    min-height: 200px !important;
+  }
+
+  .hanzo-stat-card h3 {
+    font-size: 1.5rem !important;
+  }
+}
+

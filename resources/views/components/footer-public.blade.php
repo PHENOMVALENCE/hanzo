@@ -1,4 +1,4 @@
-<footer class="hanzo-footer-public py-4 mt-5">
+<footer class="hanzo-footer-public py-4 mt-5 px-2 px-md-0">
   <div class="container text-center text-white-50">
     <p class="mb-0 small">
       <img src="{{ asset('assets/hanzo/logo.png') }}" alt="HANZO" style="height: 22px; width: auto; vertical-align: middle; margin-right: 4px; opacity: 0.8;">

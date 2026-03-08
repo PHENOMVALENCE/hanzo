@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title', config('app.name')) | HANZO</title>
@@ -16,10 +16,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="stylesheet" href="{{ asset('assets/hanzo/hanzo-theme.css') }}">
         <style>
-            .hanzo-auth { background: linear-gradient(135deg, #09162B 0%, #0B1F3A 50%, #123A6D 100%); min-height: 100vh; }
-            .hanzo-logo { font-size: 1.75rem; font-weight: 700; color: #fff; letter-spacing: 0.1em; }
+            .hanzo-auth { background: linear-gradient(135deg, #09162B 0%, #0B1F3A 50%, #123A6D 100%); min-height: 100vh; min-height: 100dvh; }
+            .hanzo-logo { font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 0.1em; }
+            @media (min-width: 576px) { .hanzo-logo { font-size: 1.75rem; } }
             .hanzo-card { background: rgba(255,255,255,0.98); border: 1px solid rgba(216,155,43,0.2); border-radius: 12px; }
-            .btn-hanzo { background: linear-gradient(135deg, #F0B64D 0%, #D89B2B 100%); color: #0B1F3A; border: none; font-weight: 600; border-radius: 12px; padding: 0.6rem 1.25rem; box-shadow: 0 2px 12px rgba(216,155,43,0.35); transition: all 0.2s; }
+            .btn-hanzo { background: linear-gradient(135deg, #F0B64D 0%, #D89B2B 100%); color: #0B1F3A; border: none; font-weight: 600; border-radius: 12px; padding: 0.65rem 1.25rem; min-height: 44px; box-shadow: 0 2px 12px rgba(216,155,43,0.35); transition: all 0.2s; }
             .btn-hanzo:hover { background: linear-gradient(135deg, #F0B64D 0%, #c98a20 100%); color: #0B1F3A; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(216,155,43,0.4); }
             .text-hanzo { color: var(--hanzo-gold); }
         </style>
@@ -30,7 +31,7 @@
                 <img src="{{ asset('assets/hanzo/logo.png') }}" alt="HANZO" style="height: 52px; width: auto;">
                 <span>HANZO</span>
             </a>
-            <div class="w-full sm:max-w-md px-6">
+            <div class="w-full sm:max-w-md px-4 px-sm-6">
                 <div class="hanzo-card shadow-lg p-6">
                     {{ $slot }}
                 </div>

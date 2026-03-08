@@ -3,10 +3,10 @@
 @section('title', 'About HANZO')
 
 @section('content')
-<div style="padding-top: 5rem;">
-  <div class="container py-5">
+<div class="hanzo-page-top">
+  <div class="container py-4 py-lg-5">
     <div class="text-center mb-5">
-      <div class="hanzo-about-hero rounded-3 overflow-hidden mb-4" style="height: 200px; background: linear-gradient(rgba(15,27,42,0.7), rgba(15,27,42,0.8)), url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200') center/cover;"></div>
+      <div class="hanzo-about-hero rounded-3 overflow-hidden mb-4 hanzo-about-hero-responsive" style="height: 140px; background: linear-gradient(rgba(15,27,42,0.7), rgba(15,27,42,0.8)), url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200') center/cover;"></div>
       <h1 class="hanzo-section-title mb-3">About HANZO</h1>
       <p class="lead text-muted mx-auto" style="max-width: 600px;">A controlled B2B trade platform connecting verified Chinese factories to buyers in Tanzania and East Africa, with end-to-end shipping and admin oversight.</p>
     </div>

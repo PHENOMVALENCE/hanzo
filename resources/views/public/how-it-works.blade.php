@@ -3,8 +3,8 @@
 @section('title', __('landing.how_it_works'))
 
 @section('content')
-<div style="padding-top: 5rem;">
-  <div class="container py-5">
+<div class="hanzo-page-top">
+  <div class="container py-4 py-lg-5">
     <h1 class="text-center mb-5" style="color: var(--hanzo-navy);">{{ __('landing.how_it_works') }}</h1>
     <div class="row g-4 text-center">
       <div class="col-md-6 col-lg-3">

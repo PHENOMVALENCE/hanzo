@@ -196,7 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
     xaxis: { categories: orderLabels.map(l => l.replace(/_/g, ' ')) },
     yaxis: { labels: { style: { colors: '#697a8d' } } },
     grid: { borderColor: 'rgba(20,27,45,0.06)' },
-    series: [{ name: 'Orders', data: orderData }]
+    series: [{ name: 'Orders', data: orderData }],
+    responsive: [{ breakpoint: 576, options: { chart: { height: 220 }, dataLabels: { style: { fontSize: '10px' } } } }]
   };
   if (document.querySelector('#orderAnalyticsChart')) {
     new ApexCharts(document.querySelector('#orderAnalyticsChart'), orderConfig).render();
@@ -210,7 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
     labels: rfqLabels.map(l => l.replace(/_/g, ' ')),
     series: rfqData,
     plotOptions: { pie: { donut: { size: '65%' } } },
-    legend: { position: 'bottom' }
+    legend: { position: 'bottom' },
+    responsive: [{ breakpoint: 576, options: { chart: { height: 220 }, legend: { fontSize: '11px' } } }]
   };
   if (document.querySelector('#rfqPipelineChart')) {
     new ApexCharts(document.querySelector('#rfqPipelineChart'), rfqConfig).render();
@@ -222,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function() {
     labels: ['Deposit Pending', 'In Production', 'In Transit', 'Delivered'],
     series: [@json($ordersByStatus['deposit_pending']), @json($ordersByStatus['in_production']), @json($ordersByStatus['shipped']), @json($ordersByStatus['delivered'])],
     plotOptions: { pie: { donut: { size: '65%' } } },
-    legend: { position: 'bottom' }
+    legend: { position: 'bottom' },
+    responsive: [{ breakpoint: 576, options: { chart: { height: 220 }, legend: { fontSize: '11px' } } }]
   };
   if (document.querySelector('#orderMilestoneChart')) {
     new ApexCharts(document.querySelector('#orderMilestoneChart'), milestoneConfig).render();

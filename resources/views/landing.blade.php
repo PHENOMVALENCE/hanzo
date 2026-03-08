@@ -3,25 +3,25 @@
 @section('title', 'HANZO - Structured Access to Global Manufacturing')
 
 @section('content')
-<section class="hanzo-hero hanzo-hero-overlay py-5" style="margin-top: 56px; display: flex; align-items: center; min-height: 500px; background: linear-gradient(90deg, rgba(9,22,43,0.92) 0%, rgba(11,31,58,0.78) 45%, rgba(11,31,58,0.45) 100%), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1600') center/cover no-repeat; position: relative; overflow: hidden;">
+<section class="hanzo-hero hanzo-hero-overlay hanzo-hero-responsive py-4 py-lg-5">
   <div class="hanzo-hero-pattern"></div>
   <div class="container position-relative">
     <div class="row align-items-center">
       <div class="col-lg-7">
-        <h1 class="display-5 fw-bold text-white mb-3 hanzo-hero-title">{{ __('landing.tagline') }}</h1>
-        <p class="lead text-white-50 mb-4 hanzo-hero-sub">{{ __('landing.subtitle') }}</p>
+        <h1 class="display-5 fw-bold text-white mb-3 hanzo-hero-title hanzo-hero-title-responsive">{{ __('landing.tagline') }}</h1>
+        <p class="lead text-white-50 mb-4 hanzo-hero-sub hanzo-hero-sub-responsive">{{ __('landing.subtitle') }}</p>
         @guest
-        <div class="d-flex flex-wrap gap-2">
-          <a href="{{ route('register') }}" class="btn btn-hanzo-primary btn-lg">{{ __('landing.request_quote') }}</a>
-          <a href="#categories" class="btn btn-outline-light btn-lg">{{ __('landing.explore_categories') }}</a>
+        <div class="d-flex flex-wrap gap-2 hanzo-hero-btns">
+          <a href="{{ route('register') }}" class="btn btn-hanzo-primary btn-lg hanzo-btn-touch">{{ __('landing.request_quote') }}</a>
+          <a href="#categories" class="btn btn-outline-light btn-lg hanzo-btn-touch">{{ __('landing.explore_categories') }}</a>
         </div>
         @else
-        <div class="d-flex flex-wrap gap-2">
+        <div class="d-flex flex-wrap gap-2 hanzo-hero-btns">
           @if(auth()->user()->hasRole('buyer'))
-          <a href="{{ route('buyer.rfqs.create') }}" class="btn btn-hanzo-primary btn-lg">{{ __('landing.request_quote') }}</a>
+          <a href="{{ route('buyer.rfqs.create') }}" class="btn btn-hanzo-primary btn-lg hanzo-btn-touch">{{ __('landing.request_quote') }}</a>
           @endif
           @php $dash = auth()->user()->hasRole('admin') ? route('admin.dashboard') : (auth()->user()->hasRole('factory') ? route('factory.dashboard') : route('buyer.dashboard')); @endphp
-          <a href="{{ $dash }}" class="btn btn-outline-light btn-lg">Dashboard</a>
+          <a href="{{ $dash }}" class="btn btn-outline-light btn-lg hanzo-btn-touch">Dashboard</a>
         </div>
         @endguest
       </div>
@@ -29,7 +29,7 @@
   </div>
 </section>
 
-<section id="categories" class="py-5 hanzo-section-categories">
+<section id="categories" class="py-4 py-lg-5 hanzo-section-categories">
   <div class="container">
     <h2 class="text-center mb-5 hanzo-section-title">{{ __('landing.categories') }}</h2>
     <div class="row g-4">
@@ -59,12 +59,12 @@
   </div>
 </section>
 
-<section id="how-it-works" class="py-5 hanzo-section-steps">
+<section id="how-it-works" class="py-4 py-lg-5 hanzo-section-steps">
   <div class="container">
     <h2 class="text-center mb-5 hanzo-section-title hanzo-section-title-dark">{{ __('landing.how_it_works') }}</h2>
     <div class="row g-4 text-center">
       @foreach([['bx-file', __('landing.step1'), __('landing.step1_desc')], ['bx-message-detail', __('landing.step2'), __('landing.step2_desc')], ['bx-factory', __('landing.step3'), __('landing.step3_desc')], ['bx-truck', __('landing.step4'), __('landing.step4_desc')]] as $i => $step)
-      <div class="col-6 col-lg-3">
+      <div class="col-12 col-sm-6 col-lg-3">
         <div class="hanzo-card hanzo-step-card p-4 h-100">
           <div class="hanzo-step-number">{{ $i+1 }}</div>
           <i class="bx {{ $step[0] }} bx-lg mb-2 hanzo-step-icon"></i>
@@ -80,12 +80,12 @@
   </div>
 </section>
 
-<section id="estimate" class="py-5 hanzo-section-estimate">
+<section id="estimate" class="py-4 py-lg-5 hanzo-section-estimate">
   <div class="container">
     <h2 class="text-center mb-5 hanzo-section-title hanzo-section-title-dark">{{ __('landing.estimate_costs') }}</h2>
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <div class="hanzo-card p-4 p-lg-5">
+        <div class="hanzo-card p-4 p-lg-5 hanzo-estimate-card">
           <form id="hanzo-estimate-form" class="row g-3">
             <div class="col-md-6">
               <label class="form-label">{{ __('landing.category') }}</label>
@@ -142,7 +142,7 @@
   </div>
 </section>
 
-<section class="py-5 hanzo-section-trust">
+<section class="py-4 py-lg-5 hanzo-section-trust">
   <div class="container">
     <h2 class="text-center text-white mb-4">{{ __('landing.trusted_trade') }}</h2>
     <div class="row justify-content-center g-4">
