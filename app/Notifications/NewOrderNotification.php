@@ -40,6 +40,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
+            'type' => 'order',
             'order_id' => $this->order->id,
             'order_code' => $this->order->order_code,
             'order_name' => $this->order->displayName(),

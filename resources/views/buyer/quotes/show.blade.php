@@ -58,10 +58,29 @@
             </button>
           </form>
           <a href="#" class="btn btn-outline-primary w-100">Ask a Question</a>
-          <form method="POST" action="{{ route('buyer.quotes.reject', $quotation) }}" class="mt-2" onsubmit="return confirm('Reject this quote?')">
-            @csrf
-            <button type="submit" class="btn btn-link text-danger p-0 small">Reject Quote</button>
-          </form>
+          <button type="button" class="btn btn-link text-danger p-0 small mt-2" data-bs-toggle="modal" data-bs-target="#rejectModal">Reject Quote</button>
+          <div class="modal fade" id="rejectModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form method="POST" action="{{ route('buyer.quotes.reject', $quotation) }}">
+                  @csrf
+                  <div class="modal-header">
+                    <h5 class="modal-title">Reject Quote</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="text-muted small mb-2">Optionally share why you're rejecting so we can improve future quotes.</p>
+                    <label class="form-label">Reason (optional)</label>
+                    <textarea name="rejection_reason" class="form-control" rows="3" placeholder="e.g. Price too high, timeline doesn't work..."></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject Quote</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
         @else
         <span class="badge bg-{{ $quotation->status === 'accepted' ? 'success' : 'secondary' }} fs-6">{{ ucfirst($quotation->status) }}</span>

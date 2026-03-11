@@ -101,6 +101,33 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   box-shadow: var(--hanzo-shadow);
 }
 
+/* Topbar: clearer profile & nav items */
+.layout-navbar .navbar-nav .nav-item {
+  margin-left: 0.125rem;
+}
+.layout-navbar .navbar-nav .nav-link.dropdown-toggle {
+  border-radius: var(--hanzo-radius-sm);
+  padding: 0.5rem 0.75rem;
+}
+.layout-navbar .navbar-nav .nav-link.dropdown-toggle:hover {
+  background: rgba(240, 182, 77, 0.12);
+}
+.layout-navbar .navbar-dropdown.dropdown-user .nav-link {
+  padding: 0.4rem 0.6rem;
+  min-height: 44px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.layout-navbar .navbar-dropdown.dropdown-user .nav-link:hover {
+  background: rgba(240, 182, 77, 0.2);
+}
+.layout-navbar .dropdown-header {
+  padding: 0.75rem 1rem !important;
+}
+.layout-navbar .dropdown-item {
+  padding: 0.6rem 1rem;
+}
+
 .layout-menu-toggle .nav-link {
   color: #fff !important;
   padding: 0.5rem !important;

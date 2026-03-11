@@ -13,6 +13,7 @@ class Quotation extends Model
 
     protected $fillable = [
         'rfq_id', 'quote_code', 'valid_until', 'status',
+        'rejection_reason', 'rejected_at',
         'product_cost_usd', 'china_local_shipping', 'export_handling', 'freight_cost',
         'insurance_cost', 'clearing_cost', 'local_delivery_cost', 'hanzo_fee',
         'total_landed_cost', 'factory_id',
@@ -22,6 +23,7 @@ class Quotation extends Model
     {
         return [
             'valid_until' => 'date',
+            'rejected_at' => 'datetime',
             'product_cost_usd' => 'decimal:2',
             'china_local_shipping' => 'decimal:2',
             'export_handling' => 'decimal:2',

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ApprovalController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DocumentController as AdminDocumentController;
+use App\Http\Controllers\Admin\EstimateDefaultController;
 use App\Http\Controllers\Admin\FreightRateController;
 use App\Http\Controllers\Admin\TransportDefaultController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -99,6 +100,8 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->pre
     Route::resource('freight-rates', FreightRateController::class)->except(['show'])->names('freight-rates');
     Route::get('/transport-defaults', [TransportDefaultController::class, 'edit'])->name('transport-defaults.edit');
     Route::put('/transport-defaults', [TransportDefaultController::class, 'update'])->name('transport-defaults.update');
+    Route::get('/estimate-defaults', [EstimateDefaultController::class, 'edit'])->name('estimate-defaults.edit');
+    Route::put('/estimate-defaults', [EstimateDefaultController::class, 'update'])->name('estimate-defaults.update');
 
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');

@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\User;
+use App\Notifications\PaymentPendingNotification;
 use Illuminate\Http\UploadedFile;
 
 class PaymentService
@@ -17,7 +19,7 @@ class PaymentService
             $mimeType = $proof->getMimeType();
         }
 
-        return Payment::create([
+        $payment = Payment::create([
             'order_id' => $order->id,
             'type' => $type,
             'amount_usd' => $amount,
@@ -27,6 +29,12 @@ class PaymentService
             'mime_type' => $mimeType,
             'status' => 'pending',
         ]);
+
+        foreach (User::role('admin')->get() as $admin) {
+            $admin->notify(new PaymentPendingNotification($payment));
+        }
+
+        return $payment;
     }
 
     public function verify(Payment $payment, int $verifiedBy, ?string $adminNotes = null): void

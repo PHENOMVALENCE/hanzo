@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Quotation;
+use App\Models\User;
+use App\Notifications\QuoteRejectedNotification;
 use App\Services\OrderService;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class QuoteController extends Controller
 {
@@ -46,7 +49,7 @@ class QuoteController extends Controller
         return redirect()->route('buyer.orders.show', $order)->with('success', 'Order created. Please proceed to payment.');
     }
 
-    public function reject(Quotation $quotation): RedirectResponse
+    public function reject(Request $request, Quotation $quotation): RedirectResponse
     {
         $this->authorize('update', $quotation);
 
@@ -54,7 +57,20 @@ class QuoteController extends Controller
             return back()->with('error', 'This quotation cannot be rejected.');
         }
 
-        $quotation->update(['status' => 'rejected']);
+        $quotation->update([
+            'status' => 'rejected',
+            'rejection_reason' => $request->input('rejection_reason'),
+            'rejected_at' => now(),
+        ]);
+
+        foreach (User::role('admin')->get() as $admin) {
+            $admin->notify(new QuoteRejectedNotification($quotation->fresh()));
+        }
+
+        $factoryUser = $quotation->rfq?->assignedFactory?->user;
+        if ($factoryUser) {
+            $factoryUser->notify(new QuoteRejectedNotification($quotation->fresh()));
+        }
 
         return back()->with('success', 'Quotation rejected.');
     }

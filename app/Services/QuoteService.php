@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Quotation;
 use App\Models\Rfq;
+use App\Notifications\QuoteSentNotification;
 use Illuminate\Support\Str;
 
 class QuoteService
@@ -75,5 +76,10 @@ class QuoteService
     {
         $quotation->update(['status' => 'sent']);
         $quotation->rfq->update(['status' => 'quoted']);
+
+        $buyer = $quotation->rfq?->buyer;
+        if ($buyer) {
+            $buyer->notify(new QuoteSentNotification($quotation));
+        }
     }
 }

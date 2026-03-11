@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PendingAlertsService;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -10,12 +11,19 @@ class NotificationController extends Controller
     {
         $user = $request->user();
         $notifications = $user->notifications()->limit(20)->get();
+        $pendingAlerts = app(PendingAlertsService::class)->forUser();
 
         if ($request->wantsJson()) {
-            return response()->json($notifications);
+            return response()->json([
+                'notifications' => $notifications,
+                'pending_alerts' => $pendingAlerts,
+            ]);
         }
 
-        return view('notifications.index', ['notifications' => $notifications]);
+        return view('notifications.index', [
+            'notifications' => $notifications,
+            'pendingAlerts' => $pendingAlerts,
+        ]);
     }
 
     public function markAsRead(Request $request, string $id)
