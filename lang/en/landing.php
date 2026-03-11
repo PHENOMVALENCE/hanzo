@@ -45,4 +45,7 @@ return [
     'footer_version' => 'HANZO B2B Trade Platform • Version 1.0 • February 2026',
     'lang_en' => 'English',
     'lang_sw' => 'Kiswahili',
+    'lang_zh' => '中文',
+    'nav_about' => 'About',
+    'nav_contact' => 'Partner With Us',
 ];

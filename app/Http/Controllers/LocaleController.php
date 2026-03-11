@@ -10,7 +10,7 @@ class LocaleController extends Controller
     public function switch(Request $request): RedirectResponse
     {
         $locale = $request->validate([
-            'locale' => ['required', 'string', 'in:en,sw'],
+            'locale' => ['required', 'string', 'in:en,sw,zh'],
         ])['locale'];
 
         session(['locale' => $locale]);

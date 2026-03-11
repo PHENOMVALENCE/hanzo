@@ -4,7 +4,7 @@
  * Steps: data-step="deposit_pending" etc.
  */
 (function() {
-  const ORDER = ['deposit_pending','deposit_paid','accepted','in_production','quality_control','shipped','in_customs','delivered'];
+  const ORDER = ['deposit_pending','deposit_paid','in_production','shipped','delivered'];
   function updateStepper(el) {
     const current = (el.getAttribute('data-current') || '').toLowerCase();
     const idx = ORDER.indexOf(current);

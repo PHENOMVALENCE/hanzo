@@ -19,8 +19,8 @@
   $rfqCount = $factory ? \App\Models\Rfq::where('assigned_factory_id', $factory->id)->whereIn('status', ['assigned','pricing_received'])->count() : 0;
   $orderCount = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->count() : 0;
   $pendingRfqs = $factory ? \App\Models\Rfq::where('assigned_factory_id', $factory->id)->where('status', 'assigned')->count() : 0;
-  $ordersInProduction = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->whereIn('milestone_status', ['deposit_paid','in_production','quality_control'])->count() : 0;
-  $ordersShipped = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->whereIn('milestone_status', ['shipped','in_customs'])->count() : 0;
+  $ordersInProduction = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->whereIn('milestone_status', ['deposit_paid','in_production'])->count() : 0;
+  $ordersShipped = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->where('milestone_status', 'shipped')->count() : 0;
   $ordersDelivered = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->where('milestone_status', 'delivered')->count() : 0;
 @endphp
 

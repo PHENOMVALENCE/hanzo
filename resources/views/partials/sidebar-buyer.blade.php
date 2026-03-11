@@ -48,7 +48,7 @@
     </a>
   </li>
   <li class="menu-item">
-    <a href="{{ route('contact') }}" class="menu-link" target="_blank">
+    <a href="{{ route('about') }}#contact" class="menu-link">
       <i class="menu-icon tf-icons bx bx-support"></i>
       <div data-i18n="Support">Support</div>
     </a>

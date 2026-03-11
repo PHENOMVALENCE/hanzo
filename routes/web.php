@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\ApprovalController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DocumentController as AdminDocumentController;
 use App\Http\Controllers\Admin\FreightRateController;
+use App\Http\Controllers\Admin\TransportDefaultController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\QuoteBuilderController;
@@ -21,15 +21,13 @@ use App\Http\Controllers\Factory\DashboardController as FactoryDashboardControll
 use App\Http\Controllers\Factory\OrderController as FactoryOrderController;
 use App\Http\Controllers\Factory\RfqController as FactoryRfqController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /* Public (no auth) */
 Route::get('/how-it-works', fn () => view('public.how-it-works'))->name('how-it-works');
 Route::get('/about', fn () => view('public.about'))->name('about');
-Route::get('/contact', fn () => view('public.contact'))->name('contact');
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 
 Route::get('/', function () {
     if (auth()->guest()) {
@@ -74,13 +72,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified', 'approved', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/approvals/buyers', [ApprovalController::class, 'buyers'])->name('approvals.buyers');
@@ -96,6 +97,8 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin'])->prefix('admin
     Route::post('/quote-builder/{rfq}', [QuoteBuilderController::class, 'store'])->name('quote-builder.store');
 
     Route::resource('freight-rates', FreightRateController::class)->except(['show'])->names('freight-rates');
+    Route::get('/transport-defaults', [TransportDefaultController::class, 'edit'])->name('transport-defaults.edit');
+    Route::put('/transport-defaults', [TransportDefaultController::class, 'update'])->name('transport-defaults.update');
 
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
@@ -138,7 +141,7 @@ Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->pre
     Route::get('/orders/{order}/documents', [BuyerDocumentController::class, 'index'])->name('orders.documents');
 });
 
-Route::middleware(['auth', 'verified', 'approved', 'role:factory'])->prefix('factory')->name('factory.')->group(function () {
+Route::middleware(['auth', 'verified', 'approved', 'role:factory', 'locale'])->prefix('factory')->name('factory.')->group(function () {
     Route::get('/dashboard', [FactoryDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/rfqs', [FactoryRfqController::class, 'index'])->name('rfqs.index');

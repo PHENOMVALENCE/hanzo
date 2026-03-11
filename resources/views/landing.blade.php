@@ -35,15 +35,15 @@
     <div class="row g-4">
       @php
         $categoryImages = [
-          'fashion' => ['bx-closet', 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400', __('landing.category_fashion'), __('landing.category_fashion_desc')],
-          'packaging' => ['bx-package', 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400', __('landing.category_packaging'), __('landing.category_packaging_desc')],
-          'consumer' => ['bx-home', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400', __('landing.category_consumer'), __('landing.category_consumer_desc')],
-          'machinery' => ['bx-cog', 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400', __('landing.category_machinery'), __('landing.category_machinery_desc')]
+          'fashion' => ['bx-closet', 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=500', __('landing.category_fashion'), __('landing.category_fashion_desc')],
+          'packaging' => ['bx-package', 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500', __('landing.category_packaging'), __('landing.category_packaging_desc')],
+          'consumer' => ['bx-home', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500', __('landing.category_consumer'), __('landing.category_consumer_desc')],
+          'machinery' => ['bx-cog', 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=500', __('landing.category_machinery'), __('landing.category_machinery_desc')]
         ];
       @endphp
       @foreach($categoryImages as $slug => $data)
-      <div class="col-md-6 col-lg-3">
-        <a href="{{ route('categories.index') }}#{{ $slug }}" class="text-decoration-none hanzo-category-card-link">
+      <div class="col-md-6 col-lg-3" id="{{ $slug }}">
+        <a href="{{ url('/') }}#{{ $slug }}" class="text-decoration-none hanzo-category-card-link">
           <div class="hanzo-card hanzo-category-card p-0 h-100 overflow-hidden">
             <div class="hanzo-category-img" style="background-image: url('{{ $data[1] }}'); height: 140px; background-size: cover; background-position: center;"></div>
             <div class="p-4 text-center">
@@ -63,7 +63,7 @@
   <div class="container">
     <h2 class="text-center mb-5 hanzo-section-title hanzo-section-title-dark">{{ __('landing.how_it_works') }}</h2>
     <div class="row g-4 text-center">
-      @foreach([['bx-file', __('landing.step1'), __('landing.step1_desc')], ['bx-message-detail', __('landing.step2'), __('landing.step2_desc')], ['bx-factory', __('landing.step3'), __('landing.step3_desc')], ['bx-truck', __('landing.step4'), __('landing.step4_desc')]] as $i => $step)
+      @foreach([['bx-pencil', __('landing.step1'), __('landing.step1_desc')], ['bx-receipt', __('landing.step2'), __('landing.step2_desc')], ['bx-cog', __('landing.step3'), __('landing.step3_desc')], ['bx-package', __('landing.step4'), __('landing.step4_desc')]] as $i => $step)
       <div class="col-12 col-sm-6 col-lg-3">
         <div class="hanzo-card hanzo-step-card p-4 h-100">
           <div class="hanzo-step-number">{{ $i+1 }}</div>

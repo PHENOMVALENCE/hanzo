@@ -45,4 +45,7 @@ return [
     'footer_version' => 'Jukwaa la Biashara HANZO B2B • Toleo 1.0 • Februari 2026',
     'lang_en' => 'English',
     'lang_sw' => 'Kiswahili',
+    'lang_zh' => '中文',
+    'nav_about' => 'Kuhusu',
+    'nav_contact' => 'Shiriki Nasi',
 ];

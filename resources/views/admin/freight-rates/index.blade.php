@@ -7,7 +7,10 @@
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>
 @endif
-<a href="{{ route('admin.freight-rates.create') }}" class="btn btn-primary mb-3">Add Rate</a>
+<div class="d-flex flex-wrap gap-2 mb-3">
+  <a href="{{ route('admin.freight-rates.create') }}" class="btn btn-primary">Add Rate</a>
+  <a href="{{ route('admin.transport-defaults.edit') }}" class="btn btn-outline-secondary">Initial/Default Transport Costs</a>
+</div>
 <div class="card">
   <div class="card-body">
     @if($rates->isEmpty())

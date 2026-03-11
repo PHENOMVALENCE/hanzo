@@ -32,9 +32,13 @@ class QuoteBuilderController extends Controller
             'sea' => $rates->where('method', 'sea')->values()->toArray(),
             'air' => $rates->where('method', 'air')->values()->toArray(),
         ];
+        $transportDefaults = [
+            'sea' => \App\Models\TransportDefault::getForMethod('sea'),
+            'air' => \App\Models\TransportDefault::getForMethod('air'),
+        ];
         $clearingSuggest = $this->getClearingSuggest($rfq->delivery_city);
 
-        return view('admin.quote-builder.edit', compact('rfq', 'quotation', 'suggestedProductCost', 'rfqSwitcher', 'factories', 'freightRates', 'clearingSuggest'));
+        return view('admin.quote-builder.edit', compact('rfq', 'quotation', 'suggestedProductCost', 'rfqSwitcher', 'factories', 'freightRates', 'transportDefaults', 'clearingSuggest'));
     }
 
     protected function getClearingSuggest(?string $destination): ?array

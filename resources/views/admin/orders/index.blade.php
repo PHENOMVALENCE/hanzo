@@ -23,9 +23,12 @@
           <tbody>
             @foreach($orders as $order)
             <tr>
-              <td>{{ $order->order_code }}</td>
+              <td>
+                <span class="fw-medium">{{ $order->order_code }}</span>
+                <span class="d-block small text-muted">{{ Str::limit($order->displayName(), 40) }}</span>
+              </td>
               <td>{{ $order->buyer->name }}</td>
-              <td><span class="badge bg-label-info">{{ $order->milestone_status }}</span></td>
+              <td><span class="badge bg-label-info">{{ str_replace('_', ' ', ucfirst($order->milestone_status)) }}</span></td>
               <td>${{ number_format($order->quotation->total_landed_cost ?? 0, 2) }}</td>
               <td><a href="{{ route('admin.orders.show', $order) }}" class="btn btn-sm btn-primary">View</a></td>
             </tr>

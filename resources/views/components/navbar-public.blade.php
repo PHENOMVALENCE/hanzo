@@ -12,8 +12,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}#categories">{{ __('landing.nav_categories') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('how-it-works') }}">{{ __('landing.nav_how_it_works') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}#estimate">{{ __('landing.nav_estimate') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">{{ __('landing.nav_categories') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">{{ __('landing.nav_about') }}</a></li>
       </ul>
       <ul class="navbar-nav align-items-center gap-2">
         @auth
@@ -22,12 +21,13 @@
             <a class="btn btn-hanzo-primary btn-sm" href="{{ $dash }}">Dashboard</a>
           </li>
         @else
-          <li class="nav-item">
-            <form method="POST" action="{{ route('locale.switch') }}" class="d-inline">
-              @csrf
-              <input type="hidden" name="locale" value="{{ app()->getLocale() === 'sw' ? 'en' : 'sw' }}">
-              <button type="submit" class="btn btn-sm btn-outline-light">{{ app()->getLocale() === 'sw' ? 'EN' : 'SW' }}</button>
-            </form>
+          <li class="nav-item dropdown">
+            <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">{{ app()->getLocale() === 'en' ? 'EN' : (app()->getLocale() === 'sw' ? 'SW' : '中文') }}</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="en"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}">English</button></form></li>
+              <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="sw"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'sw' ? 'active' : '' }}">Kiswahili</button></form></li>
+              <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="zh"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'zh' ? 'active' : '' }}">中文</button></form></li>
+            </ul>
           </li>
           <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">{{ __('landing.log_in') }}</a></li>
           <li class="nav-item"><a class="btn btn-hanzo-primary btn-sm" href="{{ route('register') }}">{{ __('landing.request_quote') }}</a></li>

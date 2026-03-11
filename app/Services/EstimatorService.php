@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\FreightRate;
+use App\Models\TransportDefault;
 
 class EstimatorService
 {
@@ -50,8 +51,15 @@ class EstimatorService
             $freightMin = round($minF, 2);
             $freightMax = round(max($maxF, 500), 2);
         } else {
-            $freightMin = round(200 + $quantity * 0.05, 2);
-            $freightMax = round(800 + $quantity * 0.1, 2);
+            $default = TransportDefault::getForMethod('sea');
+            if ($default) {
+                $est = $default->estimateFreight($quantity);
+                $freightMin = $est['min'];
+                $freightMax = $est['max'];
+            } else {
+                $freightMin = round(200 + $quantity * 0.05, 2);
+                $freightMax = round(800 + $quantity * 0.1, 2);
+            }
         }
 
         $customsMin = round($factoryTotalMin * 0.08, 2);

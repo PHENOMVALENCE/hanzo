@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Quotation;
+use App\Notifications\NewOrderNotification;
 use Illuminate\Support\Str;
 
 class OrderService
@@ -26,6 +27,8 @@ class OrderService
         $quotation->update(['status' => 'accepted']);
         $quotation->rfq->update(['status' => 'in_production']);
 
+        $this->notifyNewOrder($order);
+
         return $order;
     }
 
@@ -45,5 +48,18 @@ class OrderService
             'tracking_number' => $trackingNumber,
             'estimated_arrival' => $estimatedArrival ?: null,
         ]);
+    }
+
+    protected function notifyNewOrder(Order $order): void
+    {
+        $admins = \App\Models\User::role('admin')->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new NewOrderNotification($order));
+        }
+
+        $factory = $order->quotation?->rfq?->assignedFactory?->user;
+        if ($factory) {
+            $factory->notify(new NewOrderNotification($order));
+        }
     }
 }

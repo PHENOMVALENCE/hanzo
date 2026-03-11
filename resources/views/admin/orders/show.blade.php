@@ -30,9 +30,7 @@
               <option value="deposit_pending" {{ $order->milestone_status === 'deposit_pending' ? 'selected' : '' }}>Deposit Pending</option>
               <option value="deposit_paid" {{ $order->milestone_status === 'deposit_paid' ? 'selected' : '' }}>Deposit Paid</option>
               <option value="in_production" {{ $order->milestone_status === 'in_production' ? 'selected' : '' }}>In Production</option>
-              <option value="quality_control" {{ $order->milestone_status === 'quality_control' ? 'selected' : '' }}>Quality Control</option>
               <option value="shipped" {{ $order->milestone_status === 'shipped' ? 'selected' : '' }}>Shipped</option>
-              <option value="in_customs" {{ $order->milestone_status === 'in_customs' ? 'selected' : '' }}>In Customs</option>
               <option value="delivered" {{ $order->milestone_status === 'delivered' ? 'selected' : '' }}>Delivered</option>
             </select>
           </div>

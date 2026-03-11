@@ -50,8 +50,8 @@
   $rfqCount = \App\Models\Rfq::where('buyer_id', auth()->id())->count();
   $quoteCount = \App\Models\Quotation::whereHas('rfq', fn($q) => $q->where('buyer_id', auth()->id()))->where('status', 'sent')->count();
   $orderCount = \App\Models\Order::where('buyer_id', auth()->id())->count();
-  $ordersInProduction = \App\Models\Order::where('buyer_id', auth()->id())->whereIn('milestone_status', ['deposit_paid','in_production','quality_control'])->count();
-  $ordersInTransit = \App\Models\Order::where('buyer_id', auth()->id())->whereIn('milestone_status', ['shipped','in_customs'])->count();
+  $ordersInProduction = \App\Models\Order::where('buyer_id', auth()->id())->whereIn('milestone_status', ['deposit_paid','in_production'])->count();
+  $ordersInTransit = \App\Models\Order::where('buyer_id', auth()->id())->where('milestone_status', 'shipped')->count();
   $ordersDelivered = \App\Models\Order::where('buyer_id', auth()->id())->where('milestone_status', 'delivered')->count();
   $recentQuotes = \App\Models\Quotation::whereHas('rfq', fn($q) => $q->where('buyer_id', auth()->id()))->with('rfq.category')->latest()->take(5)->get();
 @endphp

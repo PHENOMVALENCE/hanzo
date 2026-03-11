@@ -81,18 +81,24 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 }
 
 .layout-navbar {
-  background: var(--hanzo-navy) !important;
-  box-shadow: 0 2px 12px rgba(9, 22, 43, 0.4) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: linear-gradient(135deg, #0d2137 0%, #0B1F3A 50%, #0f2847 100%) !important;
+  box-shadow: 0 1px 0 rgba(240, 182, 77, 0.15), 0 2px 12px rgba(9, 22, 43, 0.25) !important;
+  border-bottom: 1px solid rgba(240, 182, 77, 0.12) !important;
 }
 
 .layout-navbar .nav-link,
 .layout-navbar .dropdown-toggle {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
 }
 
-.layout-navbar .nav-link:hover {
+.layout-navbar .nav-link:hover,
+.layout-navbar .dropdown-toggle:hover {
   color: var(--hanzo-gold-soft) !important;
+}
+
+.layout-navbar .dropdown-menu {
+  border: 1px solid var(--hanzo-border);
+  box-shadow: var(--hanzo-shadow);
 }
 
 .layout-menu-toggle .nav-link {

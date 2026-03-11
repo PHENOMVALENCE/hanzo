@@ -32,7 +32,7 @@ class OrderController extends Controller
     public function updateMilestone(Request $request, Order $order): RedirectResponse
     {
         $request->validate([
-            'milestone_status' => ['required', 'string', 'in:deposit_pending,deposit_paid,in_production,quality_control,shipped,in_customs,delivered'],
+            'milestone_status' => ['required', 'string', 'in:deposit_pending,deposit_paid,in_production,shipped,delivered'],
             'tracking_number' => ['nullable', 'string', 'max:100'],
             'estimated_arrival' => ['nullable', 'date'],
         ]);

@@ -222,6 +222,10 @@
 (function() {
   var qty = {{ $rfq->quantity }};
   var freightRates = @json($freightRates ?? []);
+  var transportDefaults = {
+    sea: @json($transportDefaults['sea'] ?? null),
+    air: @json($transportDefaults['air'] ?? null)
+  };
 
   var productCost = document.getElementById('product_cost_usd');
   var factoryUnit = document.getElementById('factory_unit_price');
@@ -242,15 +246,20 @@
   if (shippingMethod) {
     shippingMethod.addEventListener('change', function() {
       var method = this.value;
-      var dest = '{{ addslashes($rfq->delivery_city ?? '') }}'.toLowerCase();
       if (!method) return;
       var rates = freightRates[method];
-      if (!rates || !rates.length) return;
-      var r = rates[0];
       var est = 0;
-      if (r.rate_type === 'per_cbm') est = qty * 0.001 * parseFloat(r.rate_value);
-      else if (r.rate_type === 'per_kg') est = qty * 0.001 * parseFloat(r.rate_value);
-      else est = Math.max(parseFloat(r.min_charge) || 0, parseFloat(r.rate_value) || 0);
+      if (rates && rates.length) {
+        var r = rates[0];
+        if (r.rate_type === 'per_cbm') est = qty * 0.001 * parseFloat(r.rate_value);
+        else if (r.rate_type === 'per_kg') est = qty * 0.001 * parseFloat(r.rate_value);
+        else est = Math.max(parseFloat(r.min_charge) || 0, parseFloat(r.rate_value) || 0);
+      } else {
+        var def = transportDefaults[method];
+        if (def) {
+          est = parseFloat(def.base_min) + qty * parseFloat(def.per_unit_min);
+        }
+      }
       freightCost.value = Math.round(est * 100) / 100;
       calcTotal();
     });

@@ -10,29 +10,53 @@
 
   <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <ul class="navbar-nav flex-row align-items-center ms-auto">
-      @if(auth()->user()?->hasRole('buyer'))
+      @if(Auth::user()?->hasRole('admin') || Auth::user()?->hasRole('factory'))
       <li class="nav-item dropdown me-2">
-        <a class="nav-link dropdown-toggle py-2" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ app()->getLocale() === 'sw' ? 'Kiswahili' : 'English' }}
+        <a class="nav-link position-relative" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bx bx-bell bx-sm"></i>
+          @php $unread = Auth::user()?->unreadNotifications->count(); @endphp
+          @if($unread > 0)
+            <span class="badge rounded-pill bg-danger position-absolute top-0 end-0 translate-middle" style="font-size: 0.6rem; padding: 0.15em 0.4em;">{{ $unread > 9 ? '9+' : $unread }}</span>
+          @endif
         </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <form method="POST" action="{{ route('locale.switch') }}" class="d-inline">
-              @csrf
-              <input type="hidden" name="locale" value="en">
-              <button type="submit" class="dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}">English</button>
-            </form>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 320px; max-height: 400px; overflow-y: auto;">
+          <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+            <span class="fw-semibold">Notifications</span>
+            @if($unread > 0)
+              <form method="POST" action="{{ route('notifications.readAll') }}" class="d-inline">@csrf<button type="submit" class="btn btn-link btn-sm p-0">Mark all read</button></form>
+            @endif
           </li>
+          @forelse(Auth::user()?->notifications->take(10) ?? [] as $n)
           <li>
-            <form method="POST" action="{{ route('locale.switch') }}" class="d-inline">
-              @csrf
-              <input type="hidden" name="locale" value="sw">
-              <button type="submit" class="dropdown-item {{ app()->getLocale() === 'sw' ? 'active' : '' }}">Kiswahili</button>
-            </form>
+            <a class="dropdown-item py-2 {{ $n->read_at ? '' : 'bg-light' }}" href="{{ $n->data['order_id'] ?? null ? (Auth::user()->hasRole('admin') ? route('admin.orders.show', $n->data['order_id']) : route('factory.orders.show', $n->data['order_id'])) : '#' }}">
+              <div class="d-flex">
+                <i class="bx bx-package me-2 mt-1 text-primary"></i>
+                <div>
+                  <span class="d-block small">{{ $n->data['order_name'] ?? $n->data['order_code'] ?? 'New order' }}</span>
+                  <small class="text-muted">{{ $n->created_at->diffForHumans() }}</small>
+                </div>
+              </div>
+            </a>
+          </li>
+          @empty
+          <li class="dropdown-item text-muted py-3 text-center">No notifications</li>
+          @endforelse
+          <li class="dropdown-footer text-center border-top">
+            <a class="dropdown-item small py-2" href="{{ route('notifications.index') }}">View all</a>
           </li>
         </ul>
       </li>
       @endif
+      <li class="nav-item dropdown me-2">
+        <a class="nav-link dropdown-toggle py-2" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : '中文') }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="en"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}">English</button></form></li>
+          <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="sw"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'sw' ? 'active' : '' }}">Kiswahili</button></form></li>
+          <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="zh"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'zh' ? 'active' : '' }}">中文</button></form></li>
+        </ul>
+      </li>
       <li class="nav-item navbar-dropdown dropdown-user dropdown">
         <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
           <div class="avatar avatar-online">

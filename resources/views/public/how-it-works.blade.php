@@ -9,28 +9,28 @@
     <div class="row g-4 text-center">
       <div class="col-md-6 col-lg-3">
         <div class="hanzo-card p-4 h-100">
-          <i class="bx bx-file bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
+          <i class="bx bx-pencil bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
           <h5 style="color: var(--hanzo-navy);">1. {{ __('landing.step1') }}</h5>
           <p class="text-muted small mb-0">{{ __('landing.step1_desc') }}</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="hanzo-card p-4 h-100">
-          <i class="bx bx-message-detail bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
+          <i class="bx bx-receipt bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
           <h5 style="color: var(--hanzo-navy);">2. {{ __('landing.step2') }}</h5>
           <p class="text-muted small mb-0">{{ __('landing.step2_desc') }}</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="hanzo-card p-4 h-100">
-          <i class="bx bx-factory bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
+          <i class="bx bx-cog bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
           <h5 style="color: var(--hanzo-navy);">3. {{ __('landing.step3') }}</h5>
           <p class="text-muted small mb-0">{{ __('landing.step3_desc') }}</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="hanzo-card p-4 h-100">
-          <i class="bx bx-truck bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
+          <i class="bx bx-package bx-lg mb-3" style="color: var(--hanzo-gold);"></i>
           <h5 style="color: var(--hanzo-navy);">4. {{ __('landing.step4') }}</h5>
           <p class="text-muted small mb-0">{{ __('landing.step4_desc') }}</p>
         </div>

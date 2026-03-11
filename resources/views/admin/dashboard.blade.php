@@ -24,8 +24,8 @@
   $totalValue = \App\Models\Order::with('quotation')->get()->sum(fn($o) => $o->quotation?->total_landed_cost ?? 0);
   $ordersByStatus = [
     'deposit_pending' => \App\Models\Order::where('milestone_status', 'deposit_pending')->count(),
-    'in_production' => \App\Models\Order::whereIn('milestone_status', ['deposit_paid','in_production','quality_control'])->count(),
-    'shipped' => \App\Models\Order::whereIn('milestone_status', ['shipped','in_customs'])->count(),
+    'in_production' => \App\Models\Order::whereIn('milestone_status', ['deposit_paid','in_production'])->count(),
+    'shipped' => \App\Models\Order::where('milestone_status', 'shipped')->count(),
     'delivered' => \App\Models\Order::where('milestone_status', 'delivered')->count(),
   ];
   $rfqsByStatus = [
