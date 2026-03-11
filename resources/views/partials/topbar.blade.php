@@ -2,16 +2,16 @@
   class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
   id="layout-navbar"
 >
-  <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0">
-    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" title="Toggle sidebar">
+  <div class="layout-menu-toggle navbar-nav align-items-xl-center me-2 me-xl-3">
+    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" title="Toggle sidebar" aria-label="Open menu">
       <i class="bx bx-menu bx-sm"></i>
     </a>
   </div>
 
-  <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-    <ul class="navbar-nav flex-row align-items-center ms-auto">
+  <div class="navbar-nav-right d-flex align-items-center flex-grow-1 justify-content-end" id="navbar-collapse">
+    <ul class="navbar-nav flex-row align-items-center gap-1 gap-sm-2">
       @if(Auth::user()?->hasRole('admin') || Auth::user()?->hasRole('factory'))
-      <li class="nav-item dropdown me-2">
+      <li class="nav-item dropdown me-0 me-sm-2">
         <a class="nav-link position-relative" href="#" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bx bx-bell bx-sm"></i>
           @php $unread = Auth::user()?->unreadNotifications->count(); @endphp
@@ -47,9 +47,10 @@
         </ul>
       </li>
       @endif
-      <li class="nav-item dropdown me-2">
+      <li class="nav-item dropdown me-0 me-sm-2">
         <a class="nav-link dropdown-toggle py-2" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : '中文') }}
+          <span class="d-none d-sm-inline">{{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : '中文') }}</span>
+          <span class="d-inline d-sm-none">{{ app()->getLocale() === 'en' ? 'EN' : (app()->getLocale() === 'sw' ? 'SW' : '中文') }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="en"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}">English</button></form></li>
@@ -57,7 +58,7 @@
           <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="zh"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'zh' ? 'active' : '' }}">中文</button></form></li>
         </ul>
       </li>
-      <li class="nav-item navbar-dropdown dropdown-user dropdown">
+      <li class="nav-item navbar-dropdown dropdown-user dropdown me-0">
         <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
           <div class="avatar avatar-online">
             @if(Auth::user()?->avatarUrl())

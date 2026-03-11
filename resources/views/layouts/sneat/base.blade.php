@@ -112,17 +112,25 @@
     <script src="{{ asset('assets/sneat/assets/js/main.js') }}"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-      function toggleSidebar() {
-        var html = document.documentElement;
-        var menu = document.getElementById('layout-menu');
-        html.classList.toggle('layout-menu-collapsed');
-        if (menu) menu.classList.toggle('menu-collapsed');
-        window.dispatchEvent(new Event('resize'));
+      // On mobile: close sidebar when a menu link is clicked (so overlay closes after navigation)
+      function closeMenuOnSmallScreen() {
+        try {
+          if (typeof window.Helpers !== 'undefined') {
+            if (window.Helpers.isSmallScreen && window.Helpers.isSmallScreen()) {
+              if (window.Helpers.setCollapsed) {
+                window.Helpers.setCollapsed(true);
+              } else {
+                document.documentElement.classList.remove('layout-menu-expanded');
+              }
+            }
+          } else {
+            if (window.innerWidth < 1200) document.documentElement.classList.remove('layout-menu-expanded');
+          }
+        } catch (e) {}
       }
-      document.querySelectorAll('.layout-menu-toggle').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          toggleSidebar();
+      document.querySelectorAll('.layout-menu .menu-link').forEach(function(link) {
+        link.addEventListener('click', function() {
+          setTimeout(closeMenuOnSmallScreen, 150);
         });
       });
     });
