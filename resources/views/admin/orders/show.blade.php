@@ -12,7 +12,14 @@
     <div class="card mb-4">
       <div class="card-body">
         <p><strong>Buyer:</strong> {{ $order->buyer->name }} ({{ $order->buyer->email }})</p>
-        <p><strong>Total:</strong> ${{ number_format($order->quotation->total_landed_cost ?? 0, 2) }}</p>
+        @php
+          $total = (float) ($order->quotation->total_landed_cost ?? 0);
+          $paid = $order->payments()->where('status', 'verified')->sum('amount_usd');
+          $pending = max(0, $total - $paid);
+        @endphp
+        <p><strong>Total:</strong> ${{ number_format($total, 2) }}</p>
+        <p><strong>Amount Paid:</strong> <span class="text-success">${{ number_format($paid, 2) }}</span></p>
+        <p><strong>Amount Pending:</strong> <span class="text-warning">${{ number_format($pending, 2) }}</span></p>
         <p><strong>Status:</strong> <span class="badge bg-label-info">{{ str_replace('_', ' ', ucfirst($order->milestone_status)) }}</span></p>
         <p><strong>Tracking:</strong> {{ $order->tracking_number ?? '-' }}</p>
         <p><strong>Est. Arrival:</strong> {{ $order->estimated_arrival?->format('Y-m-d') ?? '-' }}</p>

@@ -43,4 +43,18 @@ class NotificationController extends Controller
             ? response()->json(['ok' => true])
             : back();
     }
+
+    public function count(Request $request)
+    {
+        $user = $request->user();
+        $unread = $user->unreadNotifications->count();
+        $pendingAlerts = app(\App\Services\PendingAlertsService::class)->forUser();
+        $total = $unread + $pendingAlerts->count();
+
+        return response()->json([
+            'unread' => $unread,
+            'pending' => $pendingAlerts->count(),
+            'total' => $total,
+        ]);
+    }
 }

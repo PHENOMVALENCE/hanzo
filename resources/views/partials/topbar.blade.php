@@ -21,7 +21,9 @@
         <a class="nav-link position-relative d-flex align-items-center justify-content-center py-2 px-2" href="#" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications" style="min-width: 44px; min-height: 44px;">
           <i class="bx bx-bell" style="font-size: 1.25rem;"></i>
           @if($unread > 0 || $pendingAlerts->isNotEmpty())
-            <span class="badge rounded-pill bg-danger position-absolute top-0 end-0 translate-middle" style="font-size: 0.6rem; padding: 0.15em 0.4em;">{{ ($unread + $pendingAlerts->count()) > 9 ? '9+' : ($unread + $pendingAlerts->count()) }}</span>
+            <span id="notification-badge" class="badge rounded-pill bg-danger position-absolute top-0 end-0 translate-middle" style="font-size: 0.6rem; padding: 0.15em 0.4em;">{{ ($unread + $pendingAlerts->count()) > 9 ? '9+' : ($unread + $pendingAlerts->count()) }}</span>
+          @else
+            <span id="notification-badge" class="badge rounded-pill bg-danger position-absolute top-0 end-0 translate-middle d-none" style="font-size: 0.6rem; padding: 0.15em 0.4em;">0</span>
           @endif
         </a>
         <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 320px; max-height: 400px; overflow-y: auto;">
@@ -133,7 +135,7 @@
           <li>
             <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('profile.edit') }}">
               <i class="bx bx-user me-2" style="font-size: 1.25rem;"></i>
-              <span>Profile</span>
+              <span>{{ __('profile.dropdown_profile') }}</span>
             </a>
           </li>
           <li>
@@ -144,7 +146,7 @@
               @csrf
               <button type="submit" class="dropdown-item w-100 text-start border-0 bg-transparent">
                 <i class="bx bx-power-off me-2"></i>
-                <span class="align-middle">Log Out</span>
+                <span class="align-middle">{{ __('profile.log_out') }}</span>
               </button>
             </form>
           </li>

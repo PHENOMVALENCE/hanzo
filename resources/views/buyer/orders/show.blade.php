@@ -49,9 +49,22 @@
             <p class="mb-1"><strong>Est. Arrival</strong></p>
             <span>{{ $order->estimated_arrival?->format('M j, Y') ?? '—' }}</span>
           </div>
+          @php
+            $totalOrder = (float) ($order->quotation->total_landed_cost ?? 0);
+            $paid = $order->payments()->where('status', 'verified')->sum('amount_usd');
+            $remaining = max(0, $totalOrder - $paid);
+          @endphp
           <div class="col-md-6">
             <p class="mb-1"><strong>Total</strong></p>
-            <span class="fw-semibold">${{ number_format($order->quotation->total_landed_cost ?? 0, 2) }}</span>
+            <span class="fw-semibold">${{ number_format($totalOrder, 2) }}</span>
+          </div>
+          <div class="col-md-6">
+            <p class="mb-1"><strong>Amount Paid</strong></p>
+            <span class="text-success fw-semibold">${{ number_format($paid, 2) }}</span>
+          </div>
+          <div class="col-md-6">
+            <p class="mb-1"><strong>Amount Pending</strong></p>
+            <span class="text-warning fw-semibold">${{ number_format($remaining, 2) }}</span>
           </div>
         </div>
         @php $verifiedPayments = $order->payments()->where('status', 'verified')->get(); $pendingPayments = $order->payments()->where('status', 'pending')->get(); @endphp
@@ -73,7 +86,6 @@
       </div>
       <div class="col-lg-4">
         <div class="d-grid gap-2">
-          @php $totalOrder = (float)($order->quotation->total_landed_cost ?? 0); $paid = $order->payments()->where('status','verified')->sum('amount_usd'); $remaining = $totalOrder - $paid; @endphp
           @if($order->milestone_status === 'deposit_pending' && $remaining > 0)
           <a href="{{ route('buyer.payments.create', $order) }}" class="btn btn-primary">Pay Deposit</a>
           <p class="text-muted small mb-0">Submit payment proof for verification. Typically 30% deposit.</p>

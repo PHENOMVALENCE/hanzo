@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- beautify ignore:start -->
 <html
-  lang="en"
+  lang="{{ str_replace('zh', 'zh-CN', app()->getLocale()) }}"
   class="light-style layout-menu-fixed"
   dir="ltr"
   data-theme="theme-default"
@@ -135,6 +135,28 @@
       });
     });
     </script>
+
+    <!-- Notification count poll (updates badge) -->
+    @auth
+    <script>
+    (function() {
+      var badge = document.getElementById('notification-badge');
+      if (!badge) return;
+      function fetchCount() {
+        fetch('{{ route("notifications.count") }}', { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }, credentials: 'same-origin' })
+          .then(function(r) { return r.json(); })
+          .then(function(d) {
+            var total = d.total || 0;
+            badge.textContent = total > 9 ? '9+' : String(total);
+            badge.classList.toggle('d-none', total === 0);
+          })
+          .catch(function() {});
+      }
+      fetchCount();
+      setInterval(fetchCount, 60000);
+    })();
+    </script>
+    @endauth
 
     <!-- Page JS -->
     @stack('page-js')

@@ -195,13 +195,13 @@
                                 <tr>
                                     <td align="center">
                                         <!--[if mso]>
-                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ url('/login') }}" style="height:48px;v-text-anchor:middle;width:220px;" arcsize="15%" strokecolor="#0f172a" fillcolor="#0f172a">
+                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ rtrim(config('app.url'), '/') }}/login" style="height:48px;v-text-anchor:middle;width:220px;" arcsize="15%" strokecolor="#0f172a" fillcolor="#0f172a">
                                         <w:anchorlock/>
                                         <center style="color:#ffffff;font-family:'Public Sans',sans-serif;font-size:15px;font-weight:bold;">Log In Now &rarr;</center>
                                         </v:roundrect>
                                         <![endif]-->
                                         <!--[if !mso]><!-->
-                                        <a href="{{ url('/login') }}" style="display: inline-block; background: #0f172a; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-weight: 700; font-size: 15px; font-family: 'Public Sans', sans-serif; letter-spacing: 0.3px; mso-padding-alt: 0; text-align: center;">
+                                        <a href="{{ rtrim(config('app.url'), '/') }}/login" style="display: inline-block; background: #0f172a; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-weight: 700; font-size: 15px; font-family: 'Public Sans', sans-serif; letter-spacing: 0.3px; mso-padding-alt: 0; text-align: center;">
                                             Log In Now &rarr;
                                         </a>
                                         <!--<![endif]-->

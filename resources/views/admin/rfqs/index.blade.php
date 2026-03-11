@@ -15,6 +15,7 @@
           <thead>
             <tr>
               <th>{{ __('labels.code') }}</th>
+              <th>{{ __('labels.description') }}</th>
               <th>{{ __('labels.buyer') }}</th>
               <th>{{ __('labels.category') }}</th>
               <th>{{ __('labels.quantity') }}</th>
@@ -26,7 +27,8 @@
           <tbody>
             @foreach($rfqs as $rfq)
             <tr>
-              <td>{{ $rfq->code }}</td>
+              <td><span class="fw-medium">{{ $rfq->code }}</span></td>
+              <td><span class="text-muted small">{{ Str::limit(strip_tags($rfq->description ?? ''), 40) ?: '-' }}</span></td>
               <td>{{ $rfq->buyer->name }}</td>
               <td>{{ $rfq->category->name }}</td>
               <td>{{ number_format($rfq->quantity) }}</td>

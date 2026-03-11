@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title' => 'Wasifu',
+    'info' => 'Maelezo ya Wasifu',
+    'info_desc' => 'Sasisha maelezo ya wasifu wako, barua pepe, na picha ya wasifu.',
+    'photo' => 'Picha ya Wasifu',
+    'name' => 'Jina',
+    'email' => 'Barua pepe',
+    'save' => 'Hifadhi',
+    'saved' => 'Imehifadhiwa.',
+    'password' => 'Sasisha Nenosiri',
+    'password_desc' => 'Hakikisha akaunti yako inatumia nenosiri refu na lisilotabiriwa ili kukaa salama.',
+    'current_password' => 'Nenosiri la Sasa',
+    'new_password' => 'Nenosiri Jipya',
+    'confirm_password' => 'Thibitisha Nenosiri',
+    'password_field' => 'Nenosiri',
+    'password_saved' => 'Nenosiri limehifadhiwa.',
+    'delete_account' => 'Futa Akaunti',
+    'delete_desc' => 'Ukifuta akaunti yako, rasilimali zote na data zitafutwa kabisa. Kabla ya kufuta, pakua data unayotaka kuhifadhi.',
+    'delete_confirm' => 'Una uhakika unataka kufuta akaunti yako?',
+    'delete_confirm_desc' => 'Ukifuta akaunti yako, rasilimali zote na data zitafutwa kabisa. Weka nenosiri kuthibitisha.',
+    'cancel' => 'Ghairi',
+    'dropdown_profile' => 'Wasifu',
+    'log_out' => 'Toka',
+];
