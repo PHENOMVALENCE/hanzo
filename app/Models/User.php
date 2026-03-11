@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -64,6 +63,15 @@ class User extends Authenticatable
 
     public function avatarUrl(): ?string
     {
-        return $this->avatar_path ? Storage::url($this->avatar_path) : null;
+        if (! $this->avatar_path) {
+            return null;
+        }
+        $presets = config('avatars.presets', []);
+        if (isset($presets[$this->avatar_path])) {
+            $base = rtrim(config('avatars.base_url', 'https://api.dicebear.com/7.x/avataaars/svg'), '/');
+            return $base . '?seed=' . urlencode($presets[$this->avatar_path]);
+        }
+        // File path (from admin user create/edit upload)
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->avatar_path);
     }
 }

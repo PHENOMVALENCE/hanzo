@@ -14,19 +14,19 @@
   <li class="menu-item">
     <a href="{{ route('factory.dashboard') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-home-circle"></i>
-      <div data-i18n="Dashboard">Dashboard</div>
+      <div data-i18n="Dashboard">{{ __('menu.dashboard') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('factory.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-task"></i>
-      <div data-i18n="Assigned Product Requests">{{ __('labels.assigned_rfqs') }}</div>
+      <div data-i18n="Assigned Product Requests">{{ __('menu.product_requests') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('factory.orders.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-package"></i>
-      <div data-i18n="Orders">Orders</div>
+      <div data-i18n="Orders">{{ __('menu.orders') }}</div>
     </a>
   </li>
 </ul>

@@ -18,11 +18,11 @@
         <h5 class="mb-3">Order Tracking</h5>
         @php
           $milestones = [
-            'deposit_pending' => 'Quote Accepted',
-            'deposit_paid' => 'Deposit Paid',
-            'in_production' => 'In Production',
-            'shipped' => 'Shipped',
-            'delivered' => 'Delivered',
+            'deposit_pending' => trans_status('quote_accepted'),
+            'deposit_paid' => trans_status('deposit_paid'),
+            'in_production' => trans_status('in_production'),
+            'shipped' => trans_status('shipped'),
+            'delivered' => trans_status('delivered'),
           ];
           $orderMilestones = array_keys($milestones);
           $current = array_search($order->milestone_status, $orderMilestones);
@@ -56,15 +56,15 @@
           @endphp
           <div class="col-md-6">
             <p class="mb-1"><strong>Total</strong></p>
-            <span class="fw-semibold">${{ number_format($totalOrder, 2) }}</span>
+            <span class="fw-semibold">{{ money($totalOrder) }}</span>
           </div>
           <div class="col-md-6">
             <p class="mb-1"><strong>Amount Paid</strong></p>
-            <span class="text-success fw-semibold">${{ number_format($paid, 2) }}</span>
+            <span class="text-success fw-semibold">{{ money($paid) }}</span>
           </div>
           <div class="col-md-6">
             <p class="mb-1"><strong>Amount Pending</strong></p>
-            <span class="text-warning fw-semibold">${{ number_format($remaining, 2) }}</span>
+            <span class="text-warning fw-semibold">{{ money($remaining) }}</span>
           </div>
         </div>
         @php $verifiedPayments = $order->payments()->where('status', 'verified')->get(); $pendingPayments = $order->payments()->where('status', 'pending')->get(); @endphp
@@ -74,8 +74,8 @@
         <ul class="list-unstyled small mb-0">
           @foreach($order->payments as $p)
           <li class="d-flex justify-content-between py-1">
-            <span>{{ \App\Models\Payment::TYPES[$p->type] ?? $p->type }} — ${{ number_format($p->amount_usd, 2) }}</span>
-            <span class="badge bg-{{ $p->status === 'verified' ? 'success' : ($p->status === 'rejected' ? 'danger' : 'warning') }}">{{ ucfirst($p->status) }}</span>
+            <span>{{ \App\Models\Payment::TYPES[$p->type] ?? $p->type }} — {{ money($p->amount_usd) }}</span>
+            <span class="badge bg-{{ $p->status === 'verified' ? 'success' : ($p->status === 'rejected' ? 'danger' : 'warning') }}">{{ trans_status($p->status) }}</span>
           </li>
           @if($p->status === 'rejected' && $p->rejection_reason)
           <li class="text-danger small mb-1">{{ $p->rejection_reason }}</li>
@@ -90,7 +90,7 @@
           <a href="{{ route('buyer.payments.create', $order) }}" class="btn btn-primary">Pay Deposit</a>
           <p class="text-muted small mb-0">Submit payment proof for verification. Typically 30% deposit.</p>
           @elseif($remaining > 0 && in_array($order->milestone_status, ['deposit_paid','in_production','shipped']))
-          <a href="{{ route('buyer.payments.create', $order) }}?type=balance" class="btn btn-outline-primary">Pay Balance (${{ number_format($remaining, 2) }})</a>
+          <a href="{{ route('buyer.payments.create', $order) }}?type=balance" class="btn btn-outline-primary">Pay Balance ({{ money($remaining) }})</a>
           @endif
           <a href="{{ route('buyer.orders.documents', $order) }}" class="btn btn-outline-primary">
             <i class="bx bx-folder me-1"></i> Documents

@@ -14,43 +14,43 @@
   <li class="menu-item">
     <a href="{{ route('buyer.dashboard') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-home-circle"></i>
-      <div data-i18n="Dashboard">{{ __('buyer.sidebar.dashboard') }}</div>
+      <div data-i18n="Dashboard">{{ __('menu.dashboard') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('buyer.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-file"></i>
-      <div data-i18n="RFQs">{{ __('buyer.sidebar.rfqs') }}</div>
+      <div data-i18n="RFQs">{{ __('menu.product_requests') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('buyer.quotes.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-list-check"></i>
-      <div data-i18n="Quotes">{{ __('buyer.sidebar.quotes') }}</div>
+      <div data-i18n="Quotes">{{ __('menu.quotes') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('buyer.orders.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-package"></i>
-      <div data-i18n="Orders">{{ __('buyer.sidebar.orders') }}</div>
+      <div data-i18n="Orders">{{ __('menu.orders') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('buyer.orders.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-credit-card"></i>
-      <div data-i18n="Payments">{{ __('buyer.sidebar.payments') }}</div>
+      <div data-i18n="Payments">{{ __('menu.payments') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('buyer.orders.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-folder"></i>
-      <div data-i18n="Documents">{{ __('buyer.sidebar.documents') }}</div>
+      <div data-i18n="Documents">{{ __('menu.documents') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('about') }}#contact" class="menu-link">
       <i class="menu-icon tf-icons bx bx-support"></i>
-      <div data-i18n="Support">Support</div>
+      <div data-i18n="Support">{{ __('menu.support') }}</div>
     </a>
   </li>
 </ul>

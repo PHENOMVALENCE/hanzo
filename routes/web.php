@@ -22,6 +22,7 @@ use App\Http\Controllers\Factory\DashboardController as FactoryDashboardControll
 use App\Http\Controllers\Factory\OrderController as FactoryOrderController;
 use App\Http\Controllers\Factory\RfqController as FactoryRfqController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -122,6 +123,7 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->pre
 });
 
 Route::post('/locale', [LocaleController::class, 'switch'])->name('locale.switch')->middleware(['web']);
+Route::post('/currency', [CurrencyController::class, 'switch'])->name('currency.switch')->middleware(['web']);
 
 Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->prefix('buyer')->name('buyer.')->group(function () {
     Route::get('/dashboard', [BuyerDashboardController::class, 'index'])->name('dashboard');

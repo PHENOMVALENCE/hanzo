@@ -13,8 +13,8 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Order Code</th>
-              <th>Status</th>
+              <th>{{ __('labels.order_code') }}</th>
+              <th>{{ __('labels.status') }}</th>
               <th></th>
             </tr>
           </thead>
@@ -25,7 +25,7 @@
                 <span class="fw-medium">{{ $order->order_code }}</span>
                 <span class="d-block small text-muted">{{ Str::limit($order->displayName(), 40) }}</span>
               </td>
-              <td><span class="badge bg-label-info">{{ str_replace('_', ' ', ucfirst($order->milestone_status)) }}</span></td>
+              <td><span class="badge bg-label-info">{{ trans_status($order->milestone_status) }}</span></td>
               <td><a href="{{ route('factory.orders.show', $order) }}" class="btn btn-sm btn-primary">View</a></td>
             </tr>
             @endforeach

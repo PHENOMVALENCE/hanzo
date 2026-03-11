@@ -32,18 +32,18 @@
         <div class="hanzo-landed-cost p-4 rounded mb-4">
           <h5 class="mb-3">Cost Breakdown</h5>
           <table class="table table-sm mb-0">
-            <tr><td>Product Cost</td><td class="text-end">${{ number_format($quotation->product_cost_usd, 2) }}</td></tr>
-            <tr><td>Shipping & Freight</td><td class="text-end">${{ number_format($quotation->freight_cost + $quotation->china_local_shipping + $quotation->export_handling + ($quotation->insurance_cost ?? 0), 2) }}</td></tr>
-            <tr><td>Customs & Clearing</td><td class="text-end">${{ number_format($quotation->clearing_cost, 2) }}</td></tr>
-            <tr><td>Local Delivery</td><td class="text-end">${{ number_format($quotation->local_delivery_cost, 2) }}</td></tr>
+            <tr><td>Product Cost</td><td class="text-end">{{ money($quotation->product_cost_usd) }}</td></tr>
+            <tr><td>Shipping & Freight</td><td class="text-end">{{ money($quotation->freight_cost + $quotation->china_local_shipping + $quotation->export_handling + ($quotation->insurance_cost ?? 0)) }}</td></tr>
+            <tr><td>Customs & Clearing</td><td class="text-end">{{ money($quotation->clearing_cost) }}</td></tr>
+            <tr><td>Local Delivery</td><td class="text-end">{{ money($quotation->local_delivery_cost) }}</td></tr>
             @if(($quotation->hanzo_fee ?? 0) > 0)
-            <tr><td>Fees & Handling</td><td class="text-end">${{ number_format($quotation->hanzo_fee, 2) }}</td></tr>
+            <tr><td>Fees & Handling</td><td class="text-end">{{ money($quotation->hanzo_fee) }}</td></tr>
             @endif
           </table>
           <hr>
           <div class="d-flex justify-content-between align-items-center">
             <strong>Total Landed Cost</strong>
-            <span class="fs-4 fw-bold text-primary">${{ number_format($quotation->total_landed_cost, 2) }}</span>
+            <span class="fs-4 fw-bold text-primary">{{ money($quotation->total_landed_cost) }}</span>
           </div>
         </div>
         <p class="text-muted small mb-0">{{ __('labels.rfq') }}: {{ $quotation->rfq->code }} &bull; {{ __('buyer.quotes.valid_until') }} {{ $quotation->valid_until?->format('M j, Y') }}</p>
@@ -83,7 +83,7 @@
           </div>
         </div>
         @else
-        <span class="badge bg-{{ $quotation->status === 'accepted' ? 'success' : 'secondary' }} fs-6">{{ ucfirst($quotation->status) }}</span>
+        <span class="badge bg-{{ $quotation->status === 'accepted' ? 'success' : 'secondary' }} fs-6">{{ trans_status($quotation->status) }}</span>
         @endif
       </div>
     </div>

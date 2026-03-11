@@ -45,7 +45,7 @@
               <td>{{ $p->created_at->format('M j, Y') }}</td>
               <td>
                 <span class="badge bg-{{ $p->status === 'verified' ? 'success' : ($p->status === 'rejected' ? 'danger' : 'warning') }}">
-                  {{ ucfirst($p->status) }}
+                  {{ trans_status($p->status) }}
                 </span>
               </td>
               <td>{{ $p->verifiedBy?->name ?? '—' }} {{ $p->verified_at ? '(' . $p->verified_at->format('M j') . ')' : '' }}</td>

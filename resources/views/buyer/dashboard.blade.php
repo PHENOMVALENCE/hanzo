@@ -155,8 +155,8 @@
           <ul class="list-unstyled mb-0">
             @foreach($recentQuotes as $q)
             <li class="d-flex justify-content-between align-items-center py-2 border-bottom border-light">
-              <span>{{ $q->rfq->category->name ?? 'Order' }} — ${{ number_format($q->total_landed_cost ?? 0, 0) }}</span>
-              <a href="{{ route('buyer.quotes.show', $q) }}" class="badge bg-{{ $q->status === 'sent' ? 'info' : ($q->status === 'accepted' ? 'success' : 'secondary') }} text-decoration-none">{{ $q->status }}</a>
+              <span>{{ trans_category($q->rfq->category ?? null) ?: __('labels.order') }} — ${{ number_format($q->total_landed_cost ?? 0, 0) }}</span>
+              <a href="{{ route('buyer.quotes.show', $q) }}" class="badge bg-{{ $q->status === 'sent' ? 'info' : ($q->status === 'accepted' ? 'success' : 'secondary') }} text-decoration-none">{{ trans_status($q->status) }}</a>
             </li>
             @endforeach
           </ul>

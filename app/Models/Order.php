@@ -54,11 +54,19 @@ class Order extends Model
 
     public function displayName(): string
     {
+        return $this->displayNameTranslated();
+    }
+
+    /**
+     * Localized display name: category translated when possible, description shown as-is.
+     */
+    public function displayNameTranslated(): string
+    {
         $rfq = $this->quotation?->rfq;
-        if (!$rfq) {
+        if (! $rfq) {
             return $this->order_code;
         }
-        $category = $rfq->category?->name ?? 'Order';
+        $category = trans_category($rfq->category) ?: __('labels.order');
         $desc = $rfq->description ? Str::limit(strip_tags($rfq->description), 50) : '';
         return $desc ? "{$category}: {$desc}" : $category;
     }

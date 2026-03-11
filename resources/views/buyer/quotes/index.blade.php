@@ -25,8 +25,8 @@
             <tr>
               <td>{{ $q->quote_code }}</td>
               <td>{{ $q->rfq->code }}</td>
-              <td>${{ number_format($q->total_landed_cost, 2) }}</td>
-              <td><span class="badge bg-{{ $q->status === 'sent' ? 'info' : ($q->status === 'accepted' ? 'success' : 'secondary') }}">{{ $q->status }}</span></td>
+              <td>{{ money($q->total_landed_cost) }}</td>
+              <td><span class="badge bg-{{ $q->status === 'sent' ? 'info' : ($q->status === 'accepted' ? 'success' : 'secondary') }}">{{ trans_status($q->status) }}</span></td>
               <td><a href="{{ route('buyer.quotes.show', $q) }}" class="btn btn-sm btn-primary">{{ __('buyer.rfqs.view') }}</a></td>
             </tr>
             @endforeach

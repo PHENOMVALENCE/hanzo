@@ -32,4 +32,9 @@ return [
     'no_assigned_rfqs' => 'Hakuna maombi ya bidhaa yaliyotengwa kwako bado.',
     'view_submit_price' => 'Angalia / Wasilisha Bei',
     'submit_your_price' => 'Wasilisha Bei Yako',
+    'order' => 'Agizo',
+    'order_code' => 'Msimbo wa Agizo',
+    'total' => 'Jumla',
+    'amount_paid' => 'Kiasi Kilicholipwa',
+    'amount_pending' => 'Kiasi Kinachosubiri',
 ];

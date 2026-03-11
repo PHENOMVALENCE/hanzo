@@ -1,11 +1,11 @@
 @extends('layouts.public')
 
-@section('title', $category->name)
+@section('title', trans_category($category))
 
 @section('content')
 <div style="padding-top: 5rem;">
   <div class="container py-5">
-    <h1 style="color: var(--hanzo-navy);">{{ $category->name }}</h1>
+    <h1 style="color: var(--hanzo-navy);">{{ trans_category($category) }}</h1>
     @if($category->description)
     <p class="text-muted mb-4">{{ $category->description }}</p>
     @endif

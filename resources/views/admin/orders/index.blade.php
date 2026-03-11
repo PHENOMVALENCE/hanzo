@@ -13,10 +13,10 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Order Code</th>
-              <th>Buyer</th>
-              <th>Status</th>
-              <th>Total</th>
+              <th>{{ __('labels.order_code') }}</th>
+              <th>{{ __('labels.buyer') }}</th>
+              <th>{{ __('labels.status') }}</th>
+              <th>{{ __('labels.total') }}</th>
               <th></th>
             </tr>
           </thead>
@@ -28,8 +28,8 @@
                 <span class="d-block small text-muted">{{ Str::limit($order->displayName(), 40) }}</span>
               </td>
               <td>{{ $order->buyer->name }}</td>
-              <td><span class="badge bg-label-info">{{ str_replace('_', ' ', ucfirst($order->milestone_status)) }}</span></td>
-              <td>${{ number_format($order->quotation->total_landed_cost ?? 0, 2) }}</td>
+              <td><span class="badge bg-label-info">{{ trans_status($order->milestone_status) }}</span></td>
+              <td>{{ money($order->quotation->total_landed_cost ?? 0) }}</td>
               <td><a href="{{ route('admin.orders.show', $order) }}" class="btn btn-sm btn-primary">View</a></td>
             </tr>
             @endforeach

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\Quotation;
 use App\Notifications\NewOrderNotification;
+use App\Notifications\OrderMilestoneNotification;
 use Illuminate\Support\Str;
 
 class OrderService
@@ -40,6 +41,14 @@ class OrderService
             'changed_by' => auth()->id(),
             'note' => $note,
         ]);
+
+        $notification = new OrderMilestoneNotification($order, $milestone);
+        $order->buyer?->notify($notification);
+        \App\Models\User::role('admin')->get()->each(fn ($u) => $u->notify($notification));
+        $factoryUser = $order->quotation?->rfq?->assignedFactory?->user;
+        if ($factoryUser) {
+            $factoryUser->notify($notification);
+        }
     }
 
     public function updateTracking(Order $order, ?string $trackingNumber, ?string $estimatedArrival): void

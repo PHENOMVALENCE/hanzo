@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeUserMail;
+use App\Notifications\WelcomeNotification;
 use App\Models\Factory;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -79,7 +80,11 @@ class UserController extends Controller
         }
 
         if ($sendWelcomeEmail) {
-            Mail::to($user->email)->send(new WelcomeUserMail($user, $plainPassword));
+            try {
+                Mail::to($user->email)->send(new WelcomeUserMail($user, $plainPassword));
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Welcome email failed: ' . $e->getMessage());
+            }
         }
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.' . ($sendWelcomeEmail ? ' Welcome email sent.' : ''));

@@ -70,7 +70,7 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   }
 }
 
-/* Navbar - dark navy */
+/* Navbar - more visible topbar */
 .layout-navbar.navbar-detached {
   width: 100% !important;
   max-width: 100% !important;
@@ -81,14 +81,22 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 }
 
 .layout-navbar {
-  background: linear-gradient(135deg, #0d2137 0%, #0B1F3A 50%, #0f2847 100%) !important;
-  box-shadow: 0 1px 0 rgba(240, 182, 77, 0.15), 0 2px 12px rgba(9, 22, 43, 0.25) !important;
-  border-bottom: 1px solid rgba(240, 182, 77, 0.12) !important;
+  min-height: 60px !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  background: linear-gradient(180deg, #0a1929 0%, #0B1F3A 40%, #0d2442 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(240, 182, 77, 0.25),
+    0 4px 20px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  border-bottom: 2px solid rgba(240, 182, 77, 0.35) !important;
 }
 
 .layout-navbar .nav-link,
 .layout-navbar .dropdown-toggle {
-  color: rgba(255, 255, 255, 0.95) !important;
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .layout-navbar .nav-link:hover,
@@ -98,28 +106,35 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 
 .layout-navbar .dropdown-menu {
   border: 1px solid var(--hanzo-border);
-  box-shadow: var(--hanzo-shadow);
+  box-shadow: 0 8px 32px rgba(11, 31, 58, 0.2);
 }
 
-/* Topbar: clearer profile & nav items */
+/* Topbar: clearer nav items with pill backgrounds */
 .layout-navbar .navbar-nav .nav-item {
-  margin-left: 0.125rem;
+  margin-left: 0.25rem;
 }
-.layout-navbar .navbar-nav .nav-link.dropdown-toggle {
-  border-radius: var(--hanzo-radius-sm);
+.layout-navbar .navbar-nav .nav-link {
+  border-radius: 10px;
   padding: 0.5rem 0.75rem;
 }
-.layout-navbar .navbar-nav .nav-link.dropdown-toggle:hover {
-  background: rgba(240, 182, 77, 0.12);
+.layout-navbar .navbar-nav > .nav-item > .nav-link {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.layout-navbar .navbar-nav > .nav-item > .nav-link:hover {
+  background: rgba(240, 182, 77, 0.18) !important;
+  border-color: rgba(240, 182, 77, 0.4);
 }
 .layout-navbar .navbar-dropdown.dropdown-user .nav-link {
-  padding: 0.4rem 0.6rem;
+  padding: 0.35rem 0.75rem;
   min-height: 44px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 .layout-navbar .navbar-dropdown.dropdown-user .nav-link:hover {
-  background: rgba(240, 182, 77, 0.2);
+  background: rgba(240, 182, 77, 0.25) !important;
+  border-color: rgba(240, 182, 77, 0.5) !important;
 }
 .layout-navbar .dropdown-header {
   padding: 0.75rem 1rem !important;
@@ -129,14 +144,19 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
 }
 
 .layout-menu-toggle .nav-link {
-  color: #fff !important;
-  padding: 0.5rem !important;
-  border-radius: var(--hanzo-radius-sm);
+  color: #ffffff !important;
+  padding: 0.5rem 0.75rem !important;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   transition: all 0.2s;
 }
 
 .layout-menu-toggle .nav-link:hover {
-  background: rgba(240, 182, 77, 0.15) !important;
+  background: rgba(240, 182, 77, 0.2) !important;
+  border-color: rgba(240, 182, 77, 0.4);
   color: var(--hanzo-gold-soft) !important;
 }
 
@@ -144,6 +164,13 @@ html.layout-menu-collapsed.layout-menu-fixed .layout-menu.menu-collapsed {
   background: var(--hanzo-gold-gradient) !important;
   color: var(--hanzo-navy) !important;
   font-weight: 700;
+}
+
+/* Notification bell - higher contrast */
+.layout-navbar .nav-link .bx-bell,
+.layout-navbar .nav-link .bx-dollar-circle,
+.layout-navbar .nav-link .bx-globe {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
 }
 
 /* Sidebar */

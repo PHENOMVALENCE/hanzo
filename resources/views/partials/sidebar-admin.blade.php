@@ -14,64 +14,64 @@
   <li class="menu-item">
     <a href="{{ route('admin.dashboard') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-home-circle"></i>
-      <div data-i18n="Dashboard">Dashboard</div>
+      <div data-i18n="Dashboard">{{ __('menu.dashboard') }}</div>
     </a>
   </li>
-  <li class="menu-header small text-uppercase"><span class="menu-header-text">Approvals</span></li>
+  <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('menu.approvals') }}</span></li>
   <li class="menu-item">
     <a href="{{ route('admin.approvals.buyers') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-user-check"></i>
-      <div data-i18n="Buyers">Buyers</div>
+      <div data-i18n="Buyers">{{ __('menu.buyers') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('admin.approvals.factories') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-building"></i>
-      <div data-i18n="Factories">Factories</div>
+      <div data-i18n="Factories">{{ __('menu.factories') }}</div>
     </a>
   </li>
-  <li class="menu-header small text-uppercase"><span class="menu-header-text">Operations</span></li>
+  <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('menu.operations') }}</span></li>
   <li class="menu-item">
     <a href="{{ route('admin.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-file"></i>
-      <div data-i18n="Product Requests">{{ __('labels.rfqs') }}</div>
+      <div data-i18n="Product Requests">{{ __('menu.product_requests') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('admin.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-calculator"></i>
-      <div data-i18n="Quote Builder">Quote Builder</div>
+      <div data-i18n="Quote Builder">{{ __('menu.quote_builder') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('admin.freight-rates.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-truck"></i>
-      <div data-i18n="Freight Rates">Freight Rates</div>
+      <div data-i18n="Freight Rates">{{ __('menu.freight_rates') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('admin.orders.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-package"></i>
-      <div data-i18n="Orders">Orders</div>
+      <div data-i18n="Orders">{{ __('menu.orders') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('admin.payments.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-credit-card"></i>
-      <div data-i18n="Payments">Payments</div>
+      <div data-i18n="Payments">{{ __('menu.payments') }}</div>
     </a>
   </li>
   <li class="menu-item">
     <a href="{{ route('admin.documents.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-folder"></i>
-      <div data-i18n="Documents">Documents</div>
+      <div data-i18n="Documents">{{ __('menu.documents') }}</div>
     </a>
   </li>
-  <li class="menu-header small text-uppercase"><span class="menu-header-text">System</span></li>
+  <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('menu.system') }}</span></li>
   <li class="menu-item">
     <a href="{{ route('admin.users.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-group"></i>
-      <div data-i18n="User Management">User Management</div>
+      <div data-i18n="User Management">{{ __('menu.user_management') }}</div>
     </a>
   </li>
 </ul>

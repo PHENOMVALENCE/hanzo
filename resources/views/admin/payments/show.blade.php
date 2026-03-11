@@ -22,7 +22,7 @@
           <div class="col-md-6"><strong>Submitted</strong><br>{{ $payment->created_at->format('M j, Y H:i') }}</div>
           <div class="col-md-6">
             <strong>Status</strong><br>
-            <span class="badge bg-{{ $payment->status === 'verified' ? 'success' : ($payment->status === 'rejected' ? 'danger' : 'warning') }}">{{ ucfirst($payment->status) }}</span>
+            <span class="badge bg-{{ $payment->status === 'verified' ? 'success' : ($payment->status === 'rejected' ? 'danger' : 'warning') }}">{{ trans_status($payment->status) }}</span>
           </div>
           @if($payment->verified_at)
           <div class="col-md-6"><strong>Verified By</strong><br>{{ $payment->verifiedBy?->name ?? '—' }} on {{ $payment->verified_at->format('M j, Y') }}</div>

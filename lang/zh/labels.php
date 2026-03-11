@@ -31,4 +31,9 @@ return [
     'no_assigned_rfqs' => '暂无分配给您的产品需求。',
     'view_submit_price' => '查看/提交报价',
     'submit_your_price' => '提交您的报价',
+    'order' => '订单',
+    'order_code' => '订单编号',
+    'total' => '总计',
+    'amount_paid' => '已付金额',
+    'amount_pending' => '待付金额',
 ];

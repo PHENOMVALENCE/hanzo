@@ -30,9 +30,9 @@
             <tr>
               <td><span class="fw-medium">{{ $rfq->code }}</span></td>
               <td><span class="text-muted small">{{ Str::limit(strip_tags($rfq->description ?? ''), 35) ?: '-' }}</span></td>
-              <td>{{ $rfq->category->name }}</td>
+              <td>{{ trans_category($rfq->category) }}</td>
               <td>{{ number_format($rfq->quantity) }}</td>
-              <td><span class="badge bg-label-{{ $rfq->status === 'new' ? 'warning' : 'info' }}">{{ $rfq->status }}</span></td>
+              <td><span class="badge bg-label-{{ $rfq->status === 'new' ? 'warning' : 'info' }}">{{ trans_status($rfq->status) }}</span></td>
               <td><a href="{{ route('buyer.rfqs.show', $rfq) }}" class="btn btn-sm btn-primary">{{ __('buyer.rfqs.view') }}</a></td>
             </tr>
             @endforeach

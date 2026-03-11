@@ -11,8 +11,8 @@
   <div class="col-md-8">
     <div class="card mb-4">
       <div class="card-header">
-        <span class="badge bg-label-info">{{ $rfq->status }}</span>
-        {{ $rfq->category->name }} | Qty: {{ number_format($rfq->quantity) }}
+        <span class="badge bg-label-info">{{ trans_status($rfq->status) }}</span>
+        {{ trans_category($rfq->category) }} | {{ __('labels.quantity') }}: {{ number_format($rfq->quantity) }}
       </div>
       <div class="card-body">
         <p><strong>{{ __('labels.description') }}:</strong> {{ $rfq->description ?? '-' }}</p>

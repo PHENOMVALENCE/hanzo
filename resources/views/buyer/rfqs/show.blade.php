@@ -9,8 +9,8 @@
 @endif
 <div class="card mb-4">
   <div class="card-header">
-    <span class="badge bg-label-{{ $rfq->status === 'new' ? 'warning' : 'info' }}">{{ $rfq->status }}</span>
-    {{ $rfq->category->name }} | Qty: {{ number_format($rfq->quantity) }}
+    <span class="badge bg-label-{{ $rfq->status === 'new' ? 'warning' : 'info' }}">{{ trans_status($rfq->status) }}</span>
+    {{ trans_category($rfq->category) }} | {{ __('labels.quantity') }}: {{ number_format($rfq->quantity) }}
   </div>
   <div class="card-body">
     <p><strong>{{ __('labels.description') }}:</strong> {{ $rfq->description ?? '-' }}</p>
@@ -32,7 +32,7 @@
           <tr>
             <td>{{ $q->quote_code }}</td>
             <td>${{ number_format($q->total_landed_cost, 2) }}</td>
-            <td><span class="badge bg-{{ $q->status === 'sent' ? 'info' : ($q->status === 'accepted' ? 'success' : 'secondary') }}">{{ $q->status }}</span></td>
+            <td><span class="badge bg-{{ $q->status === 'sent' ? 'info' : ($q->status === 'accepted' ? 'success' : 'secondary') }}">{{ trans_status($q->status) }}</span></td>
             <td>
               @if($q->status === 'sent')
               <a href="{{ route('buyer.quotes.show', $q) }}" class="btn btn-sm btn-primary">View / Accept</a>

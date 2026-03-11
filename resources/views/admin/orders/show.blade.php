@@ -11,16 +11,16 @@
   <div class="col-md-8">
     <div class="card mb-4">
       <div class="card-body">
-        <p><strong>Buyer:</strong> {{ $order->buyer->name }} ({{ $order->buyer->email }})</p>
+        <p><strong>{{ __('labels.buyer') }}:</strong> {{ $order->buyer->name }} ({{ $order->buyer->email }})</p>
         @php
           $total = (float) ($order->quotation->total_landed_cost ?? 0);
           $paid = $order->payments()->where('status', 'verified')->sum('amount_usd');
           $pending = max(0, $total - $paid);
         @endphp
-        <p><strong>Total:</strong> ${{ number_format($total, 2) }}</p>
-        <p><strong>Amount Paid:</strong> <span class="text-success">${{ number_format($paid, 2) }}</span></p>
-        <p><strong>Amount Pending:</strong> <span class="text-warning">${{ number_format($pending, 2) }}</span></p>
-        <p><strong>Status:</strong> <span class="badge bg-label-info">{{ str_replace('_', ' ', ucfirst($order->milestone_status)) }}</span></p>
+        <p><strong>{{ __('labels.total') }}:</strong> {{ money($total) }}</p>
+        <p><strong>{{ __('labels.amount_paid') }}:</strong> <span class="text-success">{{ money($paid) }}</span></p>
+        <p><strong>{{ __('labels.amount_pending') }}:</strong> <span class="text-warning">{{ money($pending) }}</span></p>
+        <p><strong>{{ __('labels.status') }}:</strong> <span class="badge bg-label-info">{{ trans_status($order->milestone_status) }}</span></p>
         <p><strong>Tracking:</strong> {{ $order->tracking_number ?? '-' }}</p>
         <p><strong>Est. Arrival:</strong> {{ $order->estimated_arrival?->format('Y-m-d') ?? '-' }}</p>
       </div>
@@ -34,11 +34,11 @@
           @csrf
           <div class="mb-3">
             <select name="milestone_status" class="form-select" required>
-              <option value="deposit_pending" {{ $order->milestone_status === 'deposit_pending' ? 'selected' : '' }}>Deposit Pending</option>
-              <option value="deposit_paid" {{ $order->milestone_status === 'deposit_paid' ? 'selected' : '' }}>Deposit Paid</option>
-              <option value="in_production" {{ $order->milestone_status === 'in_production' ? 'selected' : '' }}>In Production</option>
-              <option value="shipped" {{ $order->milestone_status === 'shipped' ? 'selected' : '' }}>Shipped</option>
-              <option value="delivered" {{ $order->milestone_status === 'delivered' ? 'selected' : '' }}>Delivered</option>
+              <option value="deposit_pending" {{ $order->milestone_status === 'deposit_pending' ? 'selected' : '' }}>{{ trans_status('deposit_pending') }}</option>
+              <option value="deposit_paid" {{ $order->milestone_status === 'deposit_paid' ? 'selected' : '' }}>{{ trans_status('deposit_paid') }}</option>
+              <option value="in_production" {{ $order->milestone_status === 'in_production' ? 'selected' : '' }}>{{ trans_status('in_production') }}</option>
+              <option value="shipped" {{ $order->milestone_status === 'shipped' ? 'selected' : '' }}>{{ trans_status('shipped') }}</option>
+              <option value="delivered" {{ $order->milestone_status === 'delivered' ? 'selected' : '' }}>{{ trans_status('delivered') }}</option>
             </select>
           </div>
           <div class="mb-3">
@@ -65,7 +65,7 @@
           <ul class="list-unstyled mb-0">
             @foreach($order->payments as $p)
             <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
-              <span>{{ \App\Models\Payment::TYPES[$p->type] ?? $p->type }} — ${{ number_format($p->amount_usd, 2) }} <span class="badge bg-{{ $p->status === 'verified' ? 'success' : ($p->status === 'rejected' ? 'danger' : 'warning') }} ms-1">{{ $p->status }}</span></span>
+              <span>{{ \App\Models\Payment::TYPES[$p->type] ?? $p->type }} — {{ money($p->amount_usd) }} <span class="badge bg-{{ $p->status === 'verified' ? 'success' : ($p->status === 'rejected' ? 'danger' : 'warning') }} ms-1">{{ trans_status($p->status) }}</span></span>
               <a href="{{ route('admin.payments.show', $p) }}" class="btn btn-sm btn-outline-primary">View</a>
             </li>
             @endforeach

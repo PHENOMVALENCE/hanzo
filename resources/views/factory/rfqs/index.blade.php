@@ -27,9 +27,9 @@
             @foreach($rfqs as $rfq)
             <tr>
               <td>{{ $rfq->code }}</td>
-              <td>{{ $rfq->category->name }}</td>
+              <td>{{ trans_category($rfq->category) }}</td>
               <td>{{ number_format($rfq->quantity) }}</td>
-              <td><span class="badge bg-label-{{ $rfq->status === 'assigned' ? 'info' : 'success' }}">{{ $rfq->status }}</span></td>
+              <td><span class="badge bg-label-{{ $rfq->status === 'assigned' ? 'info' : 'success' }}">{{ trans_status($rfq->status) }}</span></td>
               <td><a href="{{ route('factory.rfqs.show', $rfq) }}" class="btn btn-sm btn-primary">{{ __('labels.view_submit_price') }}</a></td>
             </tr>
             @endforeach

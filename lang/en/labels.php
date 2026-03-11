@@ -31,4 +31,11 @@ return [
     'no_assigned_rfqs' => 'No product requests assigned to you yet.',
     'view_submit_price' => 'View / Submit Price',
     'submit_your_price' => 'Submit Your Price',
+    'currency' => 'Currency',
+    'language' => 'Language',
+    'order' => 'Order',
+    'order_code' => 'Order Code',
+    'total' => 'Total',
+    'amount_paid' => 'Amount Paid',
+    'amount_pending' => 'Amount Pending',
 ];

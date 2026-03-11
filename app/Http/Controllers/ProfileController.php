@@ -7,7 +7,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -28,18 +27,18 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
-        $user->fill($request->safe()->except('avatar'));
+        $validated = $request->validated();
+        $user->fill(collect($validated)->except('avatar')->all());
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
-        if ($request->hasFile('avatar')) {
-            if ($user->avatar_path) {
-                Storage::disk('public')->delete($user->avatar_path);
-            }
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar_path = $path;
+        // Always apply avatar when the field was submitted (profile form includes avatar radios)
+        if (array_key_exists('avatar', $validated)) {
+            $av = $validated['avatar'];
+            $presetKeys = array_map('strval', array_keys(config('avatars.presets', [])));
+            $user->avatar_path = in_array($av, ['', 'initials', null], true) ? null : (in_array((string) $av, $presetKeys, true) ? (string) $av : $user->avatar_path);
         }
 
         $user->save();

@@ -13,7 +13,7 @@
     <div class="card mb-4">
       <div class="card-header">Order Details</div>
       <div class="card-body">
-        <p><strong>Status:</strong> <span class="badge bg-label-info">{{ str_replace('_', ' ', ucfirst($order->milestone_status)) }}</span></p>
+        <p><strong>{{ __('labels.status') }}:</strong> <span class="badge bg-label-info">{{ trans_status($order->milestone_status) }}</span></p>
         <p><strong>Tracking:</strong> {{ $order->tracking_number ?? '-' }}</p>
         <p><strong>Est. Arrival:</strong> {{ $order->estimated_arrival?->format('Y-m-d') ?? '-' }}</p>
         @if($order->quotation?->rfq)
@@ -40,7 +40,7 @@
                 @endif
               </div>
               <div class="flex-grow-1">
-                <span class="badge bg-label-primary mb-1">{{ str_replace('_', ' ', ucfirst($update->status)) }}</span>
+                <span class="badge bg-label-primary mb-1">{{ trans_status($update->status) }}</span>
                 <small class="text-muted d-block">{{ $update->created_at->format('M j, Y H:i') }}</small>
                 @if($update->note)
                   <p class="mb-0 mt-1 small">{{ $update->note }}</p>

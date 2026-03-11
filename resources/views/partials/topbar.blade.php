@@ -58,22 +58,29 @@
           @php
             $type = $n->data['type'] ?? 'order';
             $url = '#';
-            if ($type === 'order' && !empty($n->data['order_id'])) {
-              $url = Auth::user()->hasRole('admin') ? route('admin.orders.show', $n->data['order_id']) : (Auth::user()->hasRole('factory') ? route('factory.orders.show', $n->data['order_id']) : route('buyer.orders.show', $n->data['order_id']));
+            if (in_array($type, ['order', 'order_milestone']) && ! empty($n->data['order_id'])) {
+              $orderId = $n->data['order_id'];
+              $url = Auth::user()->hasRole('admin') ? route('admin.orders.show', $orderId) : (Auth::user()->hasRole('factory') ? route('factory.orders.show', $orderId) : route('buyer.orders.show', $orderId));
             } elseif ($type === 'quote_sent' && !empty($n->data['quotation_id'])) {
               $url = route('buyer.quotes.show', $n->data['quotation_id']);
             } elseif ($type === 'quote_rejected' && !empty($n->data['rfq_id'])) {
               $url = Auth::user()->hasRole('admin') ? route('admin.rfqs.show', $n->data['rfq_id']) : route('factory.rfqs.show', $n->data['rfq_id']);
             } elseif ($type === 'payment_pending' && !empty($n->data['payment_id']) && Auth::user()->hasRole('admin')) {
               $url = route('admin.payments.show', $n->data['payment_id']);
+            } elseif ($type === 'welcome') {
+              $url = route('profile.edit');
             }
             $title = match($type) {
+              'welcome' => $n->data['message'] ?? 'Welcome to ' . config('app.name') . '!',
+              'order_milestone' => 'Order ' . ($n->data['order_code'] ?? '') . ': ' . trans_status($n->data['milestone'] ?? ''),
               'quote_sent' => 'New quote: ' . ($n->data['quote_code'] ?? ''),
               'quote_rejected' => 'Quote rejected: ' . ($n->data['quote_code'] ?? '') . ' by ' . ($n->data['buyer_name'] ?? ''),
-              'payment_pending' => 'Payment pending: $' . number_format($n->data['amount'] ?? 0, 2) . ' – ' . ($n->data['order_code'] ?? ''),
+              'payment_pending' => 'Payment pending: ' . money($n->data['amount'] ?? 0) . ' – ' . ($n->data['order_code'] ?? ''),
               default => $n->data['order_name'] ?? $n->data['order_code'] ?? 'New order',
             };
             $icon = match($type) {
+              'welcome' => 'bx-user-plus',
+              'order_milestone' => 'bx-package',
               'quote_sent' => 'bx-file',
               'quote_rejected' => 'bx-x-circle',
               'payment_pending' => 'bx-dollar',
@@ -103,7 +110,18 @@
       </li>
       @endauth
       <li class="nav-item dropdown me-0 me-sm-2">
-        <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 py-2 px-2" href="#" data-bs-toggle="dropdown" aria-expanded="false" title="Language">
+        <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 py-2 px-2" href="#" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('labels.currency') }}">
+          <i class="bx bx-dollar-circle" style="font-size: 1.1rem;"></i>
+          <span class="d-none d-md-inline">{{ config('currencies.names')[session('currency', 'USD')] ?? 'USD' }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="USD"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'USD' ? 'active' : '' }}">{{ config('currencies.names.USD') }}</button></form></li>
+          <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="TZS"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'TZS' ? 'active' : '' }}">{{ config('currencies.names.TZS') }}</button></form></li>
+          <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="CNY"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'CNY' ? 'active' : '' }}">{{ config('currencies.names.CNY') }}</button></form></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown me-0 me-sm-2">
+        <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 py-2 px-2" href="#" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('labels.language') }}">
           <i class="bx bx-globe" style="font-size: 1.1rem;"></i>
           <span class="d-none d-md-inline">{{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : '中文') }}</span>
           <span class="d-inline d-md-none">{{ app()->getLocale() === 'en' ? 'EN' : (app()->getLocale() === 'sw' ? 'SW' : '中文') }}</span>

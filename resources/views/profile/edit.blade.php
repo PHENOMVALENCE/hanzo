@@ -26,18 +26,34 @@
   </div>
   <div class="card-body">
     <p class="text-muted small mb-4">{{ __('profile.info_desc') }}</p>
-    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="row g-3">
+    <form method="post" action="{{ route('profile.update') }}" class="row g-3">
       @csrf
       @method('patch')
       <div class="col-12">
         <label class="form-label">{{ __('profile.photo') }}</label>
-        <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
-          @if($user->avatarUrl())
-            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="rounded-circle flex-shrink-0" style="width:64px;height:64px;object-fit:cover;">
-          @else
-            <span class="avatar-initial rounded-circle bg-label-primary d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width:64px;height:64px;font-size:1.5rem;">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
-          @endif
-          <input type="file" name="avatar" class="form-control" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" style="max-width:100%;">
+        <p class="text-muted small mb-2">{{ __('profile.avatar_choose') }}</p>
+        <div class="d-flex flex-wrap gap-2 mb-2 align-items-center">
+          @php $presetKeys = array_map('strval', array_keys(config('avatars.presets', []))); $useInitials = !$user->avatar_path || !in_array((string)$user->avatar_path, $presetKeys, true); @endphp
+          <label class="avatar-option mb-0 {{ $useInitials ? 'selected' : '' }}" title="{{ __('profile.avatar_initials') }}">
+            <input type="radio" name="avatar" value="initials" {{ $useInitials ? 'checked' : '' }} class="visually-hidden" data-preview="initials">
+            <span class="avatar-initial rounded-circle d-inline-flex align-items-center justify-content-center bg-label-secondary" style="width:48px;height:48px;font-size:1.25rem;cursor:pointer;border:3px solid transparent;transition: border-color 0.2s;font-weight:600;">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
+          </label>
+          @foreach(config('avatars.presets', []) as $key => $seed)
+          <label class="avatar-option mb-0 {{ ($user->avatar_path === (string)$key) ? 'selected' : '' }}" title="{{ $seed }}">
+            <input type="radio" name="avatar" value="{{ $key }}" {{ ($user->avatar_path === (string)$key) ? 'checked' : '' }} class="visually-hidden" data-preview-url="https://api.dicebear.com/7.x/avataaars/svg?seed={{ urlencode($seed) }}">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ urlencode($seed) }}" alt="" class="rounded-circle" style="width:48px;height:48px;object-fit:cover;cursor:pointer;border:3px solid transparent;transition: border-color 0.2s;">
+          </label>
+          @endforeach
+        </div>
+        <div class="d-flex align-items-center gap-3 mt-2">
+          <div id="avatarPreview" class="flex-shrink-0">
+            @if($user->avatarUrl() && !$useInitials)
+              <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="rounded-circle" style="width:64px;height:64px;object-fit:cover;">
+            @else
+              <span class="avatar-initial rounded-circle bg-label-primary d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;font-size:1.5rem;font-weight:600;">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
+            @endif
+          </div>
+          <span class="text-muted small">{{ __('profile.avatar_preview') }}</span>
         </div>
         @error('avatar')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
       </div>
@@ -57,6 +73,10 @@
     </form>
   </div>
 </div>
+
+@push('page-css')
+<style>.avatar-option.selected img,.avatar-option.selected span.avatar-initial{border-color:#D89B2B!important;box-shadow:0 0 0 2px rgba(216,155,43,0.3);}</style>
+@endpush
 
 {{-- Update password --}}
 <div class="card mb-4">
@@ -130,6 +150,24 @@
     </div>
   </div>
 </div>
+
+@push('page-js')
+<script>
+document.querySelectorAll('.avatar-option input[name="avatar"]').forEach(function(radio) {
+  radio.addEventListener('change', function() {
+    document.querySelectorAll('.avatar-option').forEach(function(l) { l.classList.remove('selected'); });
+    this.closest('.avatar-option').classList.add('selected');
+    var preview = document.getElementById('avatarPreview');
+    if (this.dataset.preview === 'initials') {
+      var initials = '{{ strtoupper(substr($user->name, 0, 2)) }}';
+      preview.innerHTML = '<span class="avatar-initial rounded-circle bg-label-primary d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;font-size:1.5rem;font-weight:600;">' + initials + '</span>';
+    } else if (this.dataset.previewUrl) {
+      preview.innerHTML = '<img src="' + this.dataset.previewUrl + '" alt="" class="rounded-circle" style="width:64px;height:64px;object-fit:cover;">';
+    }
+  });
+});
+</script>
+@endpush
 
 @if($errors->userDeletion->isNotEmpty())
 @push('page-js')
