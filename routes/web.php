@@ -81,7 +81,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->prefix('admin')->name('admin.')->group(function () {

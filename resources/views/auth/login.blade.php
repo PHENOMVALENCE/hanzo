@@ -34,9 +34,6 @@
 
         <div class="d-flex flex-wrap justify-content-between align-items-center mt-4 gap-2">
             <div>
-                @if (Route::has('password.request'))
-                    <a class="text-muted small" href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a>
-                @endif
                 @if (Route::has('register'))
                     <a class="text-muted small ms-3" href="{{ route('register') }}">{{ __('Register as Buyer') }}</a>
                 @endif
