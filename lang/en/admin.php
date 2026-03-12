@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'dashboard' => [
+        'title' => 'Admin Dashboard',
+        'subtitle' => 'Central command center for HANZO operations. Monitor approvals, RFQs, orders, and platform activity.',
+        'pending_approvals' => 'Pending Approvals',
+        'buyers_factories' => ':buyers buyers, :factories factories',
+        'open_requests' => 'Open Requests',
+        'needing_assignment' => 'Needing assignment',
+        'payments_pending' => 'Payments Pending',
+        'total_orders' => 'Total Orders',
+        'value' => ':amount value',
+        'view' => 'View',
+        'verify' => 'Verify',
+        'order_analytics' => 'Order Analytics',
+        'view_all' => 'View all',
+        'user_management' => 'User Account Management',
+        'user_management_desc' => 'Manage buyers, factories, and admin accounts. Create users, set roles, approve registrations, and upload profile photos.',
+        'manage_users' => 'Manage Users',
+        'pending_buyers' => 'Pending Buyers (:count)',
+        'pending_factories' => 'Pending Factories (:count)',
+        'recent_activity' => 'Recent Activity',
+        'no_recent_activity' => 'No recent activity.',
+        'rfq_pipeline' => 'RFQ Pipeline',
+        'order_milestones' => 'Order Milestones',
+        'in_transit' => 'In Transit',
+        'orders' => 'Orders',
+        'new_request' => 'New request :code from :buyer (:category)',
+        'payment_pending' => 'Payment :amount pending (Order :order)',
+        'quote_sent' => 'Quote :code sent for :rfq',
+    ],
+];

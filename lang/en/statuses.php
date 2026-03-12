@@ -14,4 +14,5 @@ return [
     'accepted' => 'Accepted',
     'new' => 'New',
     'assigned' => 'Assigned',
+    'quoted' => 'Quoted',
 ];

@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'dashboard' => [
+        'title' => 'Dashibodi ya Msimamizi',
+        'subtitle' => 'Kituo cha kufanya maamuzi ya HANZO. Angalia idhini, maombi, maagizo na shughuli za jukwaa.',
+        'pending_approvals' => 'Idhini Inasubiri',
+        'buyers_factories' => 'Wanunuzi :buyers, Viowanda :factories',
+        'open_requests' => 'Maombi Wazi',
+        'needing_assignment' => 'Yanahitaji kutengwa',
+        'payments_pending' => 'Malipo Yanasubiri',
+        'total_orders' => 'Maagizo Yote',
+        'value' => 'Thamani :amount',
+        'view' => 'Angalia',
+        'verify' => 'Thibitisha',
+        'order_analytics' => 'Tathmini ya Maagizo',
+        'view_all' => 'Angalia yote',
+        'user_management' => 'Usimamizi wa Akaunti za Watumiaji',
+        'user_management_desc' => 'Simamia wanunuzi, viowanda na akaunti za wasimamizi. Unda watumiaji, weka majukumu, idhinisha usajili na kupakia picha za wasifu.',
+        'manage_users' => 'Simamia Watumiaji',
+        'pending_buyers' => 'Wanunuzi Wanasubiri (:count)',
+        'pending_factories' => 'Viowanda Vinanasubiri (:count)',
+        'recent_activity' => 'Shughuli Za Hivi Karibuni',
+        'no_recent_activity' => 'Hakuna shughuli za hivi karibuni.',
+        'rfq_pipeline' => 'Mfumo wa Maombi',
+        'order_milestones' => 'Hatua za Maagizo',
+        'in_transit' => 'Inasafirishwa',
+        'orders' => 'Maagizo',
+        'new_request' => 'Ombi jipya :code kutoka :buyer (:category)',
+        'payment_pending' => 'Malipo :amount yanasubiri (Agizo :order)',
+        'quote_sent' => 'Bei :code imetumwa kwa :rfq',
+    ],
+];

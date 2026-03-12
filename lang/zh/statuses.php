@@ -14,4 +14,5 @@ return [
     'accepted' => '已接受',
     'new' => '新建',
     'assigned' => '已分配',
+    'quoted' => '已报价',
 ];

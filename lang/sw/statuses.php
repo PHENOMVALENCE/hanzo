@@ -14,4 +14,5 @@ return [
     'accepted' => 'Imekubaliwa',
     'new' => 'Mpya',
     'assigned' => 'Imetengwa',
+    'quoted' => 'Imepewa Bei',
 ];

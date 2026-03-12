@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'dashboard' => [
+        'title' => '管理员仪表板',
+        'subtitle' => 'HANZO 运营指挥中心。监控审批、产品需求、订单和平台活动。',
+        'pending_approvals' => '待审批',
+        'buyers_factories' => ':buyers 买家，:factories 工厂',
+        'open_requests' => '待处理需求',
+        'needing_assignment' => '需分配',
+        'payments_pending' => '待核实付款',
+        'total_orders' => '总订单',
+        'value' => ':amount 价值',
+        'view' => '查看',
+        'verify' => '核实',
+        'order_analytics' => '订单分析',
+        'view_all' => '查看全部',
+        'user_management' => '用户账户管理',
+        'user_management_desc' => '管理买家、工厂和管理员账户。创建用户、设置角色、审批注册并上传头像。',
+        'manage_users' => '管理用户',
+        'pending_buyers' => '待审批买家 (:count)',
+        'pending_factories' => '待审批工厂 (:count)',
+        'recent_activity' => '最近动态',
+        'no_recent_activity' => '暂无最近动态。',
+        'rfq_pipeline' => '产品需求流程',
+        'order_milestones' => '订单阶段',
+        'in_transit' => '运输中',
+        'orders' => '订单',
+        'new_request' => '新需求 :code 来自 :buyer (:category)',
+        'payment_pending' => '付款 :amount 待核实（订单 :order）',
+        'quote_sent' => '报价 :code 已发送至 :rfq',
+    ],
+];
