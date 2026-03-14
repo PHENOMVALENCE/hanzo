@@ -13,6 +13,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('how-it-works') }}">{{ __('landing.nav_how_it_works') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}#estimate">{{ __('landing.nav_estimate') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">{{ __('landing.nav_about') }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('partner-with-hanzo') }}">{{ __('landing.list_factory') }}</a></li>
       </ul>
       <ul class="navbar-nav align-items-center gap-2">
         @auth

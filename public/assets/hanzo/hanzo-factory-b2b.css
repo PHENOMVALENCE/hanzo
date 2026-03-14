@@ -1,0 +1,94 @@
+/**
+ * HANZO Factory Operations Dashboard Theme
+ * Business operations / supplier dashboard
+ * Teal-green accent, operational clarity
+ */
+
+.hanzo-factory-b2b .content-wrapper,
+body.hanzo-role-factory .layout-wrapper .hanzo-factory-b2b .content-wrapper {
+  background: #f8fafc !important;
+}
+
+.hanzo-factory-b2b .card,
+body.hanzo-role-factory .layout-wrapper .hanzo-factory-b2b .card {
+  background: #fff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+
+.hanzo-factory-b2b .layout-navbar {
+  background: #fff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+
+.hanzo-factory-b2b .layout-menu {
+  background: #fff !important;
+  border-right: 1px solid #e2e8f0 !important;
+}
+
+.hanzo-factory-b2b .layout-menu .menu-link {
+  color: #475569 !important;
+  border-radius: 8px;
+  margin: 0 0.5rem;
+}
+
+.hanzo-factory-b2b .layout-menu .menu-link:hover {
+  color: #0d9488 !important;
+  background: #f0fdfa !important;
+}
+
+.hanzo-factory-b2b .layout-menu .menu-item.active > .menu-link {
+  color: #0d9488 !important;
+  background: #f0fdfa !important;
+  font-weight: 600;
+}
+
+/* Factory stat cards */
+.hanzo-factory-stat {
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.2s;
+}
+.hanzo-factory-stat:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.hanzo-factory-stat .stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0fdfa;
+  color: #0d9488;
+}
+
+/* Action item badges */
+.hanzo-action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+.hanzo-action-badge.badge-urgent { background: #fef2f2; color: #dc2626; }
+.hanzo-action-badge.badge-warning { background: #fffbeb; color: #d97706; }
+.hanzo-action-badge.badge-info { background: #eff6ff; color: #2563eb; }
+
+/* Profile completeness */
+.hanzo-profile-meter {
+  height: 8px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+.hanzo-profile-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0d9488, #14b8a6);
+  border-radius: 4px;
+  transition: width 0.3s;
+}

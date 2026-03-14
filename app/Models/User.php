@@ -22,7 +22,18 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
+        'job_title',
         'company_name',
+        'business_type',
+        'industry',
+        'years_in_operation',
+        'website',
+        'sourcing_categories',
+        'import_volume',
+        'hear_about',
+        'business_registration_path',
+        'import_license_path',
+        'tax_id',
         'country',
         'city',
         'password',
@@ -30,7 +41,18 @@ class User extends Authenticatable
         'avatar_path',
         'first_login_at',
         'approval_message',
+        'admin_requested_info',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'first_login_at' => 'datetime',
+            'sourcing_categories' => 'array',
+        ];
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -41,20 +63,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'first_login_at' => 'datetime',
-        ];
-    }
 
     public function factory(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

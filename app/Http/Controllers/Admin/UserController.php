@@ -17,11 +17,18 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $users = User::with('roles')->latest()->paginate(20);
+        $role = $request->query('role');
+        $query = User::with('roles')->latest();
 
-        return view('admin.users.index', compact('users'));
+        if (in_array($role, ['buyer', 'factory', 'admin'])) {
+            $query->role($role);
+        }
+
+        $users = $query->paginate(20)->withQueryString();
+
+        return view('admin.users.index', compact('users', 'role'));
     }
 
     public function create(): View
@@ -87,7 +94,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully.' . ($sendWelcomeEmail ? ' Welcome email sent.' : ''));
+        return redirect()->route('admin.users.index', ['role' => $validated['role']])->with('success', 'User created successfully.' . ($sendWelcomeEmail ? ' Welcome email sent.' : ''));
     }
 
     public function edit(User $user): View
@@ -149,13 +156,13 @@ class UserController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.users.index', array_filter(['role' => $request->input('return_role')]))->with('success', 'User updated successfully.');
     }
 
-    public function destroy(User $user): RedirectResponse
+    public function destroy(Request $request, User $user): RedirectResponse
     {
         if ($user->id === auth()->id()) {
-            return redirect()->route('admin.users.index')->with('error', 'You cannot delete your own account.');
+            return redirect()->route('admin.users.index', array_filter(['role' => $request->input('return_role')]))->with('error', 'You cannot delete your own account.');
         }
 
         if ($user->avatar_path) {
@@ -164,6 +171,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.users.index', array_filter(['role' => $request->input('return_role')]))->with('success', 'User deleted successfully.');
     }
 }

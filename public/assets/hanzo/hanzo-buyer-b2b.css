@@ -1,0 +1,399 @@
+/**
+ * HANZO Buyer Interface — Dark Theme
+ * "East Africa × China. Sourced Right."
+ * Design spec: HANZO_BUYER_SPEC.md
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ========== HANZO Buyer Design Tokens (Dark Theme) ========== */
+.hanzo-buyer-b2b,
+body.hanzo-role-buyer .layout-wrapper .hanzo-buyer-b2b {
+  --hz-navy: #0B1120;
+  --hz-navy-2: #141D2E;
+  --hz-navy-3: #1C2840;
+  --hz-gold: #E8A020;
+  --hz-gold-light: #F5B940;
+  --hz-verified: #1DB87A;
+  --hz-blue: #4A9FE0;
+  --hz-muted: #8A96A8;
+  --hz-border: rgba(255,255,255,0.08);
+  --hz-danger: #E05050;
+  --hz-white: #F2F4F8;
+  /* Legacy aliases for gradual migration */
+  --b2b-primary: var(--hz-gold);
+  --b2b-primary-hover: var(--hz-gold-light);
+  --b2b-primary-light: rgba(232,160,32,0.12);
+  --b2b-orange: var(--hz-gold);
+  --b2b-orange-hover: var(--hz-gold-light);
+  --b2b-orange-light: rgba(232,160,32,0.12);
+  --b2b-verified: var(--hz-verified);
+  --b2b-verified-bg: rgba(29,184,122,0.15);
+  --b2b-bg: #0D1525;
+  --b2b-card-bg: var(--hz-navy-2);
+  --b2b-border: var(--hz-border);
+  --b2b-text: var(--hz-white);
+  --b2b-text-muted: var(--hz-muted);
+  --b2b-shadow-sm: none;
+  --b2b-shadow: none;
+  --b2b-radius: 8px;
+  --b2b-radius-lg: 12px;
+}
+
+.hanzo-buyer-b2b {
+  font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Content wrapper — main area background */
+.hanzo-buyer-b2b .content-wrapper,
+body.hanzo-role-buyer .layout-wrapper .hanzo-buyer-b2b .content-wrapper {
+  background: #0D1525 !important;
+}
+
+.hanzo-buyer-b2b .container-xxl,
+.hanzo-buyer-b2b .container-p-y {
+  color: var(--hz-white);
+}
+
+.hanzo-buyer-b2b .card,
+body.hanzo-role-buyer .layout-wrapper .hanzo-buyer-b2b .card {
+  background: var(--hz-navy-2) !important;
+  border: 1px solid var(--hz-border) !important;
+  border-radius: var(--b2b-radius-lg) !important;
+}
+
+.hanzo-buyer-b2b .card .card-body,
+.hanzo-buyer-b2b .card-header {
+  color: var(--hz-white);
+}
+
+.hanzo-buyer-b2b .text-muted,
+.hanzo-buyer-b2b .text-body,
+.hanzo-buyer-b2b small {
+  color: var(--hz-muted) !important;
+}
+
+.hanzo-buyer-b2b h1, .hanzo-buyer-b2b h2, .hanzo-buyer-b2b h3, .hanzo-buyer-b2b h4, .hanzo-buyer-b2b h5, .hanzo-buyer-b2b h6 {
+  color: var(--hz-white);
+}
+
+/* ========== Navbar — Dark ========== */
+.hanzo-buyer-b2b .layout-navbar {
+  background: var(--hz-navy) !important;
+  border-bottom: 1px solid var(--hz-border) !important;
+  min-height: 60px !important;
+}
+
+.hanzo-buyer-b2b .layout-navbar .nav-link,
+.hanzo-buyer-b2b .layout-navbar .dropdown-toggle {
+  color: var(--hz-white) !important;
+}
+
+.hanzo-buyer-b2b .layout-navbar .nav-link:hover,
+.hanzo-buyer-b2b .layout-navbar .dropdown-toggle:hover {
+  color: var(--hz-gold) !important;
+}
+
+.hanzo-buyer-b2b .layout-navbar .navbar-brand .fw-bold {
+  color: var(--hz-gold) !important;
+  letter-spacing: 0.05em;
+}
+
+/* B2B Search — dark inputs */
+.hanzo-b2b-search {
+  max-width: 400px;
+  border: 1px solid var(--hz-border);
+  border-radius: var(--b2b-radius);
+  background: var(--hz-navy-3);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hanzo-b2b-search:focus-within {
+  border-color: var(--hz-gold);
+}
+
+.hanzo-b2b-search input {
+  border: none !important;
+  background: transparent !important;
+  color: var(--hz-white) !important;
+  padding: 0.5rem 0.75rem;
+}
+
+.hanzo-b2b-search input::placeholder {
+  color: var(--hz-muted);
+}
+
+/* ========== Sidebar — Dark ========== */
+.hanzo-buyer-b2b .layout-menu {
+  background: var(--hz-navy) !important;
+  border-right: 1px solid var(--hz-border) !important;
+}
+
+.hanzo-buyer-b2b .layout-menu .menu-link {
+  color: var(--hz-muted) !important;
+  border-radius: var(--b2b-radius);
+  margin: 0 0.5rem;
+  transition: all 0.15s ease;
+}
+
+.hanzo-buyer-b2b .layout-menu .menu-link:hover {
+  color: var(--hz-gold) !important;
+  background: rgba(232,160,32,0.08) !important;
+}
+
+.hanzo-buyer-b2b .layout-menu .menu-item.active > .menu-link {
+  color: var(--hz-gold) !important;
+  background: rgba(232,160,32,0.08) !important;
+  font-weight: 600;
+  border-left: 3px solid var(--hz-gold);
+}
+
+.hanzo-buyer-b2b .layout-menu .app-brand-text {
+  color: var(--hz-gold) !important;
+}
+
+.hanzo-buyer-b2b .layout-menu .app-brand-logo {
+  filter: brightness(1.1);
+}
+.hanzo-buyer-b2b .layout-menu .menu-link .badge.bg-warning {
+  background: var(--hz-gold) !important;
+  color: #0B1120;
+}
+
+/* ========== Stat Cards ========== */
+.hanzo-stat-card-b2b {
+  border-radius: var(--b2b-radius-lg) !important;
+  border: 1px solid var(--hz-border);
+  background: var(--hz-navy-2);
+  transition: border-color 0.15s ease;
+}
+.hanzo-stat-card-b2b:hover {
+  border-color: var(--hz-gold);
+}
+.hanzo-stat-card-b2b .stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--b2b-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(232,160,32,0.15);
+  color: var(--hz-gold);
+}
+.hanzo-stat-card-b2b .stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--hz-gold);
+}
+.hanzo-stat-card-b2b .stat-label {
+  font-size: 0.75rem;
+  color: var(--hz-muted);
+}
+
+/* ========== Product Card ========== */
+.hanzo-product-card {
+  border-radius: var(--b2b-radius-lg);
+  border: 1px solid var(--hz-border);
+  background: var(--hz-navy-2);
+  overflow: hidden;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.hanzo-product-card:hover {
+  border-color: var(--hz-gold);
+  transform: translateY(-2px);
+}
+.hanzo-product-card .product-image {
+  aspect-ratio: 1;
+  min-height: 160px;
+  background: var(--hz-navy-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hanzo-product-card .product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hanzo-product-card .product-image .placeholder {
+  color: var(--hz-muted);
+  font-size: 3rem;
+}
+
+/* ========== Verified Badge ========== */
+.hanzo-badge-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--hz-verified);
+  background: rgba(29,184,122,0.15);
+  border: 1px solid rgba(29,184,122,0.3);
+  border-radius: 999px;
+}
+.hanzo-badge-verified i {
+  font-size: 0.75rem;
+}
+
+/* ========== Primary Buttons (Gold) ========== */
+.btn-rfq,
+.btn-b2b-orange,
+.btn-b2b-primary {
+  background: var(--hz-gold) !important;
+  border: none !important;
+  color: #0B1120 !important;
+  font-weight: 600;
+  border-radius: var(--b2b-radius);
+  padding: 0.5rem 1rem;
+  transition: all 0.15s ease;
+}
+.btn-rfq:hover,
+.btn-b2b-orange:hover,
+.btn-b2b-primary:hover {
+  background: var(--hz-gold-light) !important;
+  color: #0B1120 !important;
+  transform: translateY(-1px);
+}
+
+/* Ghost button */
+.btn-hz-ghost {
+  background: transparent !important;
+  border: 1px solid var(--hz-gold) !important;
+  color: var(--hz-gold) !important;
+}
+.btn-hz-ghost:hover {
+  background: rgba(232,160,32,0.12) !important;
+  color: var(--hz-gold-light) !important;
+  border-color: var(--hz-gold-light) !important;
+}
+
+/* ========== Category Tiles ========== */
+.hanzo-category-tile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: var(--b2b-radius-lg);
+  border: 1px solid var(--hz-border);
+  background: var(--hz-navy-2);
+  transition: all 0.15s ease;
+}
+.hanzo-category-tile:hover {
+  border-color: var(--hz-gold);
+  background: rgba(232,160,32,0.08);
+}
+.hanzo-category-tile .tile-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--b2b-radius);
+  background: rgba(232,160,32,0.15);
+  color: var(--hz-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========== Widget ========== */
+.hanzo-widget {
+  border-radius: var(--b2b-radius-lg);
+  border: 1px solid var(--hz-border);
+  background: var(--hz-navy-2);
+  overflow: hidden;
+}
+.hanzo-widget .widget-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--hz-border);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--hz-white);
+}
+.hanzo-widget .widget-body {
+  padding: 1rem 1.25rem;
+  color: var(--hz-white);
+}
+.hanzo-widget .border-light {
+  border-color: var(--hz-border) !important;
+}
+
+/* ========== Carousel ========== */
+.hanzo-carousel {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+.hanzo-carousel::-webkit-scrollbar {
+  height: 6px;
+}
+.hanzo-carousel::-webkit-scrollbar-thumb {
+  background: var(--hz-border);
+  border-radius: 3px;
+}
+.hanzo-carousel-item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-width: 200px;
+}
+
+/* ========== Dropdowns, Modals, Lists ========== */
+.hanzo-buyer-b2b .dropdown-menu {
+  background: var(--hz-navy-2) !important;
+  border: 1px solid var(--hz-border);
+  color: var(--hz-white);
+}
+.hanzo-buyer-b2b .dropdown-item {
+  color: var(--hz-white) !important;
+}
+.hanzo-buyer-b2b .dropdown-item:hover,
+.hanzo-buyer-b2b .dropdown-item:focus {
+  background: rgba(232,160,32,0.12) !important;
+  color: var(--hz-gold) !important;
+}
+.hanzo-buyer-b2b .dropdown-header {
+  color: var(--hz-muted);
+}
+.hanzo-buyer-b2b .modal-content {
+  background: var(--hz-navy-2);
+  border: 1px solid var(--hz-border);
+}
+.hanzo-buyer-b2b .modal-header,
+.hanzo-buyer-b2b .modal-body {
+  border-color: var(--hz-border);
+  color: var(--hz-white);
+}
+.hanzo-buyer-b2b .border-bottom {
+  border-color: var(--hz-border) !important;
+}
+.hanzo-buyer-b2b .bg-light {
+  background: rgba(232,160,32,0.08) !important;
+}
+
+/* Footer */
+.hanzo-buyer-b2b .content-footer.footer {
+  background: var(--hz-navy) !important;
+  border-top: 1px solid var(--hz-border);
+  color: var(--hz-muted);
+}
+
+/* Welcome banner */
+.hanzo-buyer-b2b .hanzo-welcome-banner {
+  background: linear-gradient(135deg, rgba(232,160,32,0.12) 0%, rgba(232,160,32,0.06) 100%) !important;
+  border: 1px solid rgba(232,160,32,0.2) !important;
+}
+
+/* Links */
+.hanzo-buyer-b2b a:not(.btn):not(.dropdown-item),
+.hanzo-buyer-b2b .btn-link {
+  color: var(--hz-gold) !important;
+}
+.hanzo-buyer-b2b a:not(.btn):not(.dropdown-item):hover,
+.hanzo-buyer-b2b .btn-link:hover {
+  color: var(--hz-gold-light) !important;
+}

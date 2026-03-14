@@ -3,7 +3,12 @@
 @section('title', 'Payments')
 
 @section('content')
-<h4 class="fw-bold mb-4">Payments</h4>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <h4 class="fw-bold mb-1">Payments</h4>
+    <p class="text-muted mb-0 small">Review and verify payment submissions</p>
+  </div>
+</div>
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>
 @endif
@@ -11,15 +16,15 @@
   <div class="alert alert-danger">{{ session('error') }}</div>
 @endif
 <div class="card">
-  <div class="card-body">
+  <div class="card-body p-0">
     @if($payments->isEmpty())
-      <p class="text-muted mb-0">No payments yet.</p>
+      <p class="text-muted mb-0 p-4">No payments yet.</p>
     @else
       <div class="table-responsive">
-        <table class="table">
+        <table class="table table-hover mb-0">
           <thead>
             <tr>
-              <th>Order</th>
+              <th style="min-width: 110px;">Order</th>
               <th>Buyer</th>
               <th>Type</th>
               <th>Amount</th>
@@ -27,8 +32,8 @@
               <th>Reference</th>
               <th>Submitted</th>
               <th>Status</th>
-              <th>Verified By</th>
-              <th>Actions</th>
+              <th style="min-width: 120px;">Verified By</th>
+              <th style="min-width: 180px;" class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -49,13 +54,13 @@
                 </span>
               </td>
               <td>{{ $p->verifiedBy?->name ?? '—' }} {{ $p->verified_at ? '(' . $p->verified_at->format('M j') . ')' : '' }}</td>
-              <td>
+              <td class="text-end">
                 @if($p->proof_path)
                 <a href="{{ route('admin.payments.proof', $p) }}" class="btn btn-sm btn-outline-info" target="_blank" title="View proof">
                   <i class="bx bx-file"></i>
                 </a>
                 @endif
-                <a href="{{ route('admin.payments.show', $p) }}" class="btn btn-sm btn-outline-primary">Details</a>
+                <a href="{{ route('admin.payments.show', $p) }}" class="btn btn-sm btn-outline-light">Details</a>
                 @if($p->status === 'pending')
                 <form method="POST" action="{{ route('admin.payments.verify', $p) }}" class="d-inline">
                   @csrf
@@ -91,7 +96,9 @@
           </tbody>
         </table>
       </div>
-      {{ $payments->links() }}
+      <div class="p-3 border-top border-secondary">
+        {{ $payments->links() }}
+      </div>
     @endif
   </div>
 </div>

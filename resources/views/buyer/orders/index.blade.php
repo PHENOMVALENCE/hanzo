@@ -3,7 +3,10 @@
 @section('title', __('buyer.orders.title'))
 
 @section('content')
-<h4 class="fw-bold mb-4">{{ __('buyer.orders.my_orders') }}</h4>
+<div class="mb-4">
+  <h4 class="fw-bold mb-1">{{ __('Orders & Shipments') }}</h4>
+  <p class="text-muted small mb-0">{{ __('buyer.orders.my_orders') }} — {{ __('Track shipments and download invoices.') }}</p>
+</div>
 <div class="card">
   <div class="card-body">
     @if($orders->isEmpty())
@@ -28,7 +31,7 @@
               </td>
               <td><span class="badge bg-label-info">{{ trans_status($order->milestone_status) }}</span></td>
               <td>{{ money($order->quotation->total_landed_cost ?? 0) }}</td>
-              <td><a href="{{ route('buyer.orders.show', $order) }}" class="btn btn-sm btn-primary">{{ __('buyer.rfqs.view') }}</a></td>
+              <td><a href="{{ route('buyer.orders.show', $order) }}" class="btn btn-sm btn-b2b-primary">{{ __('buyer.rfqs.view') }}</a></td>
             </tr>
             @endforeach
           </tbody>

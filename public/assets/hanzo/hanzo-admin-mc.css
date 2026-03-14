@@ -1,0 +1,419 @@
+/**
+ * HANZO Admin Mission Control Theme
+ * Refined dark theme: data-rich, professional, authority-driven
+ */
+
+/* ========== Layout ========== */
+.hanzo-admin-mc .content-wrapper {
+  background: #0c1222 !important;
+}
+
+.hanzo-admin-mc .container-p-y {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+/* ========== Navbar ========== */
+.hanzo-admin-mc .layout-navbar {
+  background: #151c2e !important;
+  border-bottom: 1px solid #1e2a42 !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+.hanzo-admin-mc .layout-navbar .nav-link {
+  color: #94a3b8 !important;
+}
+
+.hanzo-admin-mc .layout-navbar .nav-link:hover,
+.hanzo-admin-mc .layout-navbar .nav-link:focus {
+  color: #e2e8f0 !important;
+}
+
+.hanzo-admin-mc .layout-navbar .navbar-dropdown .nav-link span {
+  color: #e2e8f0 !important;
+}
+
+.hanzo-admin-mc .layout-navbar .bx {
+  color: inherit;
+}
+
+/* ========== Sidebar ========== */
+.hanzo-admin-mc .layout-menu {
+  background: #0c1222 !important;
+  border-right: 1px solid #1e2a42 !important;
+}
+
+.hanzo-admin-mc .app-brand .app-brand-text {
+  color: #e2e8f0 !important;
+  font-weight: 700;
+}
+
+.hanzo-admin-mc .layout-menu .menu-link {
+  color: #94a3b8 !important;
+  border-radius: 8px !important;
+  margin: 0 0.5rem !important;
+  padding: 0.6rem 0.75rem !important;
+}
+
+.hanzo-admin-mc .layout-menu .menu-link:hover {
+  color: #e2e8f0 !important;
+  background: rgba(30, 42, 66, 0.8) !important;
+}
+
+.hanzo-admin-mc .layout-menu .menu-item.active > .menu-link {
+  color: #60a5fa !important;
+  background: rgba(96, 165, 250, 0.1) !important;
+  font-weight: 600;
+}
+
+.hanzo-admin-mc .layout-menu .menu-header-text {
+  color: #64748b !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.1em;
+}
+
+.hanzo-admin-mc .layout-menu-toggle .menu-link {
+  color: #64748b !important;
+}
+
+/* ========== Cards ========== */
+.hanzo-admin-mc .card {
+  background: #151c2e !important;
+  border: 1px solid #1e2a42 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.hanzo-admin-mc .card-header {
+  border-bottom-color: #1e2a42 !important;
+  color: #e2e8f0 !important;
+  padding: 1rem 1.25rem !important;
+  font-weight: 600 !important;
+}
+
+.hanzo-admin-mc .card-body {
+  color: #cbd5e1 !important;
+}
+
+/* ========== KPI Cards ========== */
+.hanzo-admin-kpi {
+  background: linear-gradient(145deg, #151c2e 0%, #0c1222 100%) !important;
+  border: 1px solid #1e2a42 !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.hanzo-admin-kpi:hover {
+  border-color: #2d3a52 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(-1px);
+}
+
+.hanzo-admin-kpi .card-body {
+  padding: 1rem 1.25rem !important;
+}
+
+.hanzo-admin-kpi .kpi-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.hanzo-admin-kpi .kpi-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.hanzo-admin-kpi .kpi-meta {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+/* ========== Page Header ========== */
+.hanzo-admin-mc .content-wrapper h4 {
+  color: #f1f5f9 !important;
+  font-weight: 700 !important;
+}
+
+.hanzo-admin-mc .content-wrapper .text-muted {
+  color: #94a3b8 !important;
+}
+
+/* ========== Activity Feed ========== */
+.hanzo-admin-activity-item {
+  padding: 0.75rem 0 !important;
+  border-bottom: 1px solid #1e2a42 !important;
+  color: #cbd5e1 !important;
+}
+
+.hanzo-admin-activity-item:last-child {
+  border-bottom: none !important;
+}
+
+.hanzo-admin-activity-item .activity-time {
+  font-size: 0.7rem;
+  color: #64748b;
+  margin-top: 0.15rem;
+}
+
+.hanzo-admin-mc .card .btn-link {
+  color: #60a5fa !important;
+}
+
+.hanzo-admin-mc .card .btn-link:hover {
+  color: #93c5fd !important;
+}
+
+/* ========== Alert Queue ========== */
+.hanzo-admin-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  transition: background 0.15s ease;
+  color: inherit !important;
+}
+
+.hanzo-admin-alert:hover {
+  background: rgba(30, 42, 66, 0.6) !important;
+}
+
+.hanzo-admin-alert strong {
+  color: #e2e8f0 !important;
+}
+
+.hanzo-admin-alert .small {
+  color: #94a3b8 !important;
+}
+
+.hanzo-admin-alert.alert-urgent {
+  border-left: 4px solid #f87171;
+}
+
+.hanzo-admin-alert.alert-warning {
+  border-left: 4px solid #fbbf24;
+}
+
+.hanzo-admin-alert.alert-info {
+  border-left: 4px solid #60a5fa;
+}
+
+/* ========== Map Placeholder ========== */
+.hanzo-admin-map {
+  background: linear-gradient(180deg, #0c1222 0%, #151c2e 100%);
+  border-radius: 0 0 12px 12px;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  border: 1px dashed #2d3a52;
+  border-top: none;
+}
+
+.hanzo-admin-map i.bx {
+  font-size: 2.5rem;
+  opacity: 0.6;
+}
+
+/* ========== Footer ========== */
+.hanzo-admin-mc .content-footer {
+  color: #64748b !important;
+  border-top-color: #1e2a42 !important;
+}
+
+/* ========== Tables (admin data views) ========== */
+.hanzo-admin-mc .table {
+  color: #e2e8f0 !important;
+}
+
+.hanzo-admin-mc .table thead th {
+  background: #1e2a42 !important;
+  color: #f1f5f9 !important;
+  border-color: #2d3a52 !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 1rem 0.75rem !important;
+  white-space: nowrap;
+}
+
+.hanzo-admin-mc .table tbody td {
+  color: #e2e8f0 !important;
+  border-color: #1e2a42 !important;
+  padding: 0.875rem 0.75rem !important;
+  vertical-align: middle !important;
+}
+
+.hanzo-admin-mc .table tbody tr {
+  background: #151c2e !important;
+}
+
+.hanzo-admin-mc .table tbody tr:nth-child(even) {
+  background: #1a2332 !important;
+}
+
+.hanzo-admin-mc .table tbody tr:hover {
+  background: #1e2a42 !important;
+}
+
+.hanzo-admin-mc .table a {
+  color: #60a5fa !important;
+  font-weight: 500;
+}
+
+.hanzo-admin-mc .table a:hover {
+  color: #93c5fd !important;
+  text-decoration: underline;
+}
+
+.hanzo-admin-mc .table code {
+  color: #94a3b8 !important;
+  background: rgba(30, 42, 66, 0.8) !important;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.8em;
+}
+
+.hanzo-admin-mc .table .badge {
+  font-weight: 600;
+}
+
+/* Ensure all text in cards is visible */
+.hanzo-admin-mc .card-body,
+.hanzo-admin-mc .card-body p {
+  color: #e2e8f0 !important;
+}
+
+.hanzo-admin-mc .card-body .text-muted {
+  color: #94a3b8 !important;
+}
+
+/* Alerts in admin */
+.hanzo-admin-mc .alert-success {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #86efac;
+}
+
+.hanzo-admin-mc .alert-danger {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+/* Pagination */
+.hanzo-admin-mc .pagination .page-link {
+  background: #151c2e !important;
+  border-color: #1e2a42 !important;
+  color: #94a3b8 !important;
+}
+
+.hanzo-admin-mc .pagination .page-link:hover {
+  background: #1e2a42 !important;
+  color: #e2e8f0 !important;
+}
+
+.hanzo-admin-mc .pagination .page-item.active .page-link {
+  background: #60a5fa !important;
+  border-color: #60a5fa !important;
+  color: #0c1222 !important;
+}
+
+.hanzo-admin-mc .card-body .border-top {
+  border-color: #1e2a42 !important;
+}
+
+/* Admin outline buttons - visible on dark */
+.hanzo-admin-mc .btn-outline-info {
+  color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+}
+
+.hanzo-admin-mc .btn-outline-info:hover {
+  background: rgba(56, 189, 248, 0.15) !important;
+  color: #7dd3fc !important;
+}
+
+.hanzo-admin-mc .btn-outline-light {
+  color: #e2e8f0 !important;
+  border-color: #475569 !important;
+}
+
+.hanzo-admin-mc .btn-outline-light:hover {
+  background: rgba(226, 232, 240, 0.1) !important;
+  color: #f1f5f9 !important;
+  border-color: #64748b !important;
+}
+
+.hanzo-admin-mc .btn-outline-primary {
+  color: #60a5fa !important;
+  border-color: #60a5fa !important;
+}
+
+.hanzo-admin-mc .btn-outline-primary:hover {
+  background: rgba(96, 165, 250, 0.15) !important;
+  color: #93c5fd !important;
+}
+
+.hanzo-admin-mc .btn-outline-danger {
+  color: #f87171 !important;
+  border-color: #f87171 !important;
+}
+
+.hanzo-admin-mc .btn-outline-danger:hover {
+  background: rgba(248, 113, 113, 0.15) !important;
+  color: #fca5a5 !important;
+}
+
+.hanzo-admin-mc .btn-primary {
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  color: #fff !important;
+}
+
+.hanzo-admin-mc .btn-primary:hover {
+  background: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #fff !important;
+}
+
+/* Nav pills (user management tabs) */
+.hanzo-admin-mc .nav-pills .nav-link {
+  background: #1e2a42 !important;
+  color: #94a3b8 !important;
+  border: 1px solid #2d3a52;
+  border-radius: 8px;
+}
+
+.hanzo-admin-mc .nav-pills .nav-link:hover {
+  background: #2d3a52 !important;
+  color: #e2e8f0 !important;
+  border-color: #3d4a62;
+}
+
+.hanzo-admin-mc .nav-pills .nav-link.active {
+  background: #3b82f6 !important;
+  color: #fff !important;
+  border-color: #3b82f6 !important;
+}
+
+/* ========== ApexCharts dark theme ========== */
+.hanzo-admin-mc .apexcharts-text,
+.hanzo-admin-mc .apexcharts-legend-text {
+  fill: #94a3b8 !important;
+}
+
+.hanzo-admin-mc .apexcharts-xaxis-label,
+.hanzo-admin-mc .apexcharts-yaxis-label {
+  fill: #64748b !important;
+}

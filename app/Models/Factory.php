@@ -37,4 +37,9 @@ class Factory extends Model
     {
         return $this->hasMany(FactoryQuote::class, 'factory_id');
     }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
 }

@@ -38,4 +38,5 @@ return [
     'total' => 'Total',
     'amount_paid' => 'Amount Paid',
     'amount_pending' => 'Amount Pending',
+    'select' => 'Select...',
 ];

@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="{{ asset('assets/sneat/assets/css/demo.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/hanzo/hanzo-theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/hanzo/hanzo.css') }}" />
+    @stack('layout-css')
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
@@ -58,7 +59,7 @@
   <body class="@if(auth()->user()) hanzo-role-{{ auth()->user()->getRoleNames()->first() ?? 'buyer' }} @endif">
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container">
+      <div class="layout-container{{ request()->routeIs('buyer.*') ? ' hanzo-buyer-b2b' : '' }}{{ request()->routeIs('factory.*') ? ' hanzo-factory-b2b' : '' }}{{ request()->routeIs('admin.*') ? ' hanzo-admin-mc' : '' }}">
         <!-- Menu -->
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           @hasSection('sidebar')
@@ -72,7 +73,11 @@
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->
-          @include('partials.topbar')
+          @hasSection('navbar')
+            @yield('navbar')
+          @else
+            @include('partials.topbar')
+          @endif
           <!-- / Navbar -->
 
           <!-- Content wrapper -->

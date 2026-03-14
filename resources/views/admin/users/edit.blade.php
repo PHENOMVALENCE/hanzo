@@ -13,6 +13,7 @@
     <form method="POST" action="{{ route('admin.users.update', $user) }}" enctype="multipart/form-data">
       @csrf
       @method('PUT')
+      <input type="hidden" name="return_role" value="{{ request('return_role') }}">
       <div class="row g-3">
         <div class="col-12">
           <label class="form-label">Current Photo</label>
@@ -130,7 +131,7 @@
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Update User</button>
-          <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">Cancel</a>
+          <a href="{{ route('admin.users.index', array_filter(['role' => request('return_role')])) }}" class="btn btn-outline-secondary">Cancel</a>
         </div>
       </div>
     </form>

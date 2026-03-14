@@ -25,4 +25,9 @@ class Category extends Model
     {
         return $this->hasMany(Rfq::class);
     }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
 }

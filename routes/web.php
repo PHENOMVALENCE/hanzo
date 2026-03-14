@@ -11,8 +11,12 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\QuoteBuilderController;
 use App\Http\Controllers\Admin\RfqController as AdminRfqController;
+use App\Http\Controllers\Buyer\CatalogController;
 use App\Http\Controllers\Buyer\DashboardController as BuyerDashboardController;
 use App\Http\Controllers\Buyer\DocumentController as BuyerDocumentController;
+use App\Http\Controllers\Buyer\MessageController;
+use App\Http\Controllers\Buyer\SavedController;
+use App\Http\Controllers\Buyer\SupplierController;
 use App\Http\Controllers\Buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Buyer\PaymentController as BuyerPaymentController;
@@ -30,6 +34,15 @@ use Illuminate\Support\Facades\Route;
 /* Public (no auth) */
 Route::get('/how-it-works', fn () => view('public.how-it-works'))->name('how-it-works');
 Route::get('/about', fn () => view('public.about'))->name('about');
+Route::get('/factory/invite/accept', [\App\Http\Controllers\Auth\FactoryInviteController::class, 'show'])->name('factory.invite.accept');
+Route::post('/factory/invite/accept', [\App\Http\Controllers\Auth\FactoryInviteController::class, 'store'])->name('factory.invite.accept.store');
+Route::get('/partner-with-hanzo', [\App\Http\Controllers\Public\PartnerController::class, 'show'])->name('partner-with-hanzo');
+Route::post('/partner-with-hanzo', [\App\Http\Controllers\Public\PartnerController::class, 'store'])->name('partner-with-hanzo.store');
+Route::get('/categories', fn () => view('public.categories.index', ['categories' => \App\Models\Category::where('active', true)->orderBy('name')->get()]))->name('categories.index');
+Route::get('/categories/{category}', function ($category) {
+    $cat = \App\Models\Category::where('slug', $category)->orWhere('id', $category)->firstOrFail();
+    return view('public.categories.show', ['category' => $cat]);
+})->name('categories.show');
 
 Route::get('/', function () {
     if (auth()->guest()) {
@@ -90,6 +103,7 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->pre
     Route::get('/approvals/factories', [ApprovalController::class, 'factories'])->name('approvals.factories');
     Route::post('/approvals/{id}/approve', [ApprovalController::class, 'approve'])->name('approvals.approve');
     Route::post('/approvals/{id}/reject', [ApprovalController::class, 'reject'])->name('approvals.reject');
+    Route::post('/approvals/{id}/request-more-info', [ApprovalController::class, 'requestMoreInfo'])->name('approvals.requestMoreInfo');
 
     Route::get('/rfqs', [AdminRfqController::class, 'index'])->name('rfqs.index');
     Route::get('/rfqs/{rfq}', [AdminRfqController::class, 'show'])->name('rfqs.show');
@@ -119,6 +133,8 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->pre
     Route::delete('/documents/{document}', [AdminDocumentController::class, 'destroy'])->name('documents.destroy');
 
     Route::resource('users', AdminUserController::class)->names('users')->except(['show']);
+    Route::get('/invite-factory', [\App\Http\Controllers\Admin\InviteFactoryController::class, 'create'])->name('invite-factory.create');
+    Route::post('/invite-factory', [\App\Http\Controllers\Admin\InviteFactoryController::class, 'store'])->name('invite-factory.store');
 });
 
 Route::post('/locale', [LocaleController::class, 'switch'])->name('locale.switch')->middleware(['web']);
@@ -126,6 +142,19 @@ Route::post('/currency', [CurrencyController::class, 'switch'])->name('currency.
 
 Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->prefix('buyer')->name('buyer.')->group(function () {
     Route::get('/dashboard', [BuyerDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
+    Route::get('/catalog/{category}', [CatalogController::class, 'show'])->name('catalog.show');
+
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::get('/suppliers/{factory}', [SupplierController::class, 'show'])->name('suppliers.show');
+
+    Route::get('/saved', [SavedController::class, 'index'])->name('saved.index');
+
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');
+
+    Route::get('/settings', fn () => redirect()->route('profile.edit'))->name('settings');
 
     Route::get('/rfqs', [BuyerRfqController::class, 'index'])->name('rfqs.index');
     Route::get('/rfqs/create', [BuyerRfqController::class, 'create'])->name('rfqs.create');
@@ -148,6 +177,11 @@ Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->pre
 
 Route::middleware(['auth', 'verified', 'approved', 'role:factory', 'locale'])->prefix('factory')->name('factory.')->group(function () {
     Route::get('/dashboard', [FactoryDashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('products', \App\Http\Controllers\Factory\ProductController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::get('/messages', fn () => redirect()->route('factory.dashboard'))->name('messages.index');
+    Route::get('/profile', fn () => redirect()->route('profile.edit'))->name('profile.edit');
+    Route::get('/analytics', fn () => redirect()->route('factory.dashboard'))->name('analytics.index');
 
     Route::get('/rfqs', [FactoryRfqController::class, 'index'])->name('rfqs.index');
     Route::get('/rfqs/{rfq}', [FactoryRfqController::class, 'show'])->name('rfqs.show');

@@ -3,8 +3,13 @@
 @section('title', __('buyer.rfqs.title'))
 
 @section('content')
-<h4 class="fw-bold mb-4">{{ __('buyer.rfqs.my_rfqs') }}</h4>
-<a href="{{ route('buyer.rfqs.create') }}" class="btn btn-primary mb-3">{{ __('buyer.rfqs.new_rfq') }}</a>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+  <div>
+    <h4 class="fw-bold mb-1">{{ __('RFQ Center') }}</h4>
+    <p class="text-muted small mb-0">{{ __('buyer.rfqs.my_rfqs') }}</p>
+  </div>
+  <a href="{{ route('buyer.rfqs.create') }}" class="btn btn-rfq"><i class="bx bx-plus me-2"></i>{{ __('buyer.rfqs.new_rfq') }}</a>
+</div>
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>
 @endif
@@ -33,7 +38,7 @@
               <td>{{ trans_category($rfq->category) }}</td>
               <td>{{ number_format($rfq->quantity) }}</td>
               <td><span class="badge bg-label-{{ $rfq->status === 'new' ? 'warning' : 'info' }}">{{ trans_status($rfq->status) }}</span></td>
-              <td><a href="{{ route('buyer.rfqs.show', $rfq) }}" class="btn btn-sm btn-primary">{{ __('buyer.rfqs.view') }}</a></td>
+              <td><a href="{{ route('buyer.rfqs.show', $rfq) }}" class="btn btn-sm btn-b2b-primary">{{ __('buyer.rfqs.view') }}</a></td>
             </tr>
             @endforeach
           </tbody>

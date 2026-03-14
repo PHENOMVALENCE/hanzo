@@ -26,14 +26,17 @@ if (! function_exists('trans_category')) {
         }
         $slug = $category->slug ?? null;
         $name = $category->name ?? '';
+        if (is_array($name)) {
+            $name = $name[0] ?? implode(', ', $name);
+        }
         if ($slug) {
             $key = 'categories.' . $slug;
             $translated = __($key);
-            if ($translated !== $key) {
+            if ($translated !== $key && is_string($translated)) {
                 return $translated;
             }
         }
-        return $name;
+        return (string) $name;
     }
 }
 

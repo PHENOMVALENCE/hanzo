@@ -48,4 +48,5 @@ return [
     'lang_zh' => '中文',
     'nav_about' => 'About',
     'nav_contact' => 'Partner With Us',
+    'list_factory' => 'List Your Factory',
 ];

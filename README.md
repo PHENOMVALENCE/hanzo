@@ -72,6 +72,9 @@ Returns JSON estimate from freight rates.
 
 ## Data Privacy
 
-- **Buyers** never see factory identity/contact
+- **Buyers** never see factory direct contact (phone, email, WeChat). Supplier directory shows "HANZO Verified Factory" and general production info only. See `App\Services\FactoryPrivacy`.
 - **Factories** never see buyer email/phone/company_name
 - **Admin** sees everything
+
+### Factory Visibility Rule (enforced)
+Buyers must NOT see factory direct contact details. They may only see "HANZO Verified Factory" and general production information (categories, region, certifications). All buyer-factory communication goes through platform messaging.

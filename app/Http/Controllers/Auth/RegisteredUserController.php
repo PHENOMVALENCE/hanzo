@@ -14,47 +14,41 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('auth.register');
     }
 
     /**
-     * Handle an incoming registration request.
-     * Buyers self-register with status=pending until Admin approves.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Handle buyer registration. Account stays inactive (status=pending) until admin verifies.
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'company' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['required', 'string', 'max:50'],
-            'city' => ['required', 'string', 'max:100'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'terms' => ['required', 'accepted'],
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:100'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'company_name' => $request->company,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'city' => $request->city,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'company_name' => $validated['company_name'] ?? null,
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'city' => $validated['city'] ?? null,
+            'password' => Hash::make($validated['password']),
             'status' => 'pending',
         ]);
 
         $user->assignRole('buyer');
-
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('pending-approval', absolute: false));
+        return redirect()->route('pending-approval');
     }
 }
