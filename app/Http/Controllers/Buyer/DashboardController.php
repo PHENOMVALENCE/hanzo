@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use App\Models\Category;
+=======
+use App\Models\Product;
+>>>>>>> 3a34daee (Hanzo in b2b style)
 
 class DashboardController extends Controller
 {
@@ -17,6 +21,7 @@ class DashboardController extends Controller
             $showWelcomeGuide = true;
         }
 
+<<<<<<< HEAD
         // Trending: categories with most RFQs in last 60 days
         $trending = Category::where('active', true)
             ->withCount(['rfqs as rfq_count' => fn ($q) => $q->where('created_at', '>=', now()->subDays(60))])
@@ -49,5 +54,14 @@ class DashboardController extends Controller
             'popular',
             'recommended'
         ));
+=======
+        $featuredProducts = Product::forBuyerCatalog()
+            ->with('category')
+            ->latest()
+            ->take(15)
+            ->get();
+
+        return view('buyer.dashboard', compact('showWelcomeGuide', 'featuredProducts'));
+>>>>>>> 3a34daee (Hanzo in b2b style)
     }
 }

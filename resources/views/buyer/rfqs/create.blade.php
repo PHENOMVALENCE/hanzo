@@ -3,28 +3,91 @@
 @section('title', __('labels.create_rfq'))
 
 @section('content')
+@php $fromProduct = isset($product) && $product; @endphp
 <div class="mb-4">
-  <h4 class="fw-bold mb-1">{{ __('labels.create_rfq') }}</h4>
-  <p class="text-muted small mb-0">{{ __('labels.rfq_desc') }}</p>
+  <h4 class="fw-bold mb-1">{{ $fromProduct ? 'Request Quote' : __('labels.create_rfq') }}</h4>
+  <p class="text-muted small mb-0">{{ $fromProduct ? 'Just a few details and we\'ll get you a quote.' : __('labels.rfq_desc') }}</p>
 </div>
 
 <form method="POST" action="{{ route('buyer.rfqs.store') }}" enctype="multipart/form-data" id="rfqForm">
   @csrf
+  @if($fromProduct)
+  <input type="hidden" name="product_id" value="{{ $product->id }}">
+  <input type="hidden" name="category_id" value="{{ $product->category_id ?? '' }}">
+
+  <div class="card mb-4 border-primary">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+        <div>
+          <h5 class="mb-1">{{ $product->title }}</h5>
+          <p class="text-muted small mb-0">{{ $product->priceDisplay() }} · MOQ {{ $product->moq ?? '—' }} · {{ $product->category?->name ?? 'General' }}</p>
+        </div>
+        <a href="{{ route('buyer.products.show', $product) }}" class="btn btn-sm btn-outline-primary">View product</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p class="text-muted small mb-4">We already have the product details. You only need to specify:</p>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Quantity *</label>
+          <input type="number" name="quantity" class="form-control" required min="1" value="{{ old('quantity', $product->moq ?? 100) }}" placeholder="e.g. {{ $product->moq ?? 100 }}">
+          <small class="text-muted">Minimum {{ $product->moq ?? '—' }} units for this product</small>
+          <x-input-error :messages="$errors->get('quantity')" class="mt-1" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Delivery destination *</label>
+          <select name="delivery_city" class="form-select" required>
+            <option value="">Select destination</option>
+            <option value="Dar es Salaam" {{ old('delivery_city') == 'Dar es Salaam' ? 'selected' : '' }}>Dar es Salaam</option>
+            <option value="Nairobi" {{ old('delivery_city') == 'Nairobi' ? 'selected' : '' }}>Nairobi</option>
+            <option value="Kampala" {{ old('delivery_city') == 'Kampala' ? 'selected' : '' }}>Kampala</option>
+            <option value="Kigali" {{ old('delivery_city') == 'Kigali' ? 'selected' : '' }}>Kigali</option>
+            <option value="Other" {{ old('delivery_city') == 'Other' ? 'selected' : '' }}>Other</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">When do you need it? *</label>
+          <select name="timeline_weeks" class="form-select" required>
+            <option value="">Select timeline</option>
+            <option value="4" {{ old('timeline_weeks') == '4' ? 'selected' : '' }}>4 weeks</option>
+            <option value="6" {{ old('timeline_weeks') == '6' ? 'selected' : '' }}>6 weeks</option>
+            <option value="8" {{ old('timeline_weeks') == '8' ? 'selected' : '' }}>8 weeks</option>
+            <option value="12" {{ old('timeline_weeks') == '12' ? 'selected' : '' }}>12+ weeks</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Additional notes <span class="text-muted">(optional)</span></label>
+          <textarea name="specs" class="form-control" rows="2" maxlength="500" placeholder="Customizations, colors, branding, etc.">{{ old('specs') }}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary btn-lg">Request Quote</button>
+  <a href="{{ route('buyer.products.show', $product) }}" class="btn btn-outline-secondary">Cancel</a>
+
+  @else
   <div class="card mb-4">
     <div class="card-body">
       <!-- Category: Radio card selector -->
       <div class="mb-4">
         <label class="form-label">Category *</label>
+        @php
+          $defaultCategory = (isset($product) && $product && $product->category_id) ? $product->category_id : null;
+          $selectedCategory = old('category_id', $defaultCategory);
+        @endphp
         <div class="row g-3">
           @foreach($categories as $c)
           <div class="col-6 col-md-3">
             <input type="radio" name="category_id" id="cat_{{ $c->id }}" value="{{ $c->id }}" class="btn-check" required
-              {{ old('category_id') == $c->id ? 'checked' : '' }}
-              data-moq="{{ $c->moq_default }}"
+              {{ $selectedCategory == $c->id ? 'checked' : '' }}
+              data-moq="{{ $c->moq_default ?? 100 }}"
               data-slug="{{ $c->slug }}">
             <label class="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3 rounded" for="cat_{{ $c->id }}">
               @php
-                $icon = match($c->slug) {
+                $icon = match ($c->slug ?? '') {
                   'fashion' => 'bx-walk',
                   'packaging' => 'bx-package',
                   'consumer-goods' => 'bx-store',
@@ -44,7 +107,7 @@
       <div class="mb-4">
         <label class="form-label">Product Description *</label>
         <textarea name="description" id="productDescription" class="form-control" rows="4" required maxlength="2000"
-          placeholder="Describe your product in detail: materials, dimensions, colors, certifications needed, etc.">{{ old('description') }}</textarea>
+          placeholder="Describe your product in detail: materials, dimensions, colors, certifications needed, etc.">{{ old('description', isset($product) && $product ? $product->description : '') }}</textarea>
         <div class="d-flex justify-content-between mt-1">
           <span class="text-muted small" id="charCount">0 / 2000</span>
         </div>
@@ -55,7 +118,7 @@
       <div class="row g-3 mb-4">
         <div class="col-md-6">
           <label class="form-label">Quantity *</label>
-          <input type="number" name="quantity" id="quantity" class="form-control" required min="1" value="{{ old('quantity') }}" placeholder="e.g. 1000">
+          <input type="number" name="quantity" id="quantity" class="form-control" required min="1" value="{{ old('quantity', isset($product) && $product && $product->moq ? $product->moq : '') }}" placeholder="e.g. 1000">
           <div id="moqWarning" class="text-warning small mt-1 d-none">Below typical MOQ. We may still be able to help.</div>
           <x-input-error :messages="$errors->get('quantity')" class="mt-1" />
         </div>
@@ -110,8 +173,10 @@
   </div>
   <button type="submit" class="btn btn-primary">{{ __('labels.submit_rfq') }}</button>
   <a href="{{ route('buyer.rfqs.index') }}" class="btn btn-outline-secondary">Cancel</a>
+  @endif
 </form>
 
+@if(!$fromProduct)
 @push('page-js')
 <script>
 (function() {
@@ -186,4 +251,5 @@
 })();
 </script>
 @endpush
+@endif
 @endsection

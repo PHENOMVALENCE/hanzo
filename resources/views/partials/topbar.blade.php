@@ -57,35 +57,9 @@
           @foreach($notifications as $n)
           @php
             $type = $n->data['type'] ?? 'order';
-            $url = '#';
-            if (in_array($type, ['order', 'order_milestone']) && ! empty($n->data['order_id'])) {
-              $orderId = $n->data['order_id'];
-              $url = Auth::user()->hasRole('admin') ? route('admin.orders.show', $orderId) : (Auth::user()->hasRole('factory') ? route('factory.orders.show', $orderId) : route('buyer.orders.show', $orderId));
-            } elseif ($type === 'quote_sent' && !empty($n->data['quotation_id'])) {
-              $url = route('buyer.quotes.show', $n->data['quotation_id']);
-            } elseif ($type === 'quote_rejected' && !empty($n->data['rfq_id'])) {
-              $url = Auth::user()->hasRole('admin') ? route('admin.rfqs.show', $n->data['rfq_id']) : route('factory.rfqs.show', $n->data['rfq_id']);
-            } elseif ($type === 'payment_pending' && !empty($n->data['payment_id']) && Auth::user()->hasRole('admin')) {
-              $url = route('admin.payments.show', $n->data['payment_id']);
-            } elseif ($type === 'welcome') {
-              $url = route('profile.edit');
-            }
-            $title = match($type) {
-              'welcome' => $n->data['message'] ?? 'Welcome to ' . config('app.name') . '!',
-              'order_milestone' => 'Order ' . ($n->data['order_code'] ?? '') . ': ' . trans_status($n->data['milestone'] ?? ''),
-              'quote_sent' => 'New quote: ' . ($n->data['quote_code'] ?? ''),
-              'quote_rejected' => 'Quote rejected: ' . ($n->data['quote_code'] ?? '') . ' by ' . ($n->data['buyer_name'] ?? ''),
-              'payment_pending' => 'Payment pending: ' . money($n->data['amount'] ?? 0) . ' – ' . ($n->data['order_code'] ?? ''),
-              default => $n->data['order_name'] ?? $n->data['order_code'] ?? 'New order',
-            };
-            $icon = match($type) {
-              'welcome' => 'bx-user-plus',
-              'order_milestone' => 'bx-package',
-              'quote_sent' => 'bx-file',
-              'quote_rejected' => 'bx-x-circle',
-              'payment_pending' => 'bx-dollar',
-              default => 'bx-package',
-            };
+            $url = \App\Helpers\NotificationHelper::urlForNotification($n, Auth::user());
+            $title = \App\Helpers\NotificationHelper::titleForNotification($n);
+            $icon = \App\Helpers\NotificationHelper::iconForNotification($type);
           @endphp
           <li>
             <a class="dropdown-item py-2 {{ $n->read_at ? '' : 'bg-light' }}" href="{{ $url }}">

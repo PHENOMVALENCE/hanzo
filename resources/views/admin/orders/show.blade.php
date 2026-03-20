@@ -10,6 +10,12 @@
 <div class="row">
   <div class="col-md-8">
     <div class="card mb-4">
+      <div class="card-header">Order Timeline</div>
+      <div class="card-body">
+        <x-order-timeline :order="$order" />
+      </div>
+    </div>
+    <div class="card mb-4">
       <div class="card-body">
         <p><strong>{{ __('labels.buyer') }}:</strong> {{ $order->buyer->name }} ({{ $order->buyer->email }})</p>
         @php
@@ -34,11 +40,10 @@
           @csrf
           <div class="mb-3">
             <select name="milestone_status" class="form-select" required>
-              <option value="deposit_pending" {{ $order->milestone_status === 'deposit_pending' ? 'selected' : '' }}>{{ trans_status('deposit_pending') }}</option>
-              <option value="deposit_paid" {{ $order->milestone_status === 'deposit_paid' ? 'selected' : '' }}>{{ trans_status('deposit_paid') }}</option>
+              <option value="awaiting_factory_approval" {{ $order->milestone_status === 'awaiting_factory_approval' ? 'selected' : '' }}>{{ trans_status('awaiting_factory_approval') }}</option>
               <option value="in_production" {{ $order->milestone_status === 'in_production' ? 'selected' : '' }}>{{ trans_status('in_production') }}</option>
-              <option value="shipped" {{ $order->milestone_status === 'shipped' ? 'selected' : '' }}>{{ trans_status('shipped') }}</option>
-              <option value="delivered" {{ $order->milestone_status === 'delivered' ? 'selected' : '' }}>{{ trans_status('delivered') }}</option>
+              <option value="ready_to_ship" {{ $order->milestone_status === 'ready_to_ship' ? 'selected' : '' }}>{{ trans_status('ready_to_ship') }}</option>
+              <option value="completed" {{ $order->milestone_status === 'completed' ? 'selected' : '' }}>{{ trans_status('completed') }}</option>
             </select>
           </div>
           <div class="mb-3">

@@ -1,6 +1,36 @@
 <?php
 
 return [
+    /* Header & navigation */
+    'search' => 'Tafuta',
+    'search_products' => 'Tafuta bidhaa...',
+    'deliver_to' => 'Wasilisha kwa',
+    'all_categories' => 'Kategoria zote',
+    'find_factories' => 'Tafuta viwanda',
+    'order_protections' => 'Ulinzi wa maagizo',
+    'buyer_central' => 'Kituo cha Wanunuzi',
+    'help_center' => 'Kituo cha Msaada',
+    'notifications' => 'Arifa',
+    'back_to_top' => 'Rudi juu',
+    'notifications_alerts' => 'Arifa na Tahadhari',
+    'pending' => 'Inasubiri',
+    'recent' => 'Hivi karibuni',
+    'needs_attention' => 'inahitaji umakini',
+    'no_recent_notifications' => 'Hakuna arifa hivi karibuni.',
+    'mark_read' => 'Soma',
+    'pending_items_subtitle' => 'Vitu vinavyosubiri na sasisho hivi karibuni zinaonekana hapa.',
+
+    /* Promo & dashboard */
+    'new_buyer_coupon' => 'Kuponi mpya kwa wanunuzi',
+    'sign_in_offer' => 'Tuma ombi la bei kupata matoleo maalum kwa agizo lako la kwanza.',
+    'first_order_discount' => 'Bei maalum',
+    'on_orders_over' => 'Kwa maagizo zaidi ya MOQ',
+    'recommended_for_you' => 'Inapendekeza kwako',
+    'no_products_yet' => 'Hakuna bidhaa katika katalogi bado. Angalia tena hivi karibuni.',
+    'no_products_match' => 'Hakuna bidhaa zinazolingana na vichaguo vyako.',
+    'clear_filters' => 'Futa vichaguo',
+    'back_to_catalog' => 'Rudi kwenye katalogi',
+
     'rfq' => 'Ombi la Bidhaa',
     'rfq_full' => 'Ombi la Bidhaa',
     'rfq_desc' => 'Ombi la kupata bidhaa—eleza unachohitaji na tutakupatia bei.',
@@ -32,9 +62,16 @@ return [
     'no_assigned_rfqs' => 'Hakuna maombi ya bidhaa yaliyotengwa kwako bado.',
     'view_submit_price' => 'Angalia / Wasilisha Bei',
     'submit_your_price' => 'Wasilisha Bei Yako',
+    'currency' => 'Sarafu',
+    'language' => 'Lugha',
     'order' => 'Agizo',
     'order_code' => 'Msimbo wa Agizo',
     'total' => 'Jumla',
     'amount_paid' => 'Kiasi Kilicholipwa',
     'amount_pending' => 'Kiasi Kinachosubiri',
+    'contact_for_price' => 'Wasiliana kwa bei',
+    'products' => 'Bidhaa',
+    'view_full_catalog' => 'Angalia Katalogi Kamili',
+    'request_quote' => 'Omba Bei',
+    'contact_supplier' => 'Wasiliana na Msaidizi',
 ];

@@ -7,9 +7,19 @@
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>
 @endif
+@if(session('error'))
+  <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
 
 <div class="row">
   <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-header">Order Timeline</div>
+      <div class="card-body">
+        <x-order-timeline :order="$order" />
+      </div>
+    </div>
+
     <div class="card mb-4">
       <div class="card-header">Order Details</div>
       <div class="card-body">
@@ -17,7 +27,7 @@
         <p><strong>Tracking:</strong> {{ $order->tracking_number ?? '-' }}</p>
         <p><strong>Est. Arrival:</strong> {{ $order->estimated_arrival?->format('Y-m-d') ?? '-' }}</p>
         @if($order->quotation?->rfq)
-        <p><strong>Product:</strong> {{ $order->quotation->rfq->description ?? $order->quotation->rfq->code }}</p>
+        <p><strong>Product:</strong> {{ $order->quotation->rfq->product?->title ?? $order->quotation->rfq->description ?? $order->quotation->rfq->code }}</p>
         <p><strong>Quantity:</strong> {{ number_format($order->quotation->rfq->quantity ?? 0) }}</p>
         @endif
       </div>
@@ -55,9 +65,35 @@
   </div>
 
   <div class="col-lg-4">
+    @if($order->milestone_status === 'awaiting_factory_approval')
+    <div class="card card-verified mb-4">
+      <div class="card-header">Approve Order</div>
+      <div class="card-body">
+        <p class="small text-muted mb-3">Accept this order to begin production.</p>
+        <form method="POST" action="{{ route('factory.orders.approve', $order) }}">
+          @csrf
+          <button type="submit" class="btn btn-primary w-100">Approve Order</button>
+        </form>
+      </div>
+    </div>
+    @endif
+
+    @if($order->milestone_status === 'in_production')
+    <div class="card mb-4">
+      <div class="card-header">Mark Ready to Ship</div>
+      <div class="card-body">
+        <form method="POST" action="{{ route('factory.orders.ready-to-ship', $order) }}">
+          @csrf
+          <button type="submit" class="btn btn-success w-100">Ready to Ship</button>
+        </form>
+      </div>
+    </div>
+    @endif
+
     <div class="card card-verified mb-4">
       <div class="card-header">Submit Production Update</div>
       <div class="card-body">
+        @if(in_array($order->milestone_status, ['in_production']))
         <form method="POST" action="{{ route('factory.orders.production-update', $order) }}" enctype="multipart/form-data">
           @csrf
           <div class="mb-3">
@@ -79,6 +115,9 @@
           </div>
           <button type="submit" class="btn btn-primary w-100">Submit Update</button>
         </form>
+        @else
+        <p class="text-muted small mb-0">Production updates are available when order is in production.</p>
+        @endif
       </div>
     </div>
   </div>

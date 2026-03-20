@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Payment;
-use App\Models\User;
-use App\Notifications\PaymentPendingNotification;
 use Illuminate\Http\UploadedFile;
 
 class PaymentService
@@ -30,9 +28,7 @@ class PaymentService
             'status' => 'pending',
         ]);
 
-        foreach (User::role('admin')->get() as $admin) {
-            $admin->notify(new PaymentPendingNotification($payment));
-        }
+        app(NotificationService::class)->notifyPaymentPending($payment);
 
         return $payment;
     }
@@ -47,8 +43,8 @@ class PaymentService
         ]);
 
         $order = $payment->order;
-        if ($payment->type === 'deposit' || $payment->type === 'full') {
-            (new OrderService)->updateMilestone($order, 'deposit_paid');
+        if (in_array($payment->type, ['deposit', 'full']) && $order->milestone_status === 'awaiting_factory_approval') {
+            (new OrderService)->updateMilestone($order, 'in_production');
         }
     }
 

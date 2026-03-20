@@ -18,6 +18,12 @@
     </a>
   </li>
   <li class="menu-item">
+    <a href="{{ route('factory.products.index') }}" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-store"></i>
+      <div data-i18n="My Products">My Products</div>
+    </a>
+  </li>
+  <li class="menu-item">
     <a href="{{ route('factory.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-task"></i>
       <div data-i18n="Assigned Product Requests">{{ __('menu.product_requests') }}</div>

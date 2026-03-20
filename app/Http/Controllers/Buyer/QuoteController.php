@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Quotation;
-use App\Models\User;
-use App\Notifications\QuoteRejectedNotification;
+use App\Services\NotificationService;
 use App\Services\OrderService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -63,14 +62,7 @@ class QuoteController extends Controller
             'rejected_at' => now(),
         ]);
 
-        foreach (User::role('admin')->get() as $admin) {
-            $admin->notify(new QuoteRejectedNotification($quotation->fresh()));
-        }
-
-        $factoryUser = $quotation->rfq?->assignedFactory?->user;
-        if ($factoryUser) {
-            $factoryUser->notify(new QuoteRejectedNotification($quotation->fresh()));
-        }
+        app(NotificationService::class)->notifyQuoteRejected($quotation->fresh());
 
         return back()->with('success', 'Quotation rejected.');
     }

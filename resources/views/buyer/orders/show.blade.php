@@ -15,31 +15,12 @@
   <div class="card-body">
     <div class="row">
       <div class="col-lg-8">
-        <h5 class="mb-3">Order Tracking</h5>
-        @php
-          $milestones = [
-            'deposit_pending' => trans_status('quote_accepted'),
-            'deposit_paid' => trans_status('deposit_paid'),
-            'in_production' => trans_status('in_production'),
-            'shipped' => trans_status('shipped'),
-            'delivered' => trans_status('delivered'),
-          ];
-          $orderMilestones = array_keys($milestones);
-          $current = array_search($order->milestone_status, $orderMilestones);
-          if ($current === false) { $current = 0; }
-        @endphp
-        <div class="hanzo-stepper mb-4">
-          @foreach($orderMilestones as $i => $m)
-          <div class="step {{ $i < $current ? 'completed' : '' }} {{ $i === $current ? 'active' : '' }}">
-            <div class="step-circle">{{ $i + 1 }}</div>
-            <div class="small mt-1 {{ $i <= $current ? 'text-body' : 'text-muted' }}">{{ $milestones[$m] }}</div>
-          </div>
-          @endforeach
-        </div>
+        <h5 class="mb-3">Order Timeline</h5>
+        <x-order-timeline :order="$order" />
         <div class="row g-2">
           <div class="col-md-6">
             <p class="mb-1"><strong>Status</strong></p>
-            <span class="badge bg-label-info">{{ $milestones[$order->milestone_status] ?? $order->milestone_status }}</span>
+            <span class="badge bg-label-info">{{ trans_status($order->milestone_status) }}</span>
           </div>
           <div class="col-md-6">
             <p class="mb-1"><strong>Tracking</strong></p>
@@ -86,11 +67,9 @@
       </div>
       <div class="col-lg-4">
         <div class="d-grid gap-2">
-          @if($order->milestone_status === 'deposit_pending' && $remaining > 0)
-          <a href="{{ route('buyer.payments.create', $order) }}" class="btn btn-primary">Pay Deposit</a>
-          <p class="text-muted small mb-0">Submit payment proof for verification. Typically 30% deposit.</p>
-          @elseif($remaining > 0 && in_array($order->milestone_status, ['deposit_paid','in_production','shipped']))
-          <a href="{{ route('buyer.payments.create', $order) }}?type=balance" class="btn btn-outline-primary">Pay Balance ({{ money($remaining) }})</a>
+          @if($remaining > 0 && !in_array($order->milestone_status, ['completed']))
+          <a href="{{ route('buyer.payments.create', $order) }}" class="btn btn-primary">Upload Payment Proof</a>
+          <p class="text-muted small mb-0">Submit payment proof for verification. Admin will verify before order proceeds.</p>
           @endif
           <a href="{{ route('buyer.orders.documents', $order) }}" class="btn btn-outline-primary">
             <i class="bx bx-folder me-1"></i> Documents

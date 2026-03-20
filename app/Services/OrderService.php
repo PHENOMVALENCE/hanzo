@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Quotation;
-use App\Notifications\NewOrderNotification;
-use App\Notifications\OrderMilestoneNotification;
 use Illuminate\Support\Str;
 
 class OrderService
@@ -16,11 +14,11 @@ class OrderService
             'quotation_id' => $quotation->id,
             'order_code' => 'ORD-' . strtoupper(Str::random(8)),
             'buyer_id' => $quotation->rfq->buyer_id,
-            'milestone_status' => 'deposit_pending',
+            'milestone_status' => 'awaiting_factory_approval',
         ]);
 
         $order->milestones()->create([
-            'milestone' => 'deposit_pending',
+            'milestone' => 'awaiting_factory_approval',
             'changed_by' => auth()->id(),
             'note' => 'Order created from accepted quotation',
         ]);
@@ -28,7 +26,7 @@ class OrderService
         $quotation->update(['status' => 'accepted']);
         $quotation->rfq->update(['status' => 'in_production']);
 
-        $this->notifyNewOrder($order);
+        app(NotificationService::class)->notifyNewOrder($order);
 
         return $order;
     }
@@ -42,13 +40,7 @@ class OrderService
             'note' => $note,
         ]);
 
-        $notification = new OrderMilestoneNotification($order, $milestone);
-        $order->buyer?->notify($notification);
-        \App\Models\User::role('admin')->get()->each(fn ($u) => $u->notify($notification));
-        $factoryUser = $order->quotation?->rfq?->assignedFactory?->user;
-        if ($factoryUser) {
-            $factoryUser->notify($notification);
-        }
+        app(NotificationService::class)->notifyOrderMilestone($order, $milestone);
     }
 
     public function updateTracking(Order $order, ?string $trackingNumber, ?string $estimatedArrival): void
@@ -57,18 +49,5 @@ class OrderService
             'tracking_number' => $trackingNumber,
             'estimated_arrival' => $estimatedArrival ?: null,
         ]);
-    }
-
-    protected function notifyNewOrder(Order $order): void
-    {
-        $admins = \App\Models\User::role('admin')->get();
-        foreach ($admins as $admin) {
-            $admin->notify(new NewOrderNotification($order));
-        }
-
-        $factory = $order->quotation?->rfq?->assignedFactory?->user;
-        if ($factory) {
-            $factory->notify(new NewOrderNotification($order));
-        }
     }
 }

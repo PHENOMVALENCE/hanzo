@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends('layouts.sneat.base')
 
 @push('layout-css')
@@ -11,3 +12,6 @@
 @section('sidebar')
 @include('partials.sidebar-buyer-b2b')
 @endsection
+=======
+@extends('layouts.buyer-modern')
+>>>>>>> 3a34daee (Hanzo in b2b style)

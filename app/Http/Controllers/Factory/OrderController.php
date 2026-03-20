@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Factory;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\ProductionUpdate;
+use App\Services\OrderService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class OrderController extends Controller
 {
+    public function __construct(
+        private OrderService $orderService
+    ) {}
     public function index(): View
     {
         $factory = auth()->user()->factory;
@@ -34,6 +38,32 @@ class OrderController extends Controller
         $order->load(['quotation.rfq', 'quotation.factory', 'buyer', 'milestones', 'productionUpdates']);
 
         return view('factory.orders.show', compact('order'));
+    }
+
+    public function approveOrder(Order $order): RedirectResponse
+    {
+        $this->authorize('view', $order);
+
+        if ($order->milestone_status !== 'awaiting_factory_approval') {
+            return back()->with('error', 'Order is not awaiting factory approval.');
+        }
+
+        $this->orderService->updateMilestone($order, 'in_production', 'Factory approved order');
+
+        return back()->with('success', 'Order approved. Production can begin.');
+    }
+
+    public function updateToReadyToShip(Order $order): RedirectResponse
+    {
+        $this->authorize('view', $order);
+
+        if (! in_array($order->milestone_status, ['in_production'])) {
+            return back()->with('error', 'Order must be in production to mark ready to ship.');
+        }
+
+        $this->orderService->updateMilestone($order, 'ready_to_ship', 'Ready for shipment');
+
+        return back()->with('success', 'Order marked ready to ship.');
     }
 
     public function submitProductionUpdate(Request $request, Order $order): RedirectResponse

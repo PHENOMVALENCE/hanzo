@@ -17,6 +17,7 @@ class RfqService
             'code' => 'RFQ-' . strtoupper(Str::random(8)),
             'buyer_id' => $buyer->id,
             'category_id' => $data['category_id'],
+            'product_id' => $data['product_id'] ?? null,
             'description' => $data['description'] ?? null,
             'quantity' => $data['quantity'],
             'target_price_per_unit' => $data['target_price_per_unit'] ?? null,
@@ -47,5 +48,7 @@ class RfqService
             'assigned_admin_id' => $admin->id,
             'status' => 'assigned',
         ]);
+
+        app(\App\Services\NotificationService::class)->notifyRfqAssigned($rfq->fresh());
     }
 }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Product;
 use App\Models\Quotation;
 use App\Models\Rfq;
 use Illuminate\Support\Collection;
@@ -32,9 +33,9 @@ class PendingAlertsService
     {
         $alerts = collect();
 
-        // Pending orders (deposit pending) – highlight first
+        // Orders awaiting factory approval
         Order::with('buyer', 'quotation.rfq')
-            ->where('milestone_status', 'deposit_pending')
+            ->where('milestone_status', 'awaiting_factory_approval')
             ->latest()
             ->limit(5)
             ->get()
@@ -42,7 +43,7 @@ class PendingAlertsService
                 $alerts->push([
                     'type' => 'order_pending',
                     'url' => route('admin.orders.show', $o),
-                    'title' => 'Order ' . $o->order_code . ' – deposit pending',
+                    'title' => 'Order ' . $o->order_code . ' – awaiting factory approval',
                     'icon' => 'bx-package',
                 ]);
             });
@@ -59,6 +60,21 @@ class PendingAlertsService
                     'url' => route('admin.payments.show', $p),
                     'title' => 'Payment pending: ' . money($p->amount_usd) . ' – ' . ($p->order?->order_code ?? 'Order'),
                     'icon' => 'bx-dollar',
+                ]);
+            });
+
+        // Products pending approval
+        Product::with('factory', 'category')
+            ->where('status', Product::STATUS_PENDING_APPROVAL)
+            ->latest()
+            ->limit(3)
+            ->get()
+            ->each(function (Product $p) use ($alerts) {
+                $alerts->push([
+                    'type' => 'product_pending',
+                    'url' => route('admin.products.index', ['status' => 'pending_approval']),
+                    'title' => 'Product pending: ' . $p->title,
+                    'icon' => 'bx-box',
                 ]);
             });
 
@@ -91,9 +107,25 @@ class PendingAlertsService
 
         $alerts = collect();
 
-        // Pending orders needing production attention
+        // Orders awaiting factory approval (needs action)
         Order::whereHas('quotation.rfq', fn ($q) => $q->where('assigned_factory_id', $factory->id))
-            ->whereIn('milestone_status', ['deposit_paid', 'in_production'])
+            ->where('milestone_status', 'awaiting_factory_approval')
+            ->with('quotation.rfq')
+            ->latest()
+            ->limit(5)
+            ->get()
+            ->each(function (Order $o) use ($alerts) {
+                $alerts->push([
+                    'type' => 'order_pending',
+                    'url' => route('factory.orders.show', $o),
+                    'title' => 'Order ' . $o->order_code . ' – awaiting your approval',
+                    'icon' => 'bx-package',
+                ]);
+            });
+
+        // Orders in production
+        Order::whereHas('quotation.rfq', fn ($q) => $q->where('assigned_factory_id', $factory->id))
+            ->where('milestone_status', 'in_production')
             ->with('quotation.rfq')
             ->latest()
             ->limit(5)
@@ -107,18 +139,18 @@ class PendingAlertsService
                 ]);
             });
 
-        // All recent orders
+        // Other recent orders
         Order::whereHas('quotation.rfq', fn ($q) => $q->where('assigned_factory_id', $factory->id))
             ->with('quotation.rfq')
             ->latest()
             ->limit(5)
-            ->whereNotIn('milestone_status', ['deposit_paid', 'in_production'])
+            ->whereNotIn('milestone_status', ['awaiting_factory_approval', 'in_production'])
             ->get()
             ->each(function (Order $o) use ($alerts) {
                 $alerts->push([
                     'type' => 'order',
                     'url' => route('factory.orders.show', $o),
-                    'title' => 'Order ' . $o->order_code,
+                    'title' => 'Order ' . $o->order_code . ' – ' . trans_status($o->milestone_status),
                     'icon' => 'bx-package',
                 ]);
             });
@@ -130,9 +162,9 @@ class PendingAlertsService
     {
         $alerts = collect();
 
-        // Pending orders (deposit pending) – needs buyer action
+        // Orders awaiting factory approval (buyer is waiting)
         Order::where('buyer_id', $user->id)
-            ->where('milestone_status', 'deposit_pending')
+            ->where('milestone_status', 'awaiting_factory_approval')
             ->with('quotation.rfq')
             ->latest()
             ->limit(5)
@@ -141,7 +173,7 @@ class PendingAlertsService
                 $alerts->push([
                     'type' => 'order_pending',
                     'url' => route('buyer.orders.show', $o),
-                    'title' => 'Order ' . $o->order_code . ' – deposit pending',
+                    'title' => 'Order ' . $o->order_code . ' – awaiting factory approval',
                     'icon' => 'bx-package',
                 ]);
             });
@@ -162,9 +194,9 @@ class PendingAlertsService
                 ]);
             });
 
-        // Other orders
+        // Other orders (in progress, ready to ship, completed)
         Order::where('buyer_id', $user->id)
-            ->where('milestone_status', '!=', 'deposit_pending')
+            ->whereNot('milestone_status', 'awaiting_factory_approval')
             ->with('quotation.rfq')
             ->latest()
             ->limit(3)

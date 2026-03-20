@@ -1,6 +1,43 @@
 <?php
 
 return [
+    /* Header & navigation */
+    'search' => 'Search',
+    'search_products' => 'Search products...',
+    'deliver_to' => 'Deliver to',
+    'all_categories' => 'All categories',
+    'find_factories' => 'Find factories',
+    'order_protections' => 'Order protections',
+    'buyer_central' => 'Buyer Central',
+    'help_center' => 'Help Center',
+    'notifications' => 'Notifications',
+    'back_to_top' => 'Back to top',
+    'notifications_alerts' => 'Notifications & Alerts',
+    'pending' => 'Pending',
+    'recent' => 'Recent',
+    'needs_attention' => 'needs attention',
+    'no_recent_notifications' => 'No recent notifications.',
+    'mark_read' => 'Mark read',
+    'pending_items_subtitle' => 'Pending items and recent updates appear here.',
+
+    /* Promo & dashboard */
+    'new_buyer_coupon' => 'New buyer coupon',
+    'sign_in_offer' => 'Request a quote to get exclusive offers for your first order.',
+    'first_order_discount' => 'Special pricing',
+    'on_orders_over' => 'On orders over MOQ',
+    'recommended_for_you' => 'Recommended for you',
+    'no_products_yet' => 'No products in catalog yet. Check back soon.',
+    'no_products_match' => 'No products match your filters.',
+    'clear_filters' => 'Clear filters',
+    'back_to_catalog' => 'Back to catalog',
+
+    'product_images' => 'Product images',
+    'product_images_hint' => 'JPG, PNG or WebP, max 2MB each. First image is primary. Up to :max images.',
+    'add_images' => 'Add images',
+    'primary' => 'Primary',
+    'remove' => 'Remove',
+    'drag_drop' => 'or drag & drop',
+
     'rfq' => 'Product Request',
     'rfq_full' => 'Product Request',
     'rfq_desc' => 'A product sourcing request—describe what you need and we\'ll get you a quote.',
@@ -38,5 +75,13 @@ return [
     'total' => 'Total',
     'amount_paid' => 'Amount Paid',
     'amount_pending' => 'Amount Pending',
+<<<<<<< HEAD
     'select' => 'Select...',
+=======
+    'contact_for_price' => 'Contact for price',
+    'products' => 'Products',
+    'view_full_catalog' => 'View Full Catalog',
+    'request_quote' => 'Request Quote',
+    'contact_supplier' => 'Contact Supplier',
+>>>>>>> 3a34daee (Hanzo in b2b style)
 ];

@@ -52,6 +52,7 @@
     </a>
   </li>
   <li class="menu-item">
+<<<<<<< HEAD
     <a href="{{ route('admin.approvals.buyers') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-id-card"></i>
       <div data-i18n="Buyer KYC">{{ __('admin.menu.buyer_kyc') }}</div>
@@ -74,6 +75,14 @@
 
   <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('admin.menu.rfq_quotes') }}</span></li>
   <li class="menu-item {{ request()->routeIs('admin.rfqs.*') ? 'active' : '' }}">
+=======
+    <a href="{{ route('admin.products.index') }}" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-store"></i>
+      <div data-i18n="Products">{{ __('labels.products') }}</div>
+    </a>
+  </li>
+  <li class="menu-item">
+>>>>>>> 3a34daee (Hanzo in b2b style)
     <a href="{{ route('admin.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-file"></i>
       <div data-i18n="RFQ Overview">{{ __('admin.menu.rfq_overview') }}</div>

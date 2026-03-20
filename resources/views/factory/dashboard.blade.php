@@ -12,6 +12,7 @@
   $profileComplete = $factory ? 78 : 0; // Placeholder – implement profile completeness
   $rfqCount = $factory ? \App\Models\Rfq::where('assigned_factory_id', $factory->id)->whereIn('status', ['assigned','pricing_received'])->count() : 0;
   $pendingRfqs = $factory ? \App\Models\Rfq::where('assigned_factory_id', $factory->id)->where('status', 'assigned')->count() : 0;
+<<<<<<< HEAD
   $orderCount = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->count() : 0;
   $ordersInProduction = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->whereIn('milestone_status', ['deposit_paid','in_production'])->count() : 0;
   $ordersShipped = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->where('milestone_status', 'shipped')->count() : 0;
@@ -20,6 +21,11 @@
   $totalRevenue = 0;   // Placeholder – implement from orders
   $profileViews = 0;   // Placeholder – implement tracking
   $oldInquiries = $pendingRfqs; // RFQs > 24h without response – simplify for now
+=======
+  $ordersInProduction = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->whereIn('milestone_status', ['awaiting_factory_approval','in_production'])->count() : 0;
+  $ordersShipped = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->where('milestone_status', 'ready_to_ship')->count() : 0;
+  $ordersDelivered = $factory ? \App\Models\Order::whereHas('quotation.rfq', fn($q) => $q->where('assigned_factory_id', $factory->id))->where('milestone_status', 'completed')->count() : 0;
+>>>>>>> 3a34daee (Hanzo in b2b style)
 @endphp
 
 @if(!$factory)
@@ -276,15 +282,38 @@
 document.addEventListener('DOMContentLoaded', function() {
   var opts = {
     chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Inter' },
+<<<<<<< HEAD
     colors: ['#0d9488', '#14b8a6'],
     plotOptions: { bar: { horizontal: false, columnWidth: '60%', borderRadius: 4 } },
     dataLabels: { enabled: false },
     xaxis: { categories: ['In Production', 'Shipped', 'Delivered'] },
+=======
+    colors: ['#0B1F3A', '#123A6D', '#22C55E'],
+    plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 4 } },
+    dataLabels: { enabled: true },
+    xaxis: { categories: ['In Progress', 'Ready to Ship', 'Completed'] },
+>>>>>>> 3a34daee (Hanzo in b2b style)
     series: [{ name: 'Orders', data: [{{ $ordersInProduction }}, {{ $ordersShipped }}, {{ $ordersDelivered }}] }],
     grid: { borderColor: 'rgba(0,0,0,0.06)' }
   };
+<<<<<<< HEAD
   if (document.querySelector('#factoryPerformanceChart')) {
     new ApexCharts(document.querySelector('#factoryPerformanceChart'), opts).render();
+=======
+  if (document.querySelector('#factoryOrderChart')) {
+    new ApexCharts(document.querySelector('#factoryOrderChart'), barConfig).render();
+  }
+  var donutConfig = {
+    chart: { type: 'donut', fontFamily: 'Inter' },
+    colors: ['#D89B2B', '#123A6D', '#22C55E'],
+    labels: ['In Progress', 'Ready to Ship', 'Completed'],
+    series: [{{ $ordersInProduction }}, {{ $ordersShipped }}, {{ $ordersDelivered }}],
+    plotOptions: { pie: { donut: { size: '65%' } } },
+    legend: { position: 'bottom' }
+  };
+  if (document.querySelector('#factoryOrderDonut')) {
+    new ApexCharts(document.querySelector('#factoryOrderDonut'), donutConfig).render();
+>>>>>>> 3a34daee (Hanzo in b2b style)
   }
 });
 </script>

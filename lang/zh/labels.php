@@ -1,6 +1,36 @@
 <?php
 
 return [
+    /* Header & navigation */
+    'search' => '搜索',
+    'search_products' => '搜索产品...',
+    'deliver_to' => '配送到',
+    'all_categories' => '全部品类',
+    'find_factories' => '找工厂',
+    'order_protections' => '订单保障',
+    'buyer_central' => '买家中心',
+    'help_center' => '帮助中心',
+    'notifications' => '通知',
+    'back_to_top' => '回到顶部',
+    'notifications_alerts' => '通知与提醒',
+    'pending' => '待处理',
+    'recent' => '最近',
+    'needs_attention' => '需关注',
+    'no_recent_notifications' => '暂无近期通知。',
+    'mark_read' => '标为已读',
+    'pending_items_subtitle' => '待处理项目和最近更新将显示在此。',
+
+    /* Promo & dashboard */
+    'new_buyer_coupon' => '新买家优惠券',
+    'sign_in_offer' => '提交询价获取首单专属优惠。',
+    'first_order_discount' => '特惠价',
+    'on_orders_over' => '订单起订量以上',
+    'recommended_for_you' => '为你推荐',
+    'no_products_yet' => '暂无产品。敬请期待。',
+    'no_products_match' => '没有符合筛选条件的产品。',
+    'clear_filters' => '清除筛选',
+    'back_to_catalog' => '返回目录',
+
     'rfq' => '产品需求',
     'rfq_full' => '产品需求',
     'rfq_desc' => '产品采购需求——描述您的需求，我们将为您报价。',
@@ -31,9 +61,16 @@ return [
     'no_assigned_rfqs' => '暂无分配给您的产品需求。',
     'view_submit_price' => '查看/提交报价',
     'submit_your_price' => '提交您的报价',
+    'currency' => '货币',
+    'language' => '语言',
     'order' => '订单',
     'order_code' => '订单编号',
     'total' => '总计',
     'amount_paid' => '已付金额',
     'amount_pending' => '待付金额',
+    'contact_for_price' => '询价',
+    'products' => '产品',
+    'view_full_catalog' => '查看全部目录',
+    'request_quote' => '询价',
+    'contact_supplier' => '联系供应商',
 ];
