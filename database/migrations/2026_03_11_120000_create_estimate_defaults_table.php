@@ -10,6 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
+        if (Schema::hasTable('estimate_defaults')) {
+            return;
+        }
+
         Schema::create('estimate_defaults', function (Blueprint $table) {
             $table->id();
             $table->decimal('factory_min', 10, 2)->nullable();
