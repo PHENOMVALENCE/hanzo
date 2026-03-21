@@ -12,6 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('transport_defaults')) {
+            return;
+        }
+
         Schema::create('transport_defaults', function (Blueprint $table) {
             $table->id();
             $table->string('method', 20)->unique(); // sea, air
@@ -22,10 +26,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('transport_defaults')->insert([
-            ['method' => 'sea', 'base_min' => 200, 'per_unit_min' => 0.05, 'base_max' => 800, 'per_unit_max' => 0.1, 'created_at' => now(), 'updated_at' => now()],
-            ['method' => 'air', 'base_min' => 400, 'per_unit_min' => 0.15, 'base_max' => 1500, 'per_unit_max' => 0.3, 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        if (DB::table('transport_defaults')->count() === 0) {
+            DB::table('transport_defaults')->insert([
+                ['method' => 'sea', 'base_min' => 200, 'per_unit_min' => 0.05, 'base_max' => 800, 'per_unit_max' => 0.1, 'created_at' => now(), 'updated_at' => now()],
+                ['method' => 'air', 'base_min' => 400, 'per_unit_min' => 0.15, 'base_max' => 1500, 'per_unit_max' => 0.3, 'created_at' => now(), 'updated_at' => now()],
+            ]);
+        }
     }
 
     /**
