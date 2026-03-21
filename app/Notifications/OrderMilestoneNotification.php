@@ -22,7 +22,7 @@ class OrderMilestoneNotification extends Notification implements ShouldQueue
         return ['database', 'mail'];
     }
 
-    public function toMail(object $notifiable): \Illuminate\Mail\Mailable
+    public function toMail(object $notifiable): MailMessage
     {
         $statusLabel = trans_status($this->milestone);
         $url = match (true) {
