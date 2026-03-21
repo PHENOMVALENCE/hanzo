@@ -14,37 +14,58 @@ use App\Notifications\ProductSubmittedNotification;
 use App\Notifications\QuoteRejectedNotification;
 use App\Notifications\QuoteSentNotification;
 use App\Notifications\RfqAssignedNotification;
+use Illuminate\Support\Facades\Log;
 
 class NotificationService
 {
+    /**
+     * Send notification to user, catching mail transport errors so they don't break the flow.
+     */
+    private function sendSafe(object $notifiable, object $notification): void
+    {
+        try {
+            $notifiable->notify($notification);
+        } catch (\Throwable $e) {
+            Log::warning('Notification mail failed (database notification may still be saved)', [
+                'notifiable' => $notifiable->id ?? null,
+                'notification' => get_class($notification),
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function notifyNewOrder(Order $order): void
     {
         $admins = \App\Models\User::role('admin')->get();
         foreach ($admins as $admin) {
-            $admin->notify(new NewOrderNotification($order));
+            $this->sendSafe($admin, new NewOrderNotification($order));
         }
 
         $factoryUser = $order->quotation?->rfq?->assignedFactory?->user;
         if ($factoryUser) {
-            $factoryUser->notify(new NewOrderNotification($order));
+            $this->sendSafe($factoryUser, new NewOrderNotification($order));
         }
     }
 
     public function notifyOrderMilestone(Order $order, string $milestone): void
     {
         $notification = new OrderMilestoneNotification($order, $milestone);
-        $order->buyer?->notify($notification);
-        \App\Models\User::role('admin')->get()->each(fn ($u) => $u->notify($notification));
+        if ($order->buyer) {
+            $this->sendSafe($order->buyer, $notification);
+        }
+        foreach (\App\Models\User::role('admin')->get() as $admin) {
+            $this->sendSafe($admin, $notification);
+        }
         $factoryUser = $order->quotation?->rfq?->assignedFactory?->user;
         if ($factoryUser) {
-            $factoryUser->notify($notification);
+            $this->sendSafe($factoryUser, $notification);
         }
     }
 
     public function notifyPaymentPending(\App\Models\Payment $payment): void
     {
         foreach (\App\Models\User::role('admin')->get() as $admin) {
-            $admin->notify(new PaymentPendingNotification($payment));
+            $this->sendSafe($admin, new PaymentPendingNotification($payment));
         }
     }
 
@@ -52,18 +73,18 @@ class NotificationService
     {
         $buyer = $quotation->rfq?->buyer;
         if ($buyer) {
-            $buyer->notify(new QuoteSentNotification($quotation));
+            $this->sendSafe($buyer, new QuoteSentNotification($quotation));
         }
     }
 
     public function notifyQuoteRejected(Quotation $quotation): void
     {
         foreach (\App\Models\User::role('admin')->get() as $admin) {
-            $admin->notify(new QuoteRejectedNotification($quotation));
+            $this->sendSafe($admin, new QuoteRejectedNotification($quotation));
         }
         $factoryUser = $quotation->rfq?->assignedFactory?->user;
         if ($factoryUser) {
-            $factoryUser->notify(new QuoteRejectedNotification($quotation));
+            $this->sendSafe($factoryUser, new QuoteRejectedNotification($quotation));
         }
     }
 
@@ -71,14 +92,14 @@ class NotificationService
     {
         $factoryUser = $product->factory?->user;
         if ($factoryUser) {
-            $factoryUser->notify(new ProductApprovedNotification($product));
+            $this->sendSafe($factoryUser, new ProductApprovedNotification($product));
         }
     }
 
     public function notifyProductSubmitted(Product $product): void
     {
         foreach (\App\Models\User::role('admin')->get() as $admin) {
-            $admin->notify(new ProductSubmittedNotification($product));
+            $this->sendSafe($admin, new ProductSubmittedNotification($product));
         }
     }
 
@@ -86,7 +107,7 @@ class NotificationService
     {
         $factoryUser = $rfq->assignedFactory?->user;
         if ($factoryUser) {
-            $factoryUser->notify(new RfqAssignedNotification($rfq));
+            $this->sendSafe($factoryUser, new RfqAssignedNotification($rfq));
         }
     }
 }

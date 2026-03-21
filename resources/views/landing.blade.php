@@ -16,10 +16,12 @@
           <h1 class="hanzo-home-hero-title mb-3">{{ __('landing.tagline') }}</h1>
           <p class="hanzo-home-hero-sub mb-4">{{ __('landing.subtitle') }}</p>
           @guest
-          <div class="d-flex flex-wrap gap-3">
+          <div class="hanzo-home-hero-ctas">
             <a href="{{ route('register') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-primary">{{ __('landing.request_quote') }}</a>
-            <a href="#categories" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.explore_categories') }}</a>
-            <a href="{{ route('partner-with-hanzo') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.list_factory') }}</a>
+            <div class="hanzo-home-hero-ctas-secondary">
+              <a href="#categories" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.explore_categories') }}</a>
+              <a href="{{ route('partner-with-hanzo') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.list_factory') }}</a>
+            </div>
           </div>
           @else
           <div class="d-flex flex-wrap gap-3">

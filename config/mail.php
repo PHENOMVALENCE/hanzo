@@ -119,4 +119,17 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Notifications Mail Channel
+    |--------------------------------------------------------------------------
+    |
+    | When false, notification classes will skip the mail channel (database
+    | notifications still work). Use when SMTP is misconfigured or unavailable
+    | so order/RFQ flows continue without failing on mail send.
+    |
+    */
+
+    'notifications_enabled' => env('NOTIFICATIONS_MAIL_ENABLED', true),
+
 ];

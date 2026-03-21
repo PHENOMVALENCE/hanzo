@@ -94,6 +94,31 @@ php artisan view:clear
 
 ---
 
+## Gmail SMTP (authentication failed)
+
+If you see `535 authentication failed` with Gmail:
+
+1. **Use an App Password**, not your normal Gmail password:
+   - Google Account → Security → 2-Step Verification (enable if needed)
+   - App passwords → Generate for "Mail" / "Other (Custom name)"
+   - Use the 16-character password in `.env` as `MAIL_PASSWORD`
+
+2. **Correct `.env` settings:**
+   ```
+   MAIL_MAILER=smtp
+   MAIL_HOST=smtp.gmail.com
+   MAIL_PORT=587
+   MAIL_USERNAME=your-email@gmail.com
+   MAIL_PASSWORD=your-16-char-app-password
+   MAIL_ENCRYPTION=tls
+   ```
+
+3. **Temporary workaround (choose one):**
+   - Set `MAIL_MAILER=log` to log emails instead of sending.
+   - Or set `NOTIFICATIONS_MAIL_ENABLED=false` so notifications use only the database channel (no email). Order, RFQ, and other flows will work; users will see in-app notifications only.
+
+---
+
 ## If you can't use SSH
 
 1. Use **Hostinger File Manager** or FTP.

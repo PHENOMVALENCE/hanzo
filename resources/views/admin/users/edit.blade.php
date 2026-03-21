@@ -90,6 +90,14 @@
           <label class="form-label" for="factory_notes">Internal Notes <span class="text-muted small">(admin only, e.g. performance)</span></label>
           <textarea class="form-control" id="factory_notes" name="factory_notes" rows="2">{{ old('factory_notes', $user->factory->notes) }}</textarea>
         </div>
+        <div class="col-md-6">
+          <label class="form-label" for="verification_status">Company Verification</label>
+          <select class="form-select" id="verification_status" name="verification_status">
+            <option value="pending" {{ old('verification_status', $user->factory->verification_status) === 'pending' ? 'selected' : '' }}>Pending verification</option>
+            <option value="verified" {{ old('verification_status', $user->factory->verification_status) === 'verified' ? 'selected' : '' }}>Verified</option>
+          </select>
+          <small class="text-muted">Shown on factory dashboard</small>
+        </div>
         @else
         <div class="col-md-6 factory-fields">
           <label class="form-label" for="factory_name">Factory Name <span class="text-muted">(when role is Factory)</span></label>

@@ -37,7 +37,7 @@
                 @if($user->job_title)<br><small class="text-muted">{{ $user->job_title }}</small>@endif
               </td>
               <td>{{ $user->email }}</td>
-              <td>{{ $user->company_name ?? '-' }}</td>
+              <td>{{ $user->factory?->factory_name ?? $user->company_name ?? '-' }}</td>
               <td>{{ $user->country ?? '-' }}</td>
               @if($type === 'buyers')
               <td>

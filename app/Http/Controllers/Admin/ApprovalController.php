@@ -41,6 +41,10 @@ class ApprovalController extends Controller
         $user = User::findOrFail($id);
         $user->update(['status' => 'approved']);
 
+        if ($user->hasRole('factory')) {
+            $user->factory?->update(['verification_status' => 'verified']);
+        }
+
         if ($user->hasRole('buyer')) {
             try {
                 Mail::to($user->email)->send(new BuyerApprovedMail($user));

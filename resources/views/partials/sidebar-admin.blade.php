@@ -51,15 +51,15 @@
   </li>
 
   <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('admin.menu.verification') }}</span></li>
-  <li class="menu-item {{ request()->routeIs('admin.approvals.*') ? 'active' : '' }}">
-    <a href="{{ route('admin.approvals.buyers') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-user-check"></i>
+  <li class="menu-item {{ request()->routeIs('admin.approvals.factories') ? 'active' : '' }}">
+    <a href="{{ route('admin.approvals.factories') }}" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-building"></i>
       <div data-i18n="Factory Verification">{{ __('admin.menu.factory_verification') }}</div>
     </a>
   </li>
-  <li class="menu-item">
+  <li class="menu-item {{ request()->routeIs('admin.approvals.buyers') ? 'active' : '' }}">
     <a href="{{ route('admin.approvals.buyers') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-id-card"></i>
+      <i class="menu-icon tf-icons bx bx-user-check"></i>
       <div data-i18n="Buyer KYC">{{ __('admin.menu.buyer_kyc') }}</div>
     </a>
   </li>

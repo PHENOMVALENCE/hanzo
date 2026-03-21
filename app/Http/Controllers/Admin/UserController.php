@@ -116,6 +116,7 @@ class UserController extends Controller
             'contact_wechat' => ['nullable', 'string', 'max:100'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
             'factory_notes' => ['nullable', 'string', 'max:2000'],
+            'verification_status' => ['nullable', Rule::in(['pending', 'verified'])],
             'phone' => ['nullable', 'string', 'max:30'],
             'country' => ['nullable', 'string', 'max:80'],
             'city' => ['nullable', 'string', 'max:100'],
@@ -153,6 +154,9 @@ class UserController extends Controller
                 'contact_wechat' => $request->input('contact_wechat'),
                 'contact_phone' => $request->input('contact_phone'),
                 'notes' => $request->input('factory_notes'),
+                'verification_status' => in_array($request->input('verification_status'), ['verified', 'pending'], true)
+                    ? $request->input('verification_status')
+                    : $factory->verification_status,
             ]);
         }
 
