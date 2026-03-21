@@ -13,8 +13,7 @@
   display: flex;
   align-items: center;
   padding: 3rem 0 4rem;
-  background-image: linear-gradient(180deg, rgba(250, 251, 252, 0.45) 0%, rgba(241, 243, 245, 0.4) 50%, rgba(250, 251, 252, 0.55) 100%),
-    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(18, 58, 109, 0.12), transparent 50%),
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.25) 100%),
     url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920');
   background-size: cover;
   background-position: center;
@@ -26,10 +25,23 @@
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230B1F3A' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background: linear-gradient(90deg, rgba(11, 31, 58, 0.2) 0%, transparent 35%);
   pointer-events: none;
-  opacity: 0.8;
 }
+
+/* Semi-transparent scrim behind hero text for readability */
+.hanzo-home-hero-content {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 2rem 2rem 1.5rem;
+  border-radius: 16px;
+  max-width: 36rem;
+  box-shadow: 0 4px 24px rgba(11, 31, 58, 0.08);
+}
+
 .hanzo-home-hero-title {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
@@ -41,7 +53,7 @@
 .hanzo-home-hero-sub {
   font-family: 'DM Sans', sans-serif;
   font-size: 1.15rem;
-  color: #64748b;
+  color: #334155;
   max-width: 32rem;
 }
 .hanzo-home-hero-cta {
@@ -78,6 +90,10 @@
 }
 
 /* Trust badges - inline under hero */
+.hanzo-home-hero-content .hanzo-home-trust {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
 .hanzo-home-trust {
   display: flex;
   flex-wrap: wrap;

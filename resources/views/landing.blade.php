@@ -12,27 +12,29 @@
   <div class="container position-relative">
     <div class="row align-items-center">
       <div class="col-lg-7">
-        <h1 class="hanzo-home-hero-title mb-3">{{ __('landing.tagline') }}</h1>
-        <p class="hanzo-home-hero-sub mb-4">{{ __('landing.subtitle') }}</p>
-        @guest
-        <div class="d-flex flex-wrap gap-3">
-          <a href="{{ route('register') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-primary">{{ __('landing.request_quote') }}</a>
-          <a href="#categories" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.explore_categories') }}</a>
-          <a href="{{ route('partner-with-hanzo') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.list_factory') }}</a>
-        </div>
-        @else
-        <div class="d-flex flex-wrap gap-3">
-          @if(auth()->user()->hasRole('buyer'))
-          <a href="{{ route('buyer.rfqs.create') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-primary">{{ __('landing.request_quote') }}</a>
-          @endif
-          @php $dash = auth()->user()->hasRole('admin') ? route('admin.dashboard') : (auth()->user()->hasRole('factory') ? route('factory.dashboard') : route('buyer.dashboard')); @endphp
-          <a href="{{ $dash }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">Dashboard</a>
-        </div>
-        @endguest
-        <div class="hanzo-home-trust">
-          <span class="hanzo-home-trust-item"><i class="bx bx-check-shield"></i> {{ __('landing.verified_factories') }}</span>
-          <span class="hanzo-home-trust-item"><i class="bx bx-receipt"></i> {{ __('landing.transparent_pricing') }}</span>
-          <span class="hanzo-home-trust-item"><i class="bx bx-package"></i> {{ __('landing.logistics_managed') }}</span>
+        <div class="hanzo-home-hero-content">
+          <h1 class="hanzo-home-hero-title mb-3">{{ __('landing.tagline') }}</h1>
+          <p class="hanzo-home-hero-sub mb-4">{{ __('landing.subtitle') }}</p>
+          @guest
+          <div class="d-flex flex-wrap gap-3">
+            <a href="{{ route('register') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-primary">{{ __('landing.request_quote') }}</a>
+            <a href="#categories" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.explore_categories') }}</a>
+            <a href="{{ route('partner-with-hanzo') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">{{ __('landing.list_factory') }}</a>
+          </div>
+          @else
+          <div class="d-flex flex-wrap gap-3">
+            @if(auth()->user()->hasRole('buyer'))
+            <a href="{{ route('buyer.rfqs.create') }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-primary">{{ __('landing.request_quote') }}</a>
+            @endif
+            @php $dash = auth()->user()->hasRole('admin') ? route('admin.dashboard') : (auth()->user()->hasRole('factory') ? route('factory.dashboard') : route('buyer.dashboard')); @endphp
+            <a href="{{ $dash }}" class="hanzo-home-hero-cta hanzo-home-hero-cta-outline">Dashboard</a>
+          </div>
+          @endguest
+          <div class="hanzo-home-trust">
+            <span class="hanzo-home-trust-item"><i class="bx bx-check-shield"></i> {{ __('landing.verified_factories') }}</span>
+            <span class="hanzo-home-trust-item"><i class="bx bx-receipt"></i> {{ __('landing.transparent_pricing') }}</span>
+            <span class="hanzo-home-trust-item"><i class="bx bx-package"></i> {{ __('landing.logistics_managed') }}</span>
+          </div>
         </div>
       </div>
     </div>
