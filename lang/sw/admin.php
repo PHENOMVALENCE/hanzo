@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'menu' => [
+        'analytics_reporting' => 'Takwimu na Ripoti',
+    ],
     'dashboard' => [
         'title' => 'Dashibodi ya Msimamizi',
         'subtitle' => 'Kituo cha kufanya maamuzi ya HANZO. Angalia idhini, maombi, maagizo na shughuli za jukwaa.',
@@ -29,5 +32,34 @@ return [
         'new_request' => 'Ombi jipya :code kutoka :buyer (:category)',
         'payment_pending' => 'Malipo :amount yanasubiri (Agizo :order)',
         'quote_sent' => 'Bei :code imetumwa kwa :rfq',
+    ],
+    'analytics' => [
+        'title' => 'Takwimu na Ripoti',
+        'subtitle' => 'Vipimo vya jukwaa, mienendo na ripoti za utendaji.',
+        'period' => 'Kipindi',
+        'months' => 'miezi',
+        'platform_summary' => 'Muhtasari wa Jukwaa',
+        'gmv_revenue_trend' => 'GMV na Mapato ya HANZO',
+        'orders_rfqs_trend' => 'Maagizo na Maombi',
+        'order_pipeline' => 'Mfumo wa Maagizo',
+        'top_buyers' => 'Wanunuzi Wakuu',
+        'top_factories' => 'Viowanda Vikuu',
+        'last_90_days' => 'Siku 90 zilizopita',
+        'platform_gmv' => 'GMV ya Jukwaa',
+        'gmv_30d' => 'GMV (siku 30)',
+        'hanzo_margin_30d' => 'Mapato HANZO (siku 30)',
+        'total_rfqs' => 'Maombi Yote',
+        'rfqs' => 'Maombi',
+        'orders_count' => 'Maagizo',
+        'total_value' => 'Thamani ya Jumla',
+        'no_data' => 'Hakuna data bado.',
+        'no_orders' => 'Hakuna maagizo.',
+        'unknown' => 'Haijulikani',
+        'status_deposit_pending' => 'Amana Inasubiri',
+        'status_deposit_paid' => 'Amana Imelipwa',
+        'status_in_production' => 'Inazalishwa',
+        'status_ready_to_ship' => 'Tayari Kusafirishwa',
+        'status_shipped' => 'Imesafirishwa',
+        'status_completed' => 'Imekamilika',
     ],
 ];

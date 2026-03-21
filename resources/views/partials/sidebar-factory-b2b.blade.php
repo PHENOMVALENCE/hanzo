@@ -1,7 +1,7 @@
 <div class="app-brand demo">
   <a href="{{ route('factory.dashboard') }}" class="app-brand-link">
     <img src="{{ asset('assets/hanzo/logo.png') }}" alt="HANZO" style="height: 28px; width: auto;" class="app-brand-logo">
-    <span class="app-brand-text demo menu-text fw-bolder ms-2">HANZO Factory</span>
+    <span class="app-brand-text demo menu-text fw-bolder ms-2">hanzo</span>
   </a>
   <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block" title="Toggle sidebar">
     <i class="bx bx-chevron-left bx-sm align-middle"></i>
@@ -29,12 +29,6 @@
       <div data-i18n="RFQ Inbox">RFQ Inbox</div>
     </a>
   </li>
-  <li class="menu-item {{ request()->routeIs('factory.messages.*') ? 'active' : '' }}">
-    <a href="{{ route('factory.messages.index') }}" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-message-dots"></i>
-      <div data-i18n="Messages">Messages</div>
-    </a>
-  </li>
   <li class="menu-item {{ request()->routeIs('factory.orders.*') ? 'active' : '' }}">
     <a href="{{ route('factory.orders.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-package"></i>
@@ -59,7 +53,7 @@
       <div data-i18n="Notifications">Notifications</div>
     </a>
   </li>
-  <li class="menu-item">
+  <li class="menu-item {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
     <a href="{{ route('profile.edit') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-cog"></i>
       <div data-i18n="Settings">Settings</div>

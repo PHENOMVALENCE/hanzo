@@ -8,6 +8,13 @@
     </a>
   </div>
 
+  @if(request()->routeIs('admin.*'))
+  <a href="{{ route('admin.dashboard') }}" class="navbar-brand d-none d-xl-flex align-items-center me-4">
+    <img src="{{ asset('assets/hanzo/logo.png') }}" alt="HANZO" style="height: 28px; width: auto;" class="me-2">
+    <span class="fw-bold text-body">hanzo admin</span>
+  </a>
+  @endif
+
   <div class="navbar-nav-right d-flex align-items-center flex-grow-1 justify-content-end" id="navbar-collapse">
     <ul class="navbar-nav flex-row align-items-center gap-1 gap-sm-2">
       @auth
@@ -90,20 +97,20 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="USD"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'USD' ? 'active' : '' }}">{{ config('currencies.names.USD') }}</button></form></li>
-          <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="TZS"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'TZS' ? 'active' : '' }}">{{ config('currencies.names.TZS') }}</button></form></li>
           <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="CNY"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'CNY' ? 'active' : '' }}">{{ config('currencies.names.CNY') }}</button></form></li>
+          <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="TZS"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'TZS' ? 'active' : '' }}">{{ config('currencies.names.TZS') }}</button></form></li>
         </ul>
       </li>
       <li class="nav-item dropdown me-0 me-sm-2">
         <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 py-2 px-2" href="#" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('labels.language') }}">
           <i class="bx bx-globe" style="font-size: 1.1rem;"></i>
-          <span class="d-none d-md-inline">{{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : '中文') }}</span>
-          <span class="d-inline d-md-none">{{ app()->getLocale() === 'en' ? 'EN' : (app()->getLocale() === 'sw' ? 'SW' : '中文') }}</span>
+          <span class="d-none d-md-inline">{{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : 'Chinese') }}</span>
+          <span class="d-inline d-md-none">{{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : 'Chinese') }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="en"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}">English</button></form></li>
           <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="sw"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'sw' ? 'active' : '' }}">Kiswahili</button></form></li>
-          <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="zh"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'zh' ? 'active' : '' }}">中文</button></form></li>
+          <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="zh"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'zh' ? 'active' : '' }}">Chinese</button></form></li>
         </ul>
       </li>
       <li class="nav-item navbar-dropdown dropdown-user dropdown me-0">

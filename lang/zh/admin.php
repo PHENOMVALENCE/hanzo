@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'menu' => [
+        'analytics_reporting' => '分析与报告',
+    ],
     'dashboard' => [
         'title' => '管理员仪表板',
         'subtitle' => 'HANZO 运营指挥中心。监控审批、产品需求、订单和平台活动。',
@@ -29,5 +32,34 @@ return [
         'new_request' => '新需求 :code 来自 :buyer (:category)',
         'payment_pending' => '付款 :amount 待核实（订单 :order）',
         'quote_sent' => '报价 :code 已发送至 :rfq',
+    ],
+    'analytics' => [
+        'title' => '分析与报告',
+        'subtitle' => '平台指标、趋势和业绩报告。',
+        'period' => '周期',
+        'months' => '个月',
+        'platform_summary' => '平台摘要',
+        'gmv_revenue_trend' => 'GMV 与 HANZO 利润率趋势',
+        'orders_rfqs_trend' => '订单与需求趋势',
+        'order_pipeline' => '订单流程',
+        'top_buyers' => '顶尖买家',
+        'top_factories' => '顶尖工厂',
+        'last_90_days' => '最近 90 天',
+        'platform_gmv' => '平台 GMV',
+        'gmv_30d' => 'GMV（30 天）',
+        'hanzo_margin_30d' => 'HANZO 利润（30 天）',
+        'total_rfqs' => '总需求',
+        'rfqs' => '需求',
+        'orders_count' => '订单',
+        'total_value' => '总价值',
+        'no_data' => '暂无数据。',
+        'no_orders' => '暂无订单。',
+        'unknown' => '未知',
+        'status_deposit_pending' => '待付定金',
+        'status_deposit_paid' => '定金已付',
+        'status_in_production' => '生产中',
+        'status_ready_to_ship' => '待发货',
+        'status_shipped' => '已发货',
+        'status_completed' => '已完成',
     ],
 ];

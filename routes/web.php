@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\ApprovalController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -101,6 +102,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/analytics', [AdminAnalyticsController::class, 'index'])->name('analytics.index');
 
     Route::get('/approvals/buyers', [ApprovalController::class, 'buyers'])->name('approvals.buyers');
     Route::get('/approvals/factories', [ApprovalController::class, 'factories'])->name('approvals.factories');
@@ -136,10 +138,8 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->pre
     Route::delete('/documents/{document}', [AdminDocumentController::class, 'destroy'])->name('documents.destroy');
 
     Route::resource('users', AdminUserController::class)->names('users')->except(['show']);
-<<<<<<< HEAD
     Route::get('/invite-factory', [\App\Http\Controllers\Admin\InviteFactoryController::class, 'create'])->name('invite-factory.create');
     Route::post('/invite-factory', [\App\Http\Controllers\Admin\InviteFactoryController::class, 'store'])->name('invite-factory.store');
-=======
 
     Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
     Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
@@ -149,7 +149,6 @@ Route::middleware(['auth', 'verified', 'approved', 'role:admin', 'locale'])->pre
     Route::delete('/products/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
     Route::post('/products/{product}/approve', [AdminProductController::class, 'approve'])->name('products.approve');
     Route::post('/products/{product}/disable', [AdminProductController::class, 'disable'])->name('products.disable');
->>>>>>> 3a34daee (Hanzo in b2b style)
 });
 
 Route::post('/locale', [LocaleController::class, 'switch'])->name('locale.switch')->middleware(['web']);
@@ -158,7 +157,9 @@ Route::post('/currency', [CurrencyController::class, 'switch'])->name('currency.
 Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->prefix('buyer')->name('buyer.')->group(function () {
     Route::get('/dashboard', [BuyerDashboardController::class, 'index'])->name('dashboard');
 
-<<<<<<< HEAD
+    Route::get('/products', [BuyerProductController::class, 'index'])->name('products.index');
+    Route::get('/products/{product}', [BuyerProductController::class, 'show'])->name('products.show');
+
     Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
     Route::get('/catalog/{category}', [CatalogController::class, 'show'])->name('catalog.show');
 
@@ -171,10 +172,6 @@ Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->pre
     Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');
 
     Route::get('/settings', fn () => redirect()->route('profile.edit'))->name('settings');
-=======
-    Route::get('/products', [BuyerProductController::class, 'index'])->name('products.index');
-    Route::get('/products/{product}', [BuyerProductController::class, 'show'])->name('products.show');
->>>>>>> 3a34daee (Hanzo in b2b style)
 
     Route::get('/rfqs', [BuyerRfqController::class, 'index'])->name('rfqs.index');
     Route::get('/rfqs/create', [BuyerRfqController::class, 'create'])->name('rfqs.create');
@@ -198,14 +195,9 @@ Route::middleware(['auth', 'verified', 'approved', 'role:buyer', 'locale'])->pre
 Route::middleware(['auth', 'verified', 'approved', 'role:factory', 'locale'])->prefix('factory')->name('factory.')->group(function () {
     Route::get('/dashboard', [FactoryDashboardController::class, 'index'])->name('dashboard');
 
-<<<<<<< HEAD
-    Route::resource('products', \App\Http\Controllers\Factory\ProductController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-    Route::get('/messages', fn () => redirect()->route('factory.dashboard'))->name('messages.index');
-    Route::get('/profile', fn () => redirect()->route('profile.edit'))->name('profile.edit');
-    Route::get('/analytics', fn () => redirect()->route('factory.dashboard'))->name('analytics.index');
-=======
     Route::resource('products', FactoryProductController::class)->except(['show'])->names('products');
->>>>>>> 3a34daee (Hanzo in b2b style)
+    Route::get('/profile', fn () => redirect()->route('profile.edit'))->name('profile.edit');
+    Route::get('/analytics', [\App\Http\Controllers\Factory\AnalyticsController::class, 'index'])->name('analytics.index');
 
     Route::get('/rfqs', [FactoryRfqController::class, 'index'])->name('rfqs.index');
     Route::get('/rfqs/{rfq}', [FactoryRfqController::class, 'show'])->name('rfqs.show');

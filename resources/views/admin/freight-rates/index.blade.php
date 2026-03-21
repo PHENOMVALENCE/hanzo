@@ -7,9 +7,11 @@
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>
 @endif
+<p class="text-muted small mb-2">Sea freight (per CBM), Air freight (per KG), or per container. Used for cost estimation and quotations.</p>
 <div class="d-flex flex-wrap gap-2 mb-3">
   <a href="{{ route('admin.freight-rates.create') }}" class="btn btn-primary">Add Rate</a>
-  <a href="{{ route('admin.transport-defaults.edit') }}" class="btn btn-outline-secondary">Initial/Default Transport Costs</a>
+  <a href="{{ route('admin.transport-defaults.edit') }}" class="btn btn-outline-secondary">Transport Defaults</a>
+  <a href="{{ route('admin.estimate-defaults.edit') }}" class="btn btn-outline-secondary">Estimate Defaults (freight &amp; clearing brackets)</a>
 </div>
 <div class="card">
   <div class="card-body">

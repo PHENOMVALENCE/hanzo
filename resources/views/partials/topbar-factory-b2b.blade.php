@@ -11,6 +11,28 @@
   </a>
 
   <div class="navbar-nav-right d-flex align-items-center flex-grow-1 justify-content-end">
+    <div class="nav-item dropdown me-2">
+      <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 py-2 px-2" href="#" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('labels.currency') }}">
+        <i class="bx bx-dollar-circle" style="font-size: 1.1rem;"></i>
+        <span class="d-none d-md-inline">{{ config('currencies.names')[session('currency', 'USD')] ?? config('currencies.names.USD') }}</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="USD"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'USD' ? 'active' : '' }}">{{ config('currencies.names.USD') }}</button></form></li>
+        <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="CNY"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'CNY' ? 'active' : '' }}">{{ config('currencies.names.CNY') }}</button></form></li>
+        <li><form method="POST" action="{{ route('currency.switch') }}">@csrf<input type="hidden" name="currency" value="TZS"><button type="submit" class="dropdown-item {{ (session('currency', 'USD')) === 'TZS' ? 'active' : '' }}">{{ config('currencies.names.TZS') }}</button></form></li>
+      </ul>
+    </div>
+    <div class="nav-item dropdown me-2">
+      <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 py-2 px-2" href="#" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('labels.language') }}">
+        <i class="bx bx-globe" style="font-size: 1.1rem;"></i>
+        <span class="d-none d-md-inline">{{ app()->getLocale() === 'en' ? 'English' : (app()->getLocale() === 'sw' ? 'Kiswahili' : 'Chinese') }}</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="en"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}">English</button></form></li>
+        <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="sw"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'sw' ? 'active' : '' }}">Kiswahili</button></form></li>
+        <li><form method="POST" action="{{ route('locale.switch') }}">@csrf<input type="hidden" name="locale" value="zh"><button type="submit" class="dropdown-item {{ app()->getLocale() === 'zh' ? 'active' : '' }}">Chinese</button></form></li>
+      </ul>
+    </div>
     @php
       $pendingAlerts = app(\App\Services\PendingAlertsService::class)->forUser();
       $notifications = Auth::user()?->notifications->take(10) ?? collect();
@@ -28,9 +50,9 @@
       </a>
       <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 300px; max-height: 400px; overflow-y: auto;">
         <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
-          <span class="fw-semibold">Notifications</span>
+          <span class="fw-semibold">{{ __('factory.dashboard.notifications') }}</span>
           @if($unread > 0)
-          <form method="POST" action="{{ route('notifications.readAll') }}" class="d-inline">@csrf<button type="submit" class="btn btn-link btn-sm p-0">Mark all read</button></form>
+          <form method="POST" action="{{ route('notifications.readAll') }}" class="d-inline">@csrf<button type="submit" class="btn btn-link btn-sm p-0">{{ __('factory.dashboard.mark_all_read') }}</button></form>
           @endif
         </li>
         @foreach($pendingAlerts->take(5) as $alert)
@@ -41,9 +63,9 @@
         <li><a class="dropdown-item py-2 {{ $n->read_at ? '' : 'bg-light' }}" href="{{ $url }}"><span class="d-block small">{{ $title }}</span><small class="text-muted">{{ $n->created_at->diffForHumans() }}</small></a></li>
         @endforeach
         @if($totalNotif === 0)
-        <li class="dropdown-item text-muted py-3 text-center">No notifications</li>
+        <li class="dropdown-item text-muted py-3 text-center">{{ __('factory.dashboard.no_notifications') }}</li>
         @endif
-        <li class="dropdown-footer text-center border-top"><a class="dropdown-item small py-2" href="{{ route('notifications.index') }}">View all</a></li>
+        <li class="dropdown-footer text-center border-top"><a class="dropdown-item small py-2" href="{{ route('notifications.index') }}">{{ __('factory.dashboard.view_all') }}</a></li>
       </ul>
     </div>
 
@@ -63,12 +85,12 @@
           <small class="text-muted">{{ Auth::user()?->factory?->factory_name ?? '' }}</small>
         </li>
         <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('profile.edit') }}"><i class="bx bx-user"></i> Profile</a></li>
-        <li><a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('factory.dashboard') }}"><i class="bx bx-cog"></i> Settings</a></li>
+        <li><a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('profile.edit') }}"><i class="bx bx-user"></i> {{ __('factory.dashboard.profile') }}</a></li>
+        <li><a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('profile.edit') }}"><i class="bx bx-cog"></i> {{ __('factory.dashboard.settings') }}</a></li>
         <li><hr class="dropdown-divider"></li>
         <li>
           <form method="POST" action="{{ route('logout') }}" class="d-inline">@csrf
-            <button type="submit" class="dropdown-item w-100 text-start border-0 bg-transparent"><i class="bx bx-power-off me-2"></i> Log out</button>
+            <button type="submit" class="dropdown-item w-100 text-start border-0 bg-transparent"><i class="bx bx-power-off me-2"></i> {{ __('factory.dashboard.log_out') }}</button>
           </form>
         </li>
       </ul>

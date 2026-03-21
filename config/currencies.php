@@ -13,9 +13,9 @@ return [
         'CNY' => '¥',
     ],
     'names' => [
-        'USD' => 'Dollars (USD)',
-        'TZS' => 'Shillings (TZS)',
-        'CNY' => 'Yuan (CNY)',
+        'USD' => 'Dollar',
+        'TZS' => 'Tanzania Shillings',
+        'CNY' => 'Yuan',
     ],
     'decimals' => [
         'USD' => 2,

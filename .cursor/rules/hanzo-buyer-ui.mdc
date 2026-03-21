@@ -10,7 +10,7 @@ When building or editing buyer views, follow `HANZO_BUYER_SPEC.md` for design sy
 
 ## Security (never violate)
 
-- **Factory contact data:** Do not render `phone`, `email`, `wechat`, `whatsapp`, or `direct_contact`. Controllers must call `FactoryPrivacy::sanitize($factory)` before passing to views.
+- **Factory contact data:** Do not render `phone`, `email`, `wechat`, `whatsapp`, or `direct_contact`. Controllers must call `FactoryPrivacy::forBuyer($factory)` before passing to views.
 - **hanzo_margin:** Never expose in any buyer-facing view or API response.
 - Use `@csrf` in all forms. Blade `{{ }}` escapes output by default.
 

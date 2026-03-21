@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index(Request $request): View
     {
         $query = Product::forBuyerCatalog()
-            ->with(['category', 'factory'])
+            ->with(['category'])
             ->latest();
 
         if ($request->filled('category')) {
@@ -48,7 +48,7 @@ class ProductController extends Controller
             abort(404);
         }
 
-        $product->load(['category', 'factory']);
+        $product->load(['category']);
 
         return view('buyer.products.show', compact('product'));
     }

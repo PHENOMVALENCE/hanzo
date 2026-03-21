@@ -59,7 +59,7 @@
   <body class="@if(auth()->user()) hanzo-role-{{ auth()->user()->getRoleNames()->first() ?? 'buyer' }} @endif">
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container{{ request()->routeIs('buyer.*') ? ' hanzo-buyer-b2b' : '' }}{{ request()->routeIs('factory.*') ? ' hanzo-factory-b2b' : '' }}{{ request()->routeIs('admin.*') ? ' hanzo-admin-mc' : '' }}">
+      <div class="layout-container{{ request()->routeIs('buyer.*') ? ' hanzo-buyer-b2b' : '' }}{{ request()->routeIs('factory.*') || (auth()->user()?->hasRole('factory') && request()->routeIs(['notifications.*', 'profile.edit'])) ? ' hanzo-factory-b2b' : '' }}{{ request()->routeIs('admin.*') ? ' hanzo-admin-mc' : '' }}">
         <!-- Menu -->
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           @hasSection('sidebar')

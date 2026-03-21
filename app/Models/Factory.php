@@ -40,10 +40,6 @@ class Factory extends Model
 
     public function products(): HasMany
     {
-<<<<<<< HEAD
         return $this->hasMany(Product::class);
-=======
-        return $this->hasMany(Product::class, 'factory_id');
->>>>>>> 3a34daee (Hanzo in b2b style)
     }
 }

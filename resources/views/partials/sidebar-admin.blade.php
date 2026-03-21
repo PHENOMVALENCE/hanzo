@@ -1,7 +1,7 @@
 <div class="app-brand demo">
   <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
     <img src="{{ asset('assets/hanzo/logo.png') }}" alt="HANZO" style="height: 30px; width: auto;" class="app-brand-logo">
-    <span class="app-brand-text demo menu-text fw-bolder ms-2">HANZO Admin</span>
+    <span class="app-brand-text demo menu-text fw-bolder ms-2">hanzo</span>
   </a>
   <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block" title="Toggle sidebar">
     <i class="bx bx-chevron-left bx-sm align-middle"></i>
@@ -15,6 +15,12 @@
     <a href="{{ route('admin.dashboard') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-home-circle"></i>
       <div data-i18n="Dashboard">{{ __('menu.dashboard') }}</div>
+    </a>
+  </li>
+  <li class="menu-item {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}">
+    <a href="{{ route('admin.analytics.index') }}" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-bar-chart-alt"></i>
+      <div data-i18n="Analytics">{{ __('admin.menu.analytics_reporting') }}</div>
     </a>
   </li>
 
@@ -52,37 +58,20 @@
     </a>
   </li>
   <li class="menu-item">
-<<<<<<< HEAD
     <a href="{{ route('admin.approvals.buyers') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-id-card"></i>
       <div data-i18n="Buyer KYC">{{ __('admin.menu.buyer_kyc') }}</div>
     </a>
   </li>
 
-  <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('admin.menu.product_catalog') }}</span></li>
-  <li class="menu-item">
-    <a href="{{ route('admin.dashboard') }}#products" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-check-shield"></i>
-      <div data-i18n="Product Review Queue">{{ __('admin.menu.product_review_queue') }}</div>
-    </a>
-  </li>
-  <li class="menu-item">
-    <a href="{{ route('admin.dashboard') }}#catalog" class="menu-link">
-      <i class="menu-icon tf-icons bx bx-grid-alt"></i>
-      <div data-i18n="Full Catalog">{{ __('admin.menu.full_catalog') }}</div>
-    </a>
-  </li>
-
-  <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('admin.menu.rfq_quotes') }}</span></li>
-  <li class="menu-item {{ request()->routeIs('admin.rfqs.*') ? 'active' : '' }}">
-=======
+  <li class="menu-header small text-uppercase"><span class="menu-header-text">{{ __('admin.menu.product_catalog') ?? 'Products' }}</span></li>
+  <li class="menu-item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
     <a href="{{ route('admin.products.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-store"></i>
       <div data-i18n="Products">{{ __('labels.products') }}</div>
     </a>
   </li>
   <li class="menu-item">
->>>>>>> 3a34daee (Hanzo in b2b style)
     <a href="{{ route('admin.rfqs.index') }}" class="menu-link">
       <i class="menu-icon tf-icons bx bx-file"></i>
       <div data-i18n="RFQ Overview">{{ __('admin.menu.rfq_overview') }}</div>

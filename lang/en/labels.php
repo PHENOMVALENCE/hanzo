@@ -75,13 +75,10 @@ return [
     'total' => 'Total',
     'amount_paid' => 'Amount Paid',
     'amount_pending' => 'Amount Pending',
-<<<<<<< HEAD
     'select' => 'Select...',
-=======
     'contact_for_price' => 'Contact for price',
     'products' => 'Products',
     'view_full_catalog' => 'View Full Catalog',
     'request_quote' => 'Request Quote',
     'contact_supplier' => 'Contact Supplier',
->>>>>>> 3a34daee (Hanzo in b2b style)
 ];
