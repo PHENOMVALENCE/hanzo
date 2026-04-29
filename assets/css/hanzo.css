@@ -1,0 +1,190 @@
+/* HANZO — navy, gold, white B2B marketplace theme */
+:root {
+  --hanzo-navy: #0d1b2a;
+  --hanzo-navy-light: #1b2838;
+  --hanzo-gold: #c9a227;
+  --hanzo-gold-dark: #a68520;
+  --hanzo-bg: #ffffff;
+  --hanzo-muted: #6c757d;
+  --hanzo-border: #e8ecf1;
+}
+
+/* Prevent the loading overlay from blocking the page (especially when CDN JS is blocked). */
+#spinner { display: none !important; }
+
+body.hanzo-body {
+  font-family: 'Open Sans', 'Roboto', system-ui, sans-serif;
+  background-color: #f8fafc;
+  color: #1a1a1a;
+}
+
+.text-hanzo-gold { color: var(--hanzo-gold) !important; }
+.bg-hanzo-navy { background-color: var(--hanzo-navy) !important; }
+.bg-hanzo-navy-light { background-color: var(--hanzo-navy-light) !important; }
+.border-hanzo-gold { border-color: var(--hanzo-gold) !important; }
+
+.hanzo-topbar {
+  background: var(--hanzo-navy);
+  color: #cbd5e1;
+  font-size: 0.875rem;
+}
+.hanzo-topbar a { color: #e2e8f0; text-decoration: none; }
+.hanzo-topbar a:hover { color: var(--hanzo-gold); }
+
+.hanzo-brand {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--hanzo-navy) !important;
+}
+.hanzo-brand span { color: var(--hanzo-gold); }
+
+.hanzo-search-wrap {
+  border: 2px solid var(--hanzo-border);
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(13, 27, 42, 0.06);
+}
+.hanzo-search-wrap:focus-within {
+  border-color: var(--hanzo-gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+}
+.hanzo-search-wrap .form-control,
+.hanzo-search-wrap .form-select {
+  border: 0;
+  box-shadow: none !important;
+}
+.hanzo-search-wrap .btn-hanzo-primary {
+  border-radius: 0 999px 999px 0;
+}
+
+.btn-hanzo-primary {
+  background: var(--hanzo-gold);
+  border-color: var(--hanzo-gold);
+  color: var(--hanzo-navy);
+  font-weight: 600;
+}
+.btn-hanzo-primary:hover {
+  background: var(--hanzo-gold-dark);
+  border-color: var(--hanzo-gold-dark);
+  color: #fff;
+}
+
+.btn-hanzo-outline {
+  border: 2px solid var(--hanzo-navy);
+  color: var(--hanzo-navy);
+  font-weight: 600;
+}
+.btn-hanzo-outline:hover {
+  background: var(--hanzo-navy);
+  color: #fff;
+}
+
+.hanzo-navbar {
+  background: #fff;
+  border-bottom: 1px solid var(--hanzo-border);
+}
+.hanzo-navbar .nav-link {
+  color: var(--hanzo-navy);
+  font-weight: 600;
+}
+.hanzo-navbar .nav-link:hover,
+.hanzo-navbar .nav-link.active {
+  color: var(--hanzo-gold);
+}
+
+.hanzo-hero {
+  background: linear-gradient(135deg, var(--hanzo-navy) 0%, var(--hanzo-navy-light) 55%, #243b53 100%);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 2.5rem 2rem;
+}
+.hanzo-hero h1 { font-weight: 700; }
+.hanzo-hero .lead { color: #cbd5e1; }
+
+.hanzo-sidebar {
+  background: #fff;
+  border: 1px solid var(--hanzo-border);
+  border-radius: 0.5rem;
+}
+.hanzo-sidebar .list-group-item {
+  border: 0;
+  border-bottom: 1px solid var(--hanzo-border);
+  color: var(--hanzo-navy);
+  font-weight: 500;
+}
+.hanzo-sidebar .list-group-item:last-child { border-bottom: 0; }
+.hanzo-sidebar .list-group-item:hover,
+.hanzo-sidebar .list-group-item.active {
+  background: rgba(201, 162, 39, 0.12);
+  color: var(--hanzo-navy);
+}
+
+.hanzo-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--hanzo-navy);
+  border-left: 4px solid var(--hanzo-gold);
+  padding-left: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.hanzo-card-product {
+  background: #fff;
+  border: 1px solid var(--hanzo-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hanzo-card-product:hover {
+  box-shadow: 0 12px 28px rgba(13, 27, 42, 0.1);
+  transform: translateY(-2px);
+}
+.hanzo-card-product .thumb {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  width: 100%;
+  background: #f1f5f9;
+}
+.hanzo-card-product .card-body { flex: 1; }
+.hanzo-card-product .price-range {
+  color: var(--hanzo-gold-dark);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.hanzo-card-product .moq {
+  font-size: 0.8rem;
+  color: var(--hanzo-muted);
+}
+.hanzo-card-product .cat-badge {
+  font-size: 0.75rem;
+  background: #eef2f7;
+  color: var(--hanzo-navy);
+  border-radius: 0.25rem;
+  padding: 0.15rem 0.45rem;
+}
+
+.hanzo-footer {
+  background: var(--hanzo-navy);
+  color: #94a3b8;
+  margin-top: 3rem;
+}
+.hanzo-footer a { color: #e2e8f0; text-decoration: none; }
+.hanzo-footer a:hover { color: var(--hanzo-gold); }
+
+.spinner-hanzo .spinner-border {
+  color: var(--hanzo-gold);
+}
+
+.table-spec th {
+  width: 35%;
+  background: #f8fafc;
+  color: var(--hanzo-navy);
+}
+
+@media (max-width: 991.98px) {
+  .hanzo-search-wrap .form-select { max-width: 140px; }
+}

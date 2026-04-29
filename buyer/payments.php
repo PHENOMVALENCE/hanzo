@@ -1,0 +1,111 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_buyer();
+
+$buyerId = auth_id();
+$prefillOrderId = (int) ($_GET['order_id'] ?? 0);
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $orderId = (int) ($_POST['order_id'] ?? 0);
+    $amount = (float) ($_POST['amount'] ?? 0);
+    $paymentType = trim((string) ($_POST['payment_type'] ?? ''));
+    $method = trim((string) ($_POST['method'] ?? ''));
+    $reference = trim((string) ($_POST['reference'] ?? ''));
+
+    $st = $pdo->prepare('SELECT id FROM orders WHERE id = ? AND buyer_id = ?');
+    $st->execute([$orderId, $buyerId]);
+    if (!$st->fetch()) {
+        $errors[] = 'Invalid order selected.';
+    }
+    if ($amount <= 0) {
+        $errors[] = 'Amount must be greater than 0.';
+    }
+    if ($method === '') {
+        $errors[] = 'Payment method is required.';
+    }
+
+    $proofPath = null;
+    if (isset($_FILES['proof_file']) && $_FILES['proof_file']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $up = validate_upload_image_doc($_FILES['proof_file']);
+        if (!$up['ok']) {
+            $errors = array_merge($errors, $up['errors']);
+        } else {
+            $proofPath = save_uploaded_file($_FILES['proof_file'], 'payments', $up['filename']);
+            if ($proofPath === null) {
+                $errors[] = 'Failed to upload payment proof.';
+            }
+        }
+    }
+
+    if ($errors === []) {
+        $pdo->prepare('INSERT INTO payments (order_id, buyer_id, amount, payment_type, method, reference, proof_file, status) VALUES (?,?,?,?,?,?,?,"pending")')
+            ->execute([$orderId, $buyerId, $amount, $paymentType !== '' ? $paymentType : null, $method, $reference !== '' ? $reference : null, $proofPath]);
+        flash_set('success', 'Payment submitted. HANZO admin will verify it.');
+        redirect('buyer/payments.php');
+    }
+}
+
+$orders = $pdo->prepare('SELECT id, order_code, status FROM orders WHERE buyer_id = ? ORDER BY created_at DESC');
+$orders->execute([$buyerId]);
+$orderList = $orders->fetchAll();
+
+$payments = $pdo->prepare('SELECT p.*, o.order_code FROM payments p JOIN orders o ON o.id = p.order_id WHERE p.buyer_id = ? ORDER BY p.created_at DESC');
+$payments->execute([$buyerId]);
+$paymentRows = $payments->fetchAll();
+
+$pageTitle = 'Buyer Payments';
+require __DIR__ . '/../includes/header.php';
+$hideShopNav = false;
+require __DIR__ . '/../includes/navbar.php';
+?>
+<main class="container py-4">
+    <h1 class="h3 mb-3">Payments</h1>
+    <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
+    <?php foreach ($errors as $er): ?><div class="alert alert-danger"><?= e($er) ?></div><?php endforeach; ?>
+
+    <form method="post" enctype="multipart/form-data" class="row g-2 bg-white border rounded p-3 mb-3">
+        <div class="col-md-3">
+            <select class="form-select" name="order_id" required>
+                <option value="">Select order</option>
+                <?php foreach ($orderList as $o): ?>
+                    <option value="<?= (int) $o['id'] ?>" <?= ($prefillOrderId === (int) $o['id']) ? 'selected' : '' ?>>
+                        <?= e($o['order_code']) ?> (<?= e($o['status']) ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-2"><input class="form-control" type="number" step="0.01" name="amount" placeholder="Amount USD" required></div>
+        <div class="col-md-2"><input class="form-control" name="payment_type" placeholder="Deposit/Full"></div>
+        <div class="col-md-2"><input class="form-control" name="method" placeholder="Bank / Mobile Money" required></div>
+        <div class="col-md-2"><input class="form-control" name="reference" placeholder="Reference"></div>
+        <div class="col-md-1"><input type="file" class="form-control" name="proof_file" accept=".jpg,.jpeg,.png,.webp,.pdf"></div>
+        <div class="col-md-12"><button class="btn btn-hanzo-primary">Submit Payment</button></div>
+    </form>
+
+    <div class="table-responsive border rounded bg-white">
+        <table class="table mb-0">
+            <thead class="table-light"><tr><th>Order</th><th>Amount</th><th>Type</th><th>Method</th><th>Reference</th><th>Proof</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody>
+                <?php foreach ($paymentRows as $p): ?>
+                    <tr>
+                        <td><?= e($p['order_code']) ?></td>
+                        <td>US$<?= e(number_format((float) $p['amount'], 2)) ?></td>
+                        <td><?= e((string) $p['payment_type']) ?></td>
+                        <td><?= e((string) $p['method']) ?></td>
+                        <td><?= e((string) $p['reference']) ?></td>
+                        <td><?php if (!empty($p['proof_file'])): ?><a href="<?= e(app_url((string) $p['proof_file'])) ?>" target="_blank">View</a><?php else: ?>-<?php endif; ?></td>
+                        <td><span class="badge bg-secondary"><?= e($p['status']) ?></span></td>
+                        <td class="small"><?= e($p['created_at']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php if ($paymentRows === []): ?><tr><td colspan="8" class="text-center text-muted py-3">No payments submitted yet.</td></tr><?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</main>
+<?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
+
