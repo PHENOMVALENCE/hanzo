@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/buyer_notifications.php';
 require_factory();
 $factoryId = auth_id();
 
@@ -12,7 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lead = trim((string) ($_POST['lead_time'] ?? ''));
     $allowed = ['assigned', 'in_production', 'quality_control', 'shipped', 'in_customs', 'delivered'];
     if ($orderId > 0 && in_array($status, $allowed, true)) {
+        $stOs = $pdo->prepare('SELECT status FROM orders WHERE id = ? AND factory_id = ?');
+        $stOs->execute([$orderId, $factoryId]);
+        $prevOs = (string) ($stOs->fetchColumn() ?: '');
         $pdo->prepare('UPDATE orders SET status=? WHERE id=? AND factory_id=?')->execute([$status, $orderId, $factoryId]);
+        buyer_notify_order_status_changed($pdo, $orderId, $prevOs, $status);
         if ($lead !== '') {
             $pdo->prepare('INSERT INTO production_updates (order_id, factory_id, status_title, description) VALUES (?,?,?,?)')
                 ->execute([$orderId, $factoryId, 'Lead time update', $lead]);

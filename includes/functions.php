@@ -202,6 +202,7 @@ function buyer_sidebar_nav_items(): array
         ['rel' => 'buyer/dashboard.php', 'label' => 'Dashboard', 'icon' => 'fa-home', 'also' => []],
         ['rel' => 'buyer/products.php', 'label' => 'Browse products', 'icon' => 'fa-th-large', 'also' => ['product-details.php']],
         ['rel' => 'buyer/orders.php', 'label' => 'My orders', 'icon' => 'fa-list-ul', 'also' => []],
+        ['rel' => 'buyer/notifications.php', 'label' => 'Order updates', 'icon' => 'fa-bell', 'also' => []],
         ['rel' => 'buyer/quotations.php', 'label' => 'Quotations', 'icon' => 'fa-file-invoice', 'also' => []],
         ['rel' => 'buyer/tracking.php', 'label' => 'Shipment tracking', 'icon' => 'fa-route', 'also' => []],
         ['rel' => 'buyer/payments.php', 'label' => 'Payments', 'icon' => 'fa-wallet', 'also' => []],
@@ -226,6 +227,13 @@ function buyer_render_sidebar_nav(string $context = 'desktop'): void
         echo '<a class="' . e($cls) . '" href="' . e(app_url($item['rel'])) . '">';
         echo '<span class="hanzo-buyer-nav-icon-wrap" aria-hidden="true"><i class="fas ' . e($item['icon']) . '"></i></span>';
         echo '<span class="hanzo-buyer-nav-text">' . e($item['label']) . '</span>';
+        $relPath = (string) ($item['rel'] ?? '');
+        if ($relPath === 'buyer/notifications.php') {
+            $badge = (int) ($GLOBALS['hanzo_buyer_notif_unread'] ?? 0);
+            if ($badge > 0) {
+                echo '<span class="hanzo-buyer-nav-badge rounded-pill">' . $badge . '</span>';
+            }
+        }
         echo '</a>';
     }
     echo '</nav>';

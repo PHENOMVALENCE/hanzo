@@ -204,11 +204,14 @@ CREATE TABLE notifications (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   target_role ENUM('admin','buyer','factory') NOT NULL,
   target_id INT UNSIGNED NOT NULL,
+  related_order_id INT UNSIGNED DEFAULT NULL,
   title VARCHAR(150) NOT NULL,
   message TEXT,
   is_read TINYINT(1) NOT NULL DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_notifications_target (target_role, target_id)
+  INDEX idx_notifications_target (target_role, target_id),
+  INDEX idx_notifications_target_read (target_role, target_id, is_read),
+  INDEX idx_notifications_order (related_order_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO admins (full_name, email, password, role, status) VALUES

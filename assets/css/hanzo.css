@@ -308,6 +308,29 @@ body.hanzo-body {
   min-width: 0;
   line-height: 1.25;
 }
+.hanzo-buyer-nav-badge {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 1.35rem;
+  padding: 0.15rem 0.4rem;
+  text-align: center;
+  background: #c9a227;
+  color: #0d1b2a;
+}
+.hanzo-buyer-notif-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: none !important;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--hanzo-navy) !important;
+}
+.hanzo-buyer-notif-bar .hanzo-buyer-nav-badge {
+  min-width: 1.25rem;
+  padding: 0.1rem 0.35rem;
+}
 .hanzo-buyer-sidebar-footer,
 .hanzo-factory-sidebar-footer {
   border-top: 1px solid rgba(13, 27, 42, 0.08);

@@ -16,11 +16,52 @@ $counts['delivered'] = (int) $pdo->query('SELECT COUNT(*) FROM orders WHERE stat
 $counts['pending_quotes'] = (int) $pdo->query('SELECT COUNT(*) FROM quotations WHERE status IN ("draft","sent")')->fetchColumn();
 $counts['production'] = (int) $pdo->query('SELECT COUNT(*) FROM orders WHERE status="in_production"')->fetchColumn();
 
-$recent = $pdo->query('SELECT o.order_code, o.status, o.created_at, b.full_name AS buyer_name, p.product_name 
-    FROM orders o 
-    JOIN buyers b ON b.id = o.buyer_id 
-    JOIN products p ON p.id = o.product_id 
-    ORDER BY o.created_at DESC LIMIT 12')->fetchAll();
+$recent = $pdo->query(
+    'SELECT o.order_code, o.status, o.created_at, b.full_name AS buyer_name, p.product_name,
+        (SELECT q.total_landed_cost FROM quotations q WHERE q.order_id = o.id ORDER BY q.id DESC LIMIT 1) AS latest_quote_total
+     FROM orders o
+     JOIN buyers b ON b.id = o.buyer_id
+     JOIN products p ON p.id = o.product_id
+     ORDER BY o.created_at DESC LIMIT 12'
+)->fetchAll();
+
+$monthsChart = 12;
+$rOrd = $pdo->query(
+    'SELECT DATE_FORMAT(created_at, "%Y-%m") AS ym, COUNT(*) AS cnt FROM orders
+     WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ' . (int) $monthsChart . ' MONTH)
+     GROUP BY ym ORDER BY ym ASC'
+)->fetchAll(PDO::FETCH_ASSOC);
+$rQuo = $pdo->query(
+    'SELECT DATE_FORMAT(created_at, "%Y-%m") AS ym, COALESCE(SUM(total_landed_cost),0) AS total FROM quotations
+     WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ' . (int) $monthsChart . ' MONTH)
+     GROUP BY ym ORDER BY ym ASC'
+)->fetchAll(PDO::FETCH_ASSOC);
+$rPay = $pdo->query('SELECT status, COUNT(*) AS cnt FROM payments GROUP BY status')->fetchAll(PDO::FETCH_ASSOC);
+$rCat = $pdo->query(
+    'SELECT c.name AS label, COUNT(o.id) AS cnt FROM categories c
+     LEFT JOIN products p ON p.category_id = c.id
+     LEFT JOIN orders o ON o.product_id = p.id
+     GROUP BY c.id, c.name ORDER BY cnt DESC LIMIT 8'
+)->fetchAll(PDO::FETCH_ASSOC);
+
+$dashboardCharts = [
+    'ordersMonthly' => [
+        'labels' => array_column($rOrd, 'ym'),
+        'values' => array_map(static fn ($v) => (int) $v, array_column($rOrd, 'cnt')),
+    ],
+    'quotesMonthly' => [
+        'labels' => array_column($rQuo, 'ym'),
+        'values' => array_map(static fn ($v) => round((float) $v, 2), array_column($rQuo, 'total')),
+    ],
+    'payments' => [
+        'labels' => array_column($rPay, 'status'),
+        'values' => array_map(static fn ($v) => (int) $v, array_column($rPay, 'cnt')),
+    ],
+    'categoryDemand' => [
+        'labels' => array_column($rCat, 'label'),
+        'values' => array_map(static fn ($v) => (int) $v, array_column($rCat, 'cnt')),
+    ],
+];
 
 $pipeline = [];
 foreach (['pending','assigned','quoted','accepted','in_production','quality_control','shipped','in_customs','delivered'] as $st) {
@@ -70,21 +111,24 @@ require __DIR__ . '/../includes/admin_sidebar.php';
     <div class="row g-3 mb-3">
         <div class="col-lg-8">
             <div class="admin-card p-3 h-100">
-                <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
                     <h2 class="h6 mb-0">Recent Orders</h2>
-                    <input type="text" class="form-control form-control-sm" style="max-width:260px;" placeholder="Search..." data-admin-table-search="recentOrdersTable">
+                    <input type="text" class="form-control form-control-sm" style="max-width:260px;" placeholder="Filter this list…" data-admin-table-search="recentOrdersTable">
                 </div>
                 <div class="table-responsive">
                     <table class="table table-sm align-middle mb-0" id="recentOrdersTable">
-                        <thead class="table-light"><tr><th data-sort>Order Code</th><th data-sort>Buyer</th><th data-sort>Product</th><th data-sort>Status</th><th data-sort>Total Value</th><th>Action</th></tr></thead>
+                        <thead class="table-light"><tr><th data-sort>Order Code</th><th data-sort>Buyer</th><th data-sort>Product</th><th data-sort>Status</th><th data-sort>Latest quote (USD)</th><th>Action</th></tr></thead>
                         <tbody>
                         <?php foreach ($recent as $r): ?>
                             <tr>
                                 <td><?= e($r['order_code']) ?></td>
                                 <td><?= e($r['buyer_name']) ?></td>
                                 <td><?= e($r['product_name']) ?></td>
-                                <td><span class="badge bg-secondary"><?= e($r['status']) ?></span></td>
-                                <td>US$<?= e(number_format((float) rand(1200, 9500), 2)) ?></td>
+                                <td><span class="badge <?= e(order_status_badge_class((string) $r['status'])) ?>"><?= e(order_status_label((string) $r['status'])) ?></span></td>
+                                <td><?php
+                                    $qv = $r['latest_quote_total'] ?? null;
+                                    echo $qv !== null && $qv !== '' ? 'US$' . e(number_format((float) $qv, 2)) : '—';
+                                ?></td>
                                 <td><a class="btn btn-sm btn-outline-primary" href="<?= e(app_url('admin/orders.php')) ?>">View</a></td>
                             </tr>
                         <?php endforeach; ?>
@@ -118,5 +162,8 @@ require __DIR__ . '/../includes/admin_sidebar.php';
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+window.HANZO_ADMIN_CHARTS = <?= json_encode($dashboardCharts, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+</script>
 <?php $footerMode = 'slim'; require __DIR__ . '/../includes/footer.php'; ?>
 

@@ -32,7 +32,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
             <thead><tr><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Qty</th><th scope="col">Status</th><th scope="col">Quote</th><th scope="col">Payment</th><th scope="col">Date</th></tr></thead>
             <tbody>
                 <?php foreach ($orders as $o): ?>
-                    <tr>
+                    <tr id="order-<?= (int) $o['id'] ?>">
                         <td><?= e($o['order_code']) ?></td>
                         <td><?= e($o['product_name']) ?></td>
                         <td><?= (int) $o['quantity'] ?></td>

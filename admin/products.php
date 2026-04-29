@@ -2,10 +2,15 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/admin_datatable.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_admin();
 
+$qs = $_SERVER['QUERY_STRING'] ?? '';
+$selfQs = $qs !== '' ? '?' . $qs : '';
+
 $categories = $pdo->query('SELECT id, name FROM categories WHERE status="active" ORDER BY name')->fetchAll();
+$categoriesFilter = $pdo->query('SELECT id, name FROM categories ORDER BY name')->fetchAll();
 $factories = $pdo->query('SELECT id, factory_name FROM factories WHERE status="active" ORDER BY factory_name')->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -46,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         flash_set('success', 'Product saved.');
     }
-    redirect('admin/products.php');
+    redirect('admin/products.php' . $selfQs);
 }
 
 $edit = null;
@@ -55,7 +60,51 @@ if (isset($_GET['edit'])) {
     $st->execute([(int) $_GET['edit']]);
     $edit = $st->fetch();
 }
-$list = $pdo->query('SELECT p.*, c.name category_name, f.factory_name FROM products p JOIN categories c ON c.id=p.category_id LEFT JOIN factories f ON f.id=p.factory_id ORDER BY p.created_at DESC')->fetchAll();
+$dt = admin_dt_params(15);
+$where = ['1=1'];
+$params = [];
+if ($dt['q'] !== '') {
+    $where[] = '(p.product_name LIKE ? OR IFNULL(p.description,"") LIKE ? OR c.name LIKE ? OR IFNULL(f.factory_name,"") LIKE ?)';
+    $like = '%' . $dt['q'] . '%';
+    $params = array_merge($params, [$like, $like, $like, $like]);
+}
+if ($dt['status'] !== '' && in_array($dt['status'], ['active', 'draft', 'archived'], true)) {
+    $where[] = 'p.status = ?';
+    $params[] = $dt['status'];
+}
+if ($dt['category_id'] > 0) {
+    $where[] = 'p.category_id = ?';
+    $params[] = $dt['category_id'];
+}
+if ($dt['date_from'] !== '' && preg_match('/^\d{4}-\d{2}-\d{2}$/', $dt['date_from'])) {
+    $where[] = 'DATE(p.created_at) >= ?';
+    $params[] = $dt['date_from'];
+}
+if ($dt['date_to'] !== '' && preg_match('/^\d{4}-\d{2}-\d{2}$/', $dt['date_to'])) {
+    $where[] = 'DATE(p.created_at) <= ?';
+    $params[] = $dt['date_to'];
+}
+$whereSql = implode(' AND ', $where);
+$sortMap = [
+    'created_at' => 'p.created_at',
+    'product_name' => 'p.product_name',
+    'category_name' => 'c.name',
+    'factory_name' => 'f.factory_name',
+    'status' => 'p.status',
+    'moq' => 'p.moq',
+];
+$orderSql = admin_dt_order_fragment($dt['sort'], $dt['dir'], $sortMap, 'p.created_at');
+$cntSt = $pdo->prepare("SELECT COUNT(*) FROM products p JOIN categories c ON c.id=p.category_id LEFT JOIN factories f ON f.id=p.factory_id WHERE $whereSql");
+$cntSt->execute($params);
+$total = (int) $cntSt->fetchColumn();
+$page = admin_dt_clamp_page($dt['page'], $total, $dt['per_page']);
+$offset = ($page - 1) * $dt['per_page'];
+$lim = (int) $dt['per_page'];
+$listSt = $pdo->prepare("SELECT p.*, c.name category_name, f.factory_name FROM products p JOIN categories c ON c.id=p.category_id LEFT JOIN factories f ON f.id=p.factory_id WHERE $whereSql ORDER BY $orderSql LIMIT $lim OFFSET $offset");
+$listSt->execute($params);
+$list = $listSt->fetchAll();
+$dtPath = 'admin/products.php';
+$adminPostAction = $dtPath . (!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
 
 $pageTitle = 'Admin Products';
 require __DIR__ . '/../includes/header.php';
@@ -68,7 +117,7 @@ require __DIR__ . '/../includes/admin_sidebar.php';
 <main>
     <h1 class="h3 mb-3">Products Management</h1>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
-    <form method="post" enctype="multipart/form-data" class="row g-2 bg-white border rounded p-3 mb-3">
+    <form method="post" action="<?= e(app_url($adminPostAction)) ?>" enctype="multipart/form-data" class="row g-2 bg-white border rounded p-3 mb-3">
         <input type="hidden" name="id" value="<?= (int) ($edit['id'] ?? 0) ?>">
         <div class="col-md-3"><input class="form-control" name="product_name" placeholder="Product" required value="<?= e((string) ($edit['product_name'] ?? '')) ?>"></div>
         <div class="col-md-2"><select class="form-select" name="factory_id"><?php foreach ($factories as $f): ?><option value="<?= (int) $f['id'] ?>" <?= (int) ($edit['factory_id'] ?? 0) === (int) $f['id'] ? 'selected' : '' ?>><?= e($f['factory_name']) ?></option><?php endforeach; ?></select></div>
@@ -82,28 +131,48 @@ require __DIR__ . '/../includes/admin_sidebar.php';
         <div class="col-md-12"><button class="btn btn-hanzo-primary">Save Product</button></div>
     </form>
     <div class="admin-card p-3">
-        <div class="admin-table-tools mb-2">
-            <input type="text" class="form-control form-control-sm" placeholder="Search products..." data-admin-table-search="productsTable">
-            <select class="form-select form-select-sm" style="max-width:170px;"><option>All statuses</option><option>active</option><option>draft</option><option>archived</option></select>
-        </div>
+        <form method="get" class="row g-2 admin-dt-toolbar mb-3" action="<?= e(app_url($dtPath)) ?>">
+            <?php if (isset($_GET['edit'])): ?><input type="hidden" name="edit" value="<?= (int) $_GET['edit'] ?>"><?php endif; ?>
+            <div class="col-md-3"><label class="form-label small text-muted mb-0">Search</label><input type="text" name="q" class="form-control form-control-sm" value="<?= e($dt['q']) ?>" placeholder="Product, category, factory…"></div>
+            <div class="col-md-2"><label class="form-label small text-muted mb-0">Category</label><select name="category_id" class="form-select form-select-sm"><option value="0">All</option><?php foreach ($categoriesFilter as $cf): ?><option value="<?= (int) $cf['id'] ?>" <?= (int) $dt['category_id'] === (int) $cf['id'] ? 'selected' : '' ?>><?= e($cf['name']) ?></option><?php endforeach; ?></select></div>
+            <div class="col-md-2"><label class="form-label small text-muted mb-0">Status</label><select name="status" class="form-select form-select-sm"><option value="">All</option><?php foreach (['active','draft','archived'] as $s): ?><option value="<?= e($s) ?>" <?= $dt['status'] === $s ? 'selected' : '' ?>><?= e($s) ?></option><?php endforeach; ?></select></div>
+            <div class="col-md-2"><label class="form-label small text-muted mb-0">From</label><input type="date" name="date_from" class="form-control form-control-sm" value="<?= e($dt['date_from']) ?>"></div>
+            <div class="col-md-2"><label class="form-label small text-muted mb-0">To</label><input type="date" name="date_to" class="form-control form-control-sm" value="<?= e($dt['date_to']) ?>"></div>
+            <div class="col-md-1"><label class="form-label small text-muted mb-0">Per page</label><select name="per_page" class="form-select form-select-sm"><?php foreach ([10,15,25,50] as $pp): ?><option value="<?= $pp ?>" <?= (int)$dt['per_page']===$pp?'selected':'' ?>><?= $pp ?></option><?php endforeach; ?></select></div>
+            <div class="col-md-12 d-flex align-items-end gap-2"><input type="hidden" name="sort" value="<?= e($dt['sort']) ?>"><input type="hidden" name="dir" value="<?= e($dt['dir']) ?>"><button type="submit" class="btn btn-sm btn-hanzo-primary">Apply</button></div>
+        </form>
         <div class="table-responsive">
         <table class="table mb-0" id="productsTable">
-            <thead class="table-light"><tr><th data-sort>Product</th><th data-sort>Factory</th><th data-sort>Category</th><th data-sort>MOQ</th><th data-sort>Price Range</th><th data-sort>Status</th><th>Action</th></tr></thead>
+            <thead class="table-light">
+                <tr>
+                    <?php admin_dt_sort_th('Product', 'product_name', $dt['sort'], $dt['dir'], $dtPath); ?>
+                    <?php admin_dt_sort_th('Factory', 'factory_name', $dt['sort'], $dt['dir'], $dtPath); ?>
+                    <?php admin_dt_sort_th('Category', 'category_name', $dt['sort'], $dt['dir'], $dtPath); ?>
+                    <?php admin_dt_sort_th('MOQ', 'moq', $dt['sort'], $dt['dir'], $dtPath); ?>
+                    <th>Price range</th>
+                    <?php admin_dt_sort_th('Status', 'status', $dt['sort'], $dt['dir'], $dtPath); ?>
+                    <?php admin_dt_sort_th('Created', 'created_at', $dt['sort'], $dt['dir'], $dtPath); ?>
+                    <th>Action</th>
+                </tr>
+            </thead>
             <tbody>
             <?php foreach ($list as $p): ?>
                 <tr>
                     <td><?= e($p['product_name']) ?></td><td><?= e((string) $p['factory_name']) ?></td><td><?= e($p['category_name']) ?></td>
                     <td><?= (int) $p['moq'] ?></td><td>US$<?= e(number_format((float) $p['min_price'], 2)) ?> - <?= e(number_format((float) $p['max_price'], 2)) ?></td>
                     <td><?= e($p['status']) ?></td>
+                    <td class="small"><?= e(format_datetime((string) ($p['created_at'] ?? ''))) ?></td>
                     <td class="text-end">
-                        <a class="btn btn-sm btn-outline-primary" href="<?= e(app_url('admin/products.php?edit=' . (int) $p['id'])) ?>">Edit</a>
-                        <form method="post" class="d-inline"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int) $p['id'] ?>"><button class="btn btn-sm btn-outline-danger">Delete</button></form>
+                        <a class="btn btn-sm btn-outline-primary" href="<?= e(app_url('admin/products.php?' . admin_dt_query(['edit' => (int) $p['id']]))) ?>">Edit</a>
+                        <form method="post" action="<?= e(app_url($adminPostAction)) ?>" class="d-inline"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int) $p['id'] ?>"><button class="btn btn-sm btn-outline-danger">Delete</button></form>
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php if ($list === []): ?><tr><td colspan="8" class="text-center text-muted py-4">No products match.</td></tr><?php endif; ?>
             </tbody>
         </table>
         </div>
+        <?php admin_dt_render_pager($dtPath, $total, $page, $dt['per_page']); ?>
     </div>
 </main>
  </div></div>

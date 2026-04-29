@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/buyer_notifications.php';
 
 $productId = isset($_GET['product_id']) ? (int) $_GET['product_id'] : (isset($_POST['product_id']) ? (int) $_POST['product_id'] : 0);
 if ($productId <= 0) {
@@ -55,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->prepare('INSERT INTO orders (order_code, buyer_id, product_id, quantity, price_range, delivery_location, status) VALUES (?,?,?,?,?,?,"pending")')
             ->execute([$orderCode, auth_id(), $productId, $quantity, $priceRange, $delivery]);
         $orderId = (int) $pdo->lastInsertId();
+        buyer_notify_order_submitted($pdo, $orderId);
 
         if ($notes !== '') {
             $pdo->prepare('INSERT INTO shipping_updates (order_id, status_title, description, location, updated_by) VALUES (?,?,?,?,?)')

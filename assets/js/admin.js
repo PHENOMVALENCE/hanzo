@@ -1,5 +1,157 @@
 (function () {
   'use strict';
+
+  function initHanzoCharts() {
+    if (!window.Chart) {
+      return;
+    }
+
+    if (window.HANZO_ADMIN_CHARTS) {
+      var d = window.HANZO_ADMIN_CHARTS;
+      var line = document.getElementById('ordersChart');
+      if (line && d.ordersMonthly) {
+        new Chart(line, {
+          type: 'line',
+          data: {
+            labels: d.ordersMonthly.labels,
+            datasets: [{
+              label: 'Orders',
+              data: d.ordersMonthly.values,
+              borderColor: '#0d1b2a',
+              backgroundColor: 'rgba(13,27,42,.1)',
+              tension: 0.35,
+              fill: true
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+      }
+      var category = document.getElementById('categoryChart');
+      if (category && d.categoryDemand) {
+        new Chart(category, {
+          type: 'bar',
+          data: {
+            labels: d.categoryDemand.labels,
+            datasets: [{
+              data: d.categoryDemand.values,
+              backgroundColor: ['#0d1b2a', '#c9a227', '#16a34a', '#f59e0b', '#3b82f6', '#8b5cf6', '#64748b', '#ea580c']
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+      }
+      var pay = document.getElementById('paymentChart');
+      if (pay && d.payments) {
+        new Chart(pay, {
+          type: 'doughnut',
+          data: {
+            labels: d.payments.labels,
+            datasets: [{
+              data: d.payments.values,
+              backgroundColor: ['#f59e0b', '#16a34a', '#ef4444', '#64748b']
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      }
+      var quote = document.getElementById('quoteChart');
+      if (quote && d.quotesMonthly) {
+        new Chart(quote, {
+          type: 'bar',
+          data: {
+            labels: d.quotesMonthly.labels,
+            datasets: [{
+              label: 'Quotation value (USD)',
+              data: d.quotesMonthly.values,
+              backgroundColor: '#1b2838'
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      }
+    }
+
+    if (window.HANZO_REPORT_CHARTS) {
+      var r = window.HANZO_REPORT_CHARTS;
+      var ro = document.getElementById('reportOrdersChart');
+      if (ro && r.ordersMonthly) {
+        new Chart(ro, {
+          type: 'line',
+          data: {
+            labels: r.ordersMonthly.labels,
+            datasets: [{
+              label: 'Orders',
+              data: r.ordersMonthly.values,
+              borderColor: '#0d1b2a',
+              backgroundColor: 'rgba(13,27,42,.08)',
+              tension: 0.35,
+              fill: true
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+      }
+      var rq = document.getElementById('reportQuotesChart');
+      if (rq && r.quotesMonthly) {
+        new Chart(rq, {
+          type: 'bar',
+          data: {
+            labels: r.quotesMonthly.labels,
+            datasets: [{
+              label: 'Landed cost (USD)',
+              data: r.quotesMonthly.values,
+              backgroundColor: '#c9a227'
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      }
+      var rc = document.getElementById('reportCategoryChart');
+      if (rc && r.categoryDemand) {
+        new Chart(rc, {
+          type: 'bar',
+          data: {
+            labels: r.categoryDemand.labels,
+            datasets: [{
+              data: r.categoryDemand.values,
+              backgroundColor: '#0d1b2a'
+            }]
+          },
+          options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+      }
+      var rp = document.getElementById('reportPaymentChart');
+      if (rp && r.payments) {
+        new Chart(rp, {
+          type: 'doughnut',
+          data: {
+            labels: r.payments.labels,
+            datasets: [{
+              data: r.payments.values,
+              backgroundColor: ['#f59e0b', '#16a34a', '#ef4444', '#64748b']
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      }
+      var ros = document.getElementById('reportOrderStatusChart');
+      if (ros && r.orderStatus) {
+        new Chart(ros, {
+          type: 'bar',
+          data: {
+            labels: r.orderStatus.labels,
+            datasets: [{
+              label: 'Orders',
+              data: r.orderStatus.values,
+              backgroundColor: '#1e3a5f'
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+      }
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var sidebar = document.getElementById('adminSidebar');
     var toggle = document.getElementById('adminSidebarToggle');
@@ -47,40 +199,6 @@
       });
     });
 
-    if (window.Chart) {
-      var line = document.getElementById('ordersChart');
-      if (line) {
-        new Chart(line, {
-          type: 'line',
-          data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Orders', data: [24, 32, 29, 41, 38, 46], borderColor: '#0d1b2a', backgroundColor: 'rgba(13,27,42,.1)', tension: .35, fill: true }] },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-      }
-      var category = document.getElementById('categoryChart');
-      if (category) {
-        new Chart(category, {
-          type: 'bar',
-          data: { labels: ['Fashion', 'Packaging', 'Consumer', 'Machinery'], datasets: [{ data: [18, 24, 15, 33], backgroundColor: ['#0d1b2a', '#c9a227', '#16a34a', '#f59e0b'] }] },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-      }
-      var pay = document.getElementById('paymentChart');
-      if (pay) {
-        new Chart(pay, {
-          type: 'doughnut',
-          data: { labels: ['Pending', 'Verified', 'Rejected'], datasets: [{ data: [14, 43, 3], backgroundColor: ['#f59e0b', '#16a34a', '#ef4444'] }] },
-          options: { responsive: true, maintainAspectRatio: false }
-        });
-      }
-      var quote = document.getElementById('quoteChart');
-      if (quote) {
-        new Chart(quote, {
-          type: 'bar',
-          data: { labels: ['W1', 'W2', 'W3', 'W4'], datasets: [{ label: 'Quotation Value (k USD)', data: [45, 38, 52, 61], backgroundColor: '#1b2838' }] },
-          options: { responsive: true, maintainAspectRatio: false }
-        });
-      }
-    }
+    initHanzoCharts();
   });
 })();
-

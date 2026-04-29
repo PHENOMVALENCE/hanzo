@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/buyer_notifications.php';
 require_buyer();
 
 $buyerId = auth_id();
@@ -14,8 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $st->execute([$qid, $buyerId]);
         $q = $st->fetch();
         if ($q) {
+            $oidQ = (int) $q['order_id'];
+            $stOs = $pdo->prepare('SELECT status FROM orders WHERE id = ?');
+            $stOs->execute([$oidQ]);
+            $prevOs = (string) ($stOs->fetchColumn() ?: '');
             $pdo->prepare('UPDATE quotations SET status = ? WHERE id = ?')->execute([$decision, $qid]);
-            $pdo->prepare('UPDATE orders SET status = ? WHERE id = ?')->execute([$decision === 'accepted' ? 'accepted' : 'cancelled', (int) $q['order_id']]);
+            $newOs = $decision === 'accepted' ? 'accepted' : 'cancelled';
+            $pdo->prepare('UPDATE orders SET status = ? WHERE id = ?')->execute([$newOs, $oidQ]);
+            buyer_notify_order_status_changed($pdo, $oidQ, $prevOs, $newOs);
             if ($decision === 'accepted') {
                 $pdo->prepare('INSERT INTO shipping_updates (order_id, status_title, description, location, tracking_number, updated_by) VALUES (?,?,?,?,?,?)')
                     ->execute([(int) $q['order_id'], 'Quotation accepted', 'Buyer accepted official HANZO quotation.', 'HANZO', null, $buyerId]);

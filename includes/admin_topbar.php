@@ -8,7 +8,7 @@ $adminPageTitle = $adminPageTitle ?? 'Dashboard';
         <h1 class="h5 mb-0"><?= e($adminPageTitle) ?></h1>
     </div>
     <div class="d-flex align-items-center gap-2">
-        <div class="input-group input-group-sm d-none d-md-flex" style="width: 280px;">
+        <div class="input-group input-group-sm d-none d-md-flex admin-topbar-search">
             <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
             <input type="text" class="form-control" id="adminGlobalSearch" placeholder="Search orders, buyers, products...">
         </div>
@@ -25,6 +25,8 @@ $adminPageTitle = $adminPageTitle ?? 'Dashboard';
                 <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button></li>
                 <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createQuoteModal">Create Quotation</button></li>
                 <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateShippingModal">Update Shipping</button></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="<?= e(app_url('admin/reports.php')) ?>"><i class="bi bi-bar-chart-line me-1"></i> Reports &amp; analytics</a></li>
             </ul>
         </div>
         <div class="dropdown">
@@ -32,6 +34,7 @@ $adminPageTitle = $adminPageTitle ?? 'Dashboard';
                 <i class="bi bi-person-circle me-1"></i> <?= e(auth_user()['name'] ?? 'Admin') ?>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="<?= e(app_url('admin/reports.php')) ?>">Reports &amp; analytics</a></li>
                 <li><a class="dropdown-item" href="<?= e(app_url('profile.php')) ?>">My profile</a></li>
                 <li><a class="dropdown-item" href="<?= e(app_url('logout.php')) ?>">Logout</a></li>
             </ul>
