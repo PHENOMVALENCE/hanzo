@@ -28,8 +28,9 @@ $pageTitle = 'Browse Products';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container-fluid px-4 py-4">
+<main class="hanzo-buyer-main-inner">
     <h1 class="h4 mb-3">Browse Products</h1>
     <form class="row g-2 mb-4" method="get">
         <div class="col-md-6"><input class="form-control" name="q" placeholder="Search products..." value="<?= e($q) ?>"></div>
@@ -40,5 +41,6 @@ require __DIR__ . '/../includes/navbar.php';
         <?php foreach ($products as $p): require __DIR__ . '/../includes/product_card.php'; endforeach; ?>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

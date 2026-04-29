@@ -53,11 +53,15 @@ $pageTitle = 'Factory Products';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/factory_sidebar_start.php';
 ?>
-<main class="container-fluid px-4 py-4">
-    <h1 class="h4 mb-3">My Products</h1>
-    <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
-    <form class="row g-2 mb-4 border rounded bg-white p-3" method="post" enctype="multipart/form-data">
+<main class="hanzo-buyer-main-inner">
+    <header class="hanzo-buyer-page-head">
+        <h1 class="hanzo-buyer-page-title">My products</h1>
+        <p class="text-muted small mb-0">Listings visible to HANZO buyers. Use drafts until pricing and imagery are final.</p>
+    </header>
+    <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
+    <form class="row g-2 mb-4 hanzo-buyer-form-card p-3" method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="save">
         <input type="hidden" name="id" value="<?= (int) ($edit['id'] ?? 0) ?>">
         <div class="col-md-4"><input class="form-control" name="product_name" placeholder="Product name" required value="<?= e((string) ($edit['product_name'] ?? '')) ?>"></div>
@@ -70,18 +74,19 @@ require __DIR__ . '/../includes/navbar.php';
         <div class="col-md-2"><input type="file" class="form-control" name="main_image" accept=".jpg,.jpeg,.png,.webp"></div>
         <div class="col-md-12"><button class="btn btn-hanzo-primary">Save Product</button></div>
     </form>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Image</th><th>Name</th><th>Category</th><th>MOQ</th><th>Range</th><th>Status</th><th></th></tr></thead>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Image</th><th scope="col">Name</th><th scope="col">Category</th><th scope="col">MOQ</th><th scope="col">Range</th><th scope="col">Status</th><th scope="col"></th></tr></thead>
             <tbody>
                 <?php foreach ($products as $p): ?>
+                    <?php $pst = (string) $p['status']; ?>
                     <tr>
-                        <td><img src="<?= e(product_image_url($p['main_image'])) ?>" width="40" height="40" class="rounded border"></td>
-                        <td><?= e($p['product_name']) ?></td>
+                        <td><img src="<?= e(product_image_url($p['main_image'])) ?>" alt="" width="40" height="40" class="rounded border"></td>
+                        <td class="fw-semibold"><?= e($p['product_name']) ?></td>
                         <td><?= e($p['category_name']) ?></td>
                         <td><?= (int) $p['moq'] ?></td>
-                        <td>US$<?= e(number_format((float) $p['min_price'], 2)) ?> - <?= e(number_format((float) $p['max_price'], 2)) ?></td>
-                        <td><?= e($p['status']) ?></td>
+                        <td class="text-nowrap">US$<?= e(number_format((float) $p['min_price'], 2)) ?> – <?= e(number_format((float) $p['max_price'], 2)) ?></td>
+                        <td><span class="badge <?= $pst === 'active' ? 'text-bg-success' : ($pst === 'draft' ? 'text-bg-secondary' : 'text-bg-warning') ?>"><?= e($pst) ?></span></td>
                         <td><a class="btn btn-sm btn-outline-primary" href="<?= e(app_url('factory/products.php?edit=' . (int) $p['id'])) ?>">Edit</a></td>
                     </tr>
                 <?php endforeach; ?>
@@ -90,5 +95,6 @@ require __DIR__ . '/../includes/navbar.php';
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/factory_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

@@ -34,8 +34,33 @@ if ($q !== '' || $catId > 0) {
         if ($catId > 0) {
             $st->bindValue(':cid', $catId, PDO::PARAM_INT);
         }
-        $st->execute();
-        $products = $st->fetchAll();
+        try {
+            $st->execute();
+            $products = $st->fetchAll();
+        } catch (PDOException $e) {
+            // Fallback for databases without FULLTEXT index on products(product_name, description).
+            $sql = 'SELECT p.*, c.name AS category_name, 0 AS rel
+                    FROM products p
+                    JOIN categories c ON c.id = p.category_id
+                    WHERE p.status = "active"
+                    AND (
+                        p.product_name LIKE :like1 OR p.description LIKE :like3 OR c.name LIKE :like4
+                    )';
+            if ($catId > 0) {
+                $sql .= ' AND p.category_id = :cid';
+            }
+            $sql .= ' ORDER BY p.created_at DESC LIMIT 48';
+
+            $st = $pdo->prepare($sql);
+            $st->bindValue(':like1', $like);
+            $st->bindValue(':like3', $like);
+            $st->bindValue(':like4', $like);
+            if ($catId > 0) {
+                $st->bindValue(':cid', $catId, PDO::PARAM_INT);
+            }
+            $st->execute();
+            $products = $st->fetchAll();
+        }
     } else {
         $sql = 'SELECT p.*, c.name AS category_name FROM products p JOIN categories c ON c.id = p.category_id WHERE p.status = "active" AND p.category_id = ? ORDER BY p.created_at DESC LIMIT 48';
         $st = $pdo->prepare($sql);

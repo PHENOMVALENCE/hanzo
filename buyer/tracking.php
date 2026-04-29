@@ -19,12 +19,13 @@ $pageTitle = 'Shipment Tracking';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
+<main class="hanzo-buyer-main-inner">
     <h1 class="h3 mb-3">Shipping & Delivery Tracking</h1>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Order</th><th>Product</th><th>Status</th><th>Location</th><th>Tracking #</th><th>Update Time</th></tr></thead>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Status</th><th scope="col">Location</th><th scope="col">Tracking #</th><th scope="col">Update time</th></tr></thead>
             <tbody>
                 <?php foreach ($updates as $u): ?>
                     <tr>
@@ -33,7 +34,7 @@ require __DIR__ . '/../includes/navbar.php';
                         <td><span class="badge bg-secondary"><?= e($u['status_title']) ?></span><br><small><?= e((string) $u['description']) ?></small></td>
                         <td><?= e((string) $u['location']) ?></td>
                         <td><?= e((string) $u['tracking_number']) ?></td>
-                        <td class="small"><?= e($u['created_at']) ?></td>
+                        <td class="small text-muted"><?= e(format_datetime((string) $u['created_at'])) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <?php if ($updates === []): ?><tr><td colspan="6" class="text-center text-muted py-3">No shipping updates yet.</td></tr><?php endif; ?>
@@ -41,5 +42,6 @@ require __DIR__ . '/../includes/navbar.php';
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

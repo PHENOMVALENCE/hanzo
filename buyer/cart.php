@@ -9,8 +9,9 @@ $pageTitle = 'Quick Request Cart';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
+<main class="hanzo-buyer-main-inner">
     <h1 class="h3 mb-3">Quick Request Cart</h1>
     <div class="alert alert-info">
         HANZO uses RFQ-style sourcing. Instead of direct checkout, open a product and submit request details.
@@ -20,5 +21,6 @@ require __DIR__ . '/../includes/navbar.php';
         <a class="btn btn-outline-secondary" href="<?= e(app_url('buyer/orders.php')) ?>">My orders</a>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

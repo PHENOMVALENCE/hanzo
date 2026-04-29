@@ -39,39 +39,45 @@ $pageTitle = 'My Quotations';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
-    <h1 class="h3 mb-3">Official Quotations</h1>
-    <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Quote</th><th>Order</th><th>Product</th><th>Total</th><th>Status</th><th>Valid until</th><th>Action</th></tr></thead>
+<main class="hanzo-buyer-main-inner">
+    <header class="hanzo-buyer-page-head">
+        <h1 class="hanzo-buyer-page-title">Official quotations</h1>
+        <p class="text-muted small mb-0">Review landed-cost quotes from HANZO and accept or reject before they expire.</p>
+    </header>
+    <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Quote</th><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Total</th><th scope="col">Status</th><th scope="col">Valid until</th><th scope="col">Action</th></tr></thead>
             <tbody>
                 <?php foreach ($quotes as $q): ?>
+                    <?php $qst = (string) $q['status']; ?>
                     <tr>
-                        <td><?= e($q['quote_code']) ?></td>
-                        <td><?= e($q['order_code']) ?></td>
+                        <td class="fw-semibold text-nowrap"><?= e($q['quote_code']) ?></td>
+                        <td class="text-nowrap"><?= e($q['order_code']) ?></td>
                         <td><?= e($q['product_name']) ?></td>
-                        <td>US$<?= e(number_format((float) $q['total_landed_cost'], 2)) ?></td>
-                        <td><span class="badge bg-secondary"><?= e($q['status']) ?></span></td>
-                        <td><?= e((string) $q['valid_until']) ?></td>
+                        <td class="fw-semibold text-nowrap text-hanzo-gold">US$<?= e(number_format((float) $q['total_landed_cost'], 2)) ?></td>
+                        <td><span class="badge <?= e(quotation_status_badge_class($qst)) ?>"><?= e(quotation_status_label($qst)) ?></span></td>
+                        <td class="text-muted small text-nowrap"><?= e(format_date((string) $q['valid_until'])) ?></td>
                         <td>
                             <?php if ($q['status'] === 'sent'): ?>
-                                <form method="post" class="d-flex gap-1">
+                                <form method="post" class="d-flex flex-wrap gap-1 hanzo-buyer-inline-actions">
                                     <input type="hidden" name="quotation_id" value="<?= (int) $q['id'] ?>">
-                                    <button name="decision" value="accepted" class="btn btn-sm btn-success">Accept</button>
-                                    <button name="decision" value="rejected" class="btn btn-sm btn-outline-danger">Reject</button>
+                                    <button type="submit" name="decision" value="accepted" class="btn btn-sm btn-hanzo-primary">Accept</button>
+                                    <button type="submit" name="decision" value="rejected" class="btn btn-sm btn-outline-danger">Reject</button>
                                 </form>
                             <?php else: ?>
-                                <span class="text-muted small">-</span>
+                                <span class="text-muted small">—</span>
                             <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
-                <?php if ($quotes === []): ?><tr><td colspan="7" class="text-center text-muted py-3">No quotations yet.</td></tr><?php endif; ?>
+                <?php if ($quotes === []): ?><tr><td colspan="7" class="text-center text-muted py-5">No quotations yet.</td></tr><?php endif; ?>
             </tbody>
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

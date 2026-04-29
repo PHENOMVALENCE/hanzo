@@ -32,6 +32,46 @@ function login_user(array $row): void
     ];
 }
 
+/** Reload session display fields from the database after profile updates. */
+function auth_refresh_user(PDO $pdo): void
+{
+    $u = auth_user();
+    if ($u === null || !isset($u['id'], $u['role'])) {
+        return;
+    }
+    $id = (int) $u['id'];
+    $role = (string) $u['role'];
+    if ($role === 'buyer') {
+        $st = $pdo->prepare('SELECT id, full_name, email FROM buyers WHERE id = ? LIMIT 1');
+        $st->execute([$id]);
+        $row = $st->fetch();
+        if ($row) {
+            $_SESSION['user']['email'] = (string) $row['email'];
+            $_SESSION['user']['name'] = (string) $row['full_name'];
+        }
+        return;
+    }
+    if ($role === 'factory') {
+        $st = $pdo->prepare('SELECT id, factory_name, email FROM factories WHERE id = ? LIMIT 1');
+        $st->execute([$id]);
+        $row = $st->fetch();
+        if ($row) {
+            $_SESSION['user']['email'] = (string) $row['email'];
+            $_SESSION['user']['name'] = (string) $row['factory_name'];
+        }
+        return;
+    }
+    if ($role === 'admin') {
+        $st = $pdo->prepare('SELECT id, full_name, email FROM admins WHERE id = ? LIMIT 1');
+        $st->execute([$id]);
+        $row = $st->fetch();
+        if ($row) {
+            $_SESSION['user']['email'] = (string) $row['email'];
+            $_SESSION['user']['name'] = (string) $row['full_name'];
+        }
+    }
+}
+
 function logout_user(): void
 {
     $_SESSION = [];

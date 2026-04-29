@@ -8,15 +8,11 @@ require_once __DIR__ . '/../includes/auth.php';
 require_buyer();
 
 $buyerId = auth_id();
-$stats = [
-    'orders' => (int) $pdo->prepare('SELECT COUNT(*) FROM orders WHERE buyer_id = ?'),
-    'quoted' => 0,
-    'active' => 0,
-];
+$stats = ['orders' => 0, 'quoted' => 0, 'active' => 0];
 $st = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE buyer_id = ?');
 $st->execute([$buyerId]);
 $stats['orders'] = (int) $st->fetchColumn();
-$st = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE buyer_id = ? AND status IN ("quoted","accepted")');
+$st = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE buyer_id = ? AND status = "quoted"');
 $st->execute([$buyerId]);
 $stats['quoted'] = (int) $st->fetchColumn();
 $st = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE buyer_id = ? AND status IN ("in_production","quality_control","shipped","in_customs")');
@@ -31,39 +27,85 @@ $pageTitle = 'Buyer Dashboard';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+
+$buyerName = auth_user()['name'] ?? 'Buyer';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
-    <h1 class="h3 mb-3">Buyer Dashboard</h1>
+<main class="hanzo-buyer-main-inner hanzo-buyer-dashboard">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="hanzo-section-title mb-2">Buyer dashboard</h1>
+            <p class="text-muted mb-0">Welcome back, <?= e($buyerName) ?>. Track orders, quotes, and shipments in one place.</p>
+        </div>
+        <a class="btn btn-outline-secondary btn-lg px-4" href="<?= e(app_url('buyer/orders.php')) ?>"><i class="fas fa-list-ul me-2" aria-hidden="true"></i>All orders</a>
+    </div>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
     <div class="row g-3 mb-4">
-        <div class="col-md-4"><div class="card border-0 shadow-sm"><div class="card-body"><small class="text-muted">Total Requests/Orders</small><div class="display-6"><?= $stats['orders'] ?></div></div></div></div>
-        <div class="col-md-4"><div class="card border-0 shadow-sm"><div class="card-body"><small class="text-muted">Awaiting Quote Decision</small><div class="display-6"><?= $stats['quoted'] ?></div></div></div></div>
-        <div class="col-md-4"><div class="card border-0 shadow-sm"><div class="card-body"><small class="text-muted">In Fulfillment</small><div class="display-6"><?= $stats['active'] ?></div></div></div></div>
+        <div class="col-md-4">
+            <div class="hanzo-dash-stat-card card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                        <div>
+                            <small class="text-muted text-uppercase fw-semibold letter-spacing-tight">Total orders</small>
+                            <div class="hanzo-dash-stat-value"><?= $stats['orders'] ?></div>
+                        </div>
+                        <span class="hanzo-dash-stat-icon rounded-3"><i class="fas fa-shopping-basket"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hanzo-dash-stat-card card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                        <div>
+                            <small class="text-muted text-uppercase fw-semibold letter-spacing-tight">Awaiting your decision</small>
+                            <div class="hanzo-dash-stat-value"><?= $stats['quoted'] ?></div>
+                            <small class="text-muted">Quotes need a response</small>
+                        </div>
+                        <span class="hanzo-dash-stat-icon rounded-3"><i class="fas fa-file-invoice-dollar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hanzo-dash-stat-card card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                        <div>
+                            <small class="text-muted text-uppercase fw-semibold letter-spacing-tight">In fulfillment</small>
+                            <div class="hanzo-dash-stat-value"><?= $stats['active'] ?></div>
+                            <small class="text-muted">Production through customs</small>
+                        </div>
+                        <span class="hanzo-dash-stat-icon rounded-3"><i class="fas fa-shipping-fast"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mb-3 d-flex gap-2">
-        <a class="btn btn-hanzo-primary" href="<?= e(app_url('buyer/products.php')) ?>">Browse Products</a>
-        <a class="btn btn-outline-secondary" href="<?= e(app_url('buyer/quotations.php')) ?>">My Quotations</a>
-        <a class="btn btn-outline-secondary" href="<?= e(app_url('buyer/tracking.php')) ?>">Shipment Tracking</a>
-        <a class="btn btn-outline-secondary" href="<?= e(app_url('buyer/payments.php')) ?>">Payments</a>
-        <a class="btn btn-outline-secondary" href="<?= e(app_url('buyer/documents.php')) ?>">Documents</a>
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-2">
+        <h2 class="h5 mb-0">Recent orders</h2>
+        <a href="<?= e(app_url('buyer/orders.php')) ?>" class="small text-decoration-none">Open full list →</a>
     </div>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Order</th><th>Product</th><th>Qty</th><th>Status</th><th>Date</th></tr></thead>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Qty</th><th scope="col">Status</th><th scope="col">Date</th></tr></thead>
             <tbody>
                 <?php foreach ($recentOrders as $o): ?>
+                    <?php $stRaw = (string) $o['status']; ?>
                     <tr>
-                        <td><?= e($o['order_code']) ?></td>
+                        <td><a href="<?= e(app_url('buyer/orders.php')) ?>" class="fw-semibold link-dark text-decoration-none"><?= e($o['order_code']) ?></a></td>
                         <td><?= e($o['product_name']) ?></td>
                         <td><?= (int) $o['quantity'] ?></td>
-                        <td><span class="badge bg-secondary"><?= e($o['status']) ?></span></td>
-                        <td class="small"><?= e($o['created_at']) ?></td>
+                        <td><span class="badge <?= e(order_status_badge_class($stRaw)) ?>"><?= e(order_status_label($stRaw)) ?></span></td>
+                        <td class="small text-muted"><?= e(format_datetime((string) $o['created_at'])) ?></td>
                     </tr>
                 <?php endforeach; ?>
-                <?php if ($recentOrders === []): ?><tr><td colspan="5" class="text-center text-muted py-3">No orders yet.</td></tr><?php endif; ?>
+                <?php if ($recentOrders === []): ?><tr><td colspan="5" class="text-center text-muted py-5">No orders yet. <a href="<?= e(app_url('buyer/products.php')) ?>">Browse products</a> to place your first inquiry.</td></tr><?php endif; ?>
             </tbody>
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

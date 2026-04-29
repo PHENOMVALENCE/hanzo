@@ -33,6 +33,8 @@ if (!$hideShopNav) {
                     <?php else: ?>
                         <a href="<?= e(app_url('admin/dashboard.php')) ?>">Dashboard</a>
                     <?php endif; ?>
+                    <span class="mx-1">|</span>
+                    <a href="<?= e(app_url('profile.php')) ?>">Profile</a>
                     <?php if (auth_role() === 'factory'): ?>
                         <span class="mx-1">|</span>
                         <a href="<?= e(app_url('factory/dashboard.php')) ?>">Factory workspace</a>
@@ -104,7 +106,7 @@ if (!$hideShopNav) {
             </ul>
             <?php if (auth_user()): ?>
                 <?php if (auth_role() === 'buyer'): ?>
-                    <a class="btn btn-hanzo-primary btn-sm me-2" href="<?= e(app_url('dashboard.php')) ?>">My inquiries</a>
+                    <a class="btn btn-hanzo-primary btn-sm me-2" href="<?= e(app_url('buyer/dashboard.php')) ?>">My inquiries</a>
                 <?php elseif (auth_role() === 'factory'): ?>
                     <a class="btn btn-hanzo-primary btn-sm me-2" href="<?= e(app_url('factory/dashboard.php')) ?>">Factory workspace</a>
                 <?php elseif (auth_role() === 'admin'): ?>

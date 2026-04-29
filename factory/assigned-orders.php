@@ -34,21 +34,26 @@ $pageTitle = 'Assigned Orders';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/factory_sidebar_start.php';
 ?>
-<main class="container py-4">
-    <h1 class="h3 mb-3">Assigned Orders</h1>
-    <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Order</th><th>Product</th><th>Qty</th><th>Delivery</th><th>Status</th><th>Update</th></tr></thead>
+<main class="hanzo-buyer-main-inner">
+    <header class="hanzo-buyer-page-head">
+        <h1 class="hanzo-buyer-page-title">Assigned orders</h1>
+        <p class="text-muted small mb-0">Advance order status and add optional lead-time notes for HANZO operations.</p>
+    </header>
+    <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Qty</th><th scope="col">Delivery</th><th scope="col">Status</th><th scope="col">Update</th></tr></thead>
             <tbody>
                 <?php foreach ($orders as $o): ?>
+                    <?php $ost = (string) $o['status']; ?>
                     <tr>
-                        <td><?= e($o['order_code']) ?></td>
+                        <td class="fw-semibold text-nowrap"><?= e($o['order_code']) ?></td>
                         <td><?= e($o['product_name']) ?></td>
                         <td><?= (int) $o['quantity'] ?></td>
-                        <td><?= e((string) $o['delivery_location']) ?></td>
-                        <td><span class="badge bg-secondary"><?= e($o['status']) ?></span></td>
+                        <td class="small"><?= e((string) $o['delivery_location']) ?></td>
+                        <td><span class="badge <?= e(order_status_badge_class($ost)) ?>"><?= e(order_status_label($ost)) ?></span></td>
                         <td>
                             <form method="post" class="d-flex gap-1">
                                 <input type="hidden" name="order_id" value="<?= (int) $o['id'] ?>">
@@ -68,5 +73,6 @@ require __DIR__ . '/../includes/navbar.php';
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/factory_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

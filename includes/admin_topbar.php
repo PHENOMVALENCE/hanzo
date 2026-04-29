@@ -32,7 +32,7 @@ $adminPageTitle = $adminPageTitle ?? 'Dashboard';
                 <i class="bi bi-person-circle me-1"></i> <?= e(auth_user()['name'] ?? 'Admin') ?>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="<?= e(app_url('admin/dashboard.php')) ?>">Profile</a></li>
+                <li><a class="dropdown-item" href="<?= e(app_url('profile.php')) ?>">My profile</a></li>
                 <li><a class="dropdown-item" href="<?= e(app_url('logout.php')) ?>">Logout</a></li>
             </ul>
         </div>

@@ -61,13 +61,14 @@ $pageTitle = 'Buyer Payments';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
+<main class="hanzo-buyer-main-inner">
     <h1 class="h3 mb-3">Payments</h1>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
     <?php foreach ($errors as $er): ?><div class="alert alert-danger"><?= e($er) ?></div><?php endforeach; ?>
 
-    <form method="post" enctype="multipart/form-data" class="row g-2 bg-white border rounded p-3 mb-3">
+    <form method="post" enctype="multipart/form-data" class="row g-2 bg-white hanzo-buyer-form-card p-3 mb-4">
         <div class="col-md-3">
             <select class="form-select" name="order_id" required>
                 <option value="">Select order</option>
@@ -86,20 +87,21 @@ require __DIR__ . '/../includes/navbar.php';
         <div class="col-md-12"><button class="btn btn-hanzo-primary">Submit Payment</button></div>
     </form>
 
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Order</th><th>Amount</th><th>Type</th><th>Method</th><th>Reference</th><th>Proof</th><th>Status</th><th>Date</th></tr></thead>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Order</th><th scope="col">Amount</th><th scope="col">Type</th><th scope="col">Method</th><th scope="col">Reference</th><th scope="col">Proof</th><th scope="col">Status</th><th scope="col">Date</th></tr></thead>
             <tbody>
                 <?php foreach ($paymentRows as $p): ?>
+                    <?php $pst = (string) $p['status']; ?>
                     <tr>
-                        <td><?= e($p['order_code']) ?></td>
-                        <td>US$<?= e(number_format((float) $p['amount'], 2)) ?></td>
+                        <td class="fw-semibold"><?= e($p['order_code']) ?></td>
+                        <td class="fw-semibold text-nowrap text-hanzo-gold">US$<?= e(number_format((float) $p['amount'], 2)) ?></td>
                         <td><?= e((string) $p['payment_type']) ?></td>
                         <td><?= e((string) $p['method']) ?></td>
                         <td><?= e((string) $p['reference']) ?></td>
-                        <td><?php if (!empty($p['proof_file'])): ?><a href="<?= e(app_url((string) $p['proof_file'])) ?>" target="_blank">View</a><?php else: ?>-<?php endif; ?></td>
-                        <td><span class="badge bg-secondary"><?= e($p['status']) ?></span></td>
-                        <td class="small"><?= e($p['created_at']) ?></td>
+                        <td><?php if (!empty($p['proof_file'])): ?><a href="<?= e(app_url((string) $p['proof_file'])) ?>" target="_blank" class="btn btn-sm btn-outline-primary">View</a><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
+                        <td><span class="badge <?= e(payment_status_badge_class($pst)) ?>"><?= e(payment_status_label($pst)) ?></span></td>
+                        <td class="small text-muted"><?= e(format_datetime((string) $p['created_at'])) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <?php if ($paymentRows === []): ?><tr><td colspan="8" class="text-center text-muted py-3">No payments submitted yet.</td></tr><?php endif; ?>
@@ -107,5 +109,6 @@ require __DIR__ . '/../includes/navbar.php';
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

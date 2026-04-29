@@ -19,20 +19,25 @@ $pageTitle = 'My Orders';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
-    <h1 class="h3 mb-3">My Orders</h1>
+<main class="hanzo-buyer-main-inner">
+    <header class="hanzo-buyer-page-head">
+        <h1 class="hanzo-buyer-page-title">My orders</h1>
+        <p class="text-muted small mb-0">Order codes, quote status, and payment shortcuts for your HANZO requests.</p>
+    </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Order</th><th>Product</th><th>Qty</th><th>Status</th><th>Quote</th><th>Payment</th><th>Date</th></tr></thead>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Qty</th><th scope="col">Status</th><th scope="col">Quote</th><th scope="col">Payment</th><th scope="col">Date</th></tr></thead>
             <tbody>
                 <?php foreach ($orders as $o): ?>
                     <tr>
                         <td><?= e($o['order_code']) ?></td>
                         <td><?= e($o['product_name']) ?></td>
                         <td><?= (int) $o['quantity'] ?></td>
-                        <td><span class="badge bg-secondary"><?= e($o['status']) ?></span></td>
+                        <?php $ost = (string) $o['status']; ?>
+                        <td><span class="badge <?= e(order_status_badge_class($ost)) ?>"><?= e(order_status_label($ost)) ?></span></td>
                         <td>
                             <?php if (!empty($o['quote_id'])): ?>
                                 <a href="<?= e(app_url('buyer/quotations.php')) ?>" class="btn btn-sm btn-outline-primary"><?= e((string) $o['quote_status']) ?></a>
@@ -43,7 +48,7 @@ require __DIR__ . '/../includes/navbar.php';
                         <td>
                             <a href="<?= e(app_url('buyer/payments.php?order_id=' . (int) $o['id'])) ?>" class="btn btn-sm btn-outline-secondary">Pay</a>
                         </td>
-                        <td class="small"><?= e($o['created_at']) ?></td>
+                        <td class="small text-muted"><?= e(format_datetime((string) $o['created_at'])) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <?php if ($orders === []): ?><tr><td colspan="7" class="text-center text-muted py-3">No orders yet.</td></tr><?php endif; ?>
@@ -51,5 +56,6 @@ require __DIR__ . '/../includes/navbar.php';
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

@@ -23,8 +23,9 @@ $pageTitle = 'Product Details';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
+<main class="hanzo-buyer-main-inner">
     <a href="<?= e(app_url('buyer/products.php')) ?>" class="small">&larr; Back to products</a>
     <div class="row g-4 mt-1">
         <div class="col-lg-6">
@@ -48,4 +49,5 @@ require __DIR__ . '/../includes/navbar.php';
         </div>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>

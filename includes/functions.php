@@ -77,6 +77,190 @@ function product_image_url(?string $path): string
     return app_url($path);
 }
 
+/** Resolved URL for a category card: explicit DB image, else first product thumbnail, else placeholder. */
+function category_image_url(array $cat): string
+{
+    $explicit = $cat['image'] ?? null;
+    if (is_string($explicit) && trim($explicit) !== '') {
+        return product_image_url($explicit);
+    }
+    $thumb = $cat['thumb_image'] ?? null;
+    if (is_string($thumb) && trim($thumb) !== '') {
+        return product_image_url($thumb);
+    }
+    return product_image_url(null);
+}
+
+/** Human-readable label for order workflow status (buyer-facing). */
+function order_status_label(string $status): string
+{
+    static $map = [
+        'pending' => 'Pending review',
+        'assigned' => 'With supplier',
+        'quoted' => 'Quoted — action needed',
+        'accepted' => 'Accepted',
+        'in_production' => 'In production',
+        'quality_control' => 'Quality control',
+        'shipped' => 'Shipped',
+        'in_customs' => 'In customs',
+        'delivered' => 'Delivered',
+        'cancelled' => 'Cancelled',
+    ];
+    return $map[$status] ?? ucwords(str_replace('_', ' ', $status));
+}
+
+function order_status_badge_class(string $status): string
+{
+    return match ($status) {
+        'pending', 'assigned' => 'text-bg-secondary',
+        'quoted' => 'text-bg-warning',
+        'accepted' => 'text-bg-success',
+        'in_production', 'quality_control' => 'text-bg-info',
+        'shipped', 'in_customs' => 'text-bg-primary',
+        'delivered' => 'text-bg-success',
+        'cancelled' => 'text-bg-danger',
+        default => 'text-bg-secondary',
+    };
+}
+
+function format_datetime(?string $sqlDatetime): string
+{
+    if ($sqlDatetime === null || $sqlDatetime === '') {
+        return '';
+    }
+    $t = strtotime($sqlDatetime);
+    return $t === false ? $sqlDatetime : date('M j, Y · g:i A', $t);
+}
+
+function format_date(?string $sqlDate): string
+{
+    if ($sqlDate === null || $sqlDate === '') {
+        return '';
+    }
+    $t = strtotime($sqlDate);
+    return $t === false ? $sqlDate : date('M j, Y', $t);
+}
+
+function quotation_status_label(string $status): string
+{
+    return match ($status) {
+        'draft' => 'Draft',
+        'sent' => 'Awaiting your response',
+        'accepted' => 'Accepted',
+        'rejected' => 'Rejected',
+        'expired' => 'Expired',
+        default => ucfirst($status),
+    };
+}
+
+function quotation_status_badge_class(string $status): string
+{
+    return match ($status) {
+        'draft' => 'text-bg-secondary',
+        'sent' => 'text-bg-warning',
+        'accepted' => 'text-bg-success',
+        'rejected' => 'text-bg-danger',
+        'expired' => 'text-bg-secondary',
+        default => 'text-bg-secondary',
+    };
+}
+
+function payment_status_label(string $status): string
+{
+    return match ($status) {
+        'pending' => 'Awaiting verification',
+        'verified' => 'Verified',
+        'rejected' => 'Rejected',
+        default => ucfirst($status),
+    };
+}
+
+function payment_status_badge_class(string $status): string
+{
+    return match ($status) {
+        'pending' => 'text-bg-warning',
+        'verified' => 'text-bg-success',
+        'rejected' => 'text-bg-danger',
+        default => 'text-bg-secondary',
+    };
+}
+
+/** Whether the current page matches a buyer sidebar nav target. */
+function buyer_sidebar_nav_active(string $primaryScript, array $alsoMatch = []): bool
+{
+    $cur = basename($_SERVER['SCRIPT_NAME'] ?? '');
+    if ($cur === $primaryScript) {
+        return true;
+    }
+    return in_array($cur, $alsoMatch, true);
+}
+
+/** Nav targets for buyer workspace (`rel` is path under app root, e.g. buyer/dashboard.php). */
+function buyer_sidebar_nav_items(): array
+{
+    return [
+        ['rel' => 'buyer/dashboard.php', 'label' => 'Dashboard', 'icon' => 'fa-home', 'also' => []],
+        ['rel' => 'buyer/products.php', 'label' => 'Browse products', 'icon' => 'fa-th-large', 'also' => ['product-details.php']],
+        ['rel' => 'buyer/orders.php', 'label' => 'My orders', 'icon' => 'fa-list-ul', 'also' => []],
+        ['rel' => 'buyer/quotations.php', 'label' => 'Quotations', 'icon' => 'fa-file-invoice', 'also' => []],
+        ['rel' => 'buyer/tracking.php', 'label' => 'Shipment tracking', 'icon' => 'fa-route', 'also' => []],
+        ['rel' => 'buyer/payments.php', 'label' => 'Payments', 'icon' => 'fa-wallet', 'also' => []],
+        ['rel' => 'buyer/documents.php', 'label' => 'Documents', 'icon' => 'fa-folder-open', 'also' => []],
+        ['rel' => 'buyer/cart.php', 'label' => 'Quick request cart', 'icon' => 'fa-shopping-cart', 'also' => []],
+        ['rel' => 'profile.php', 'label' => 'My profile', 'icon' => 'fa-user-cog', 'also' => []],
+    ];
+}
+
+/** @param 'desktop'|'offcanvas' $context */
+function buyer_render_sidebar_nav(string $context = 'desktop'): void
+{
+    $navClass = $context === 'offcanvas'
+        ? 'nav flex-column gap-1 hanzo-buyer-nav-stack'
+        : 'nav flex-column gap-1 hanzo-buyer-nav-stack';
+    $aria = $context === 'offcanvas' ? 'Buyer workspace' : 'Buyer workspace sections';
+    echo '<nav class="' . e($navClass) . '" aria-label="' . e($aria) . '">';
+    foreach (buyer_sidebar_nav_items() as $item) {
+        $base = basename(str_replace('\\', '/', $item['rel']));
+        $active = buyer_sidebar_nav_active($base, $item['also']);
+        $cls = 'hanzo-buyer-nav-link' . ($active ? ' is-active' : '');
+        echo '<a class="' . e($cls) . '" href="' . e(app_url($item['rel'])) . '">';
+        echo '<span class="hanzo-buyer-nav-icon-wrap" aria-hidden="true"><i class="fas ' . e($item['icon']) . '"></i></span>';
+        echo '<span class="hanzo-buyer-nav-text">' . e($item['label']) . '</span>';
+        echo '</a>';
+    }
+    echo '</nav>';
+}
+
+/** Nav targets for factory partner workspace (`rel` under app root). */
+function factory_sidebar_nav_items(): array
+{
+    return [
+        ['rel' => 'factory/dashboard.php', 'label' => 'Dashboard', 'icon' => 'fa-tachometer-alt', 'also' => []],
+        ['rel' => 'factory/products.php', 'label' => 'My products', 'icon' => 'fa-boxes', 'also' => []],
+        ['rel' => 'factory/assigned-orders.php', 'label' => 'Assigned orders', 'icon' => 'fa-clipboard-list', 'also' => []],
+        ['rel' => 'factory/production-updates.php', 'label' => 'Production updates', 'icon' => 'fa-industry', 'also' => []],
+        ['rel' => 'profile.php', 'label' => 'My profile', 'icon' => 'fa-user-cog', 'also' => []],
+    ];
+}
+
+/** @param 'desktop'|'offcanvas' $context */
+function factory_render_sidebar_nav(string $context = 'desktop'): void
+{
+    $navClass = 'nav flex-column gap-1 hanzo-buyer-nav-stack';
+    $aria = $context === 'offcanvas' ? 'Factory workspace' : 'Factory workspace sections';
+    echo '<nav class="' . e($navClass) . '" aria-label="' . e($aria) . '">';
+    foreach (factory_sidebar_nav_items() as $item) {
+        $base = basename(str_replace('\\', '/', $item['rel']));
+        $active = buyer_sidebar_nav_active($base, $item['also']);
+        $cls = 'hanzo-buyer-nav-link' . ($active ? ' is-active' : '');
+        echo '<a class="' . e($cls) . '" href="' . e(app_url($item['rel'])) . '">';
+        echo '<span class="hanzo-buyer-nav-icon-wrap" aria-hidden="true"><i class="fas ' . e($item['icon']) . '"></i></span>';
+        echo '<span class="hanzo-buyer-nav-text">' . e($item['label']) . '</span>';
+        echo '</a>';
+    }
+    echo '</nav>';
+}
+
 function flash_set(string $key, string $message): void
 {
     $_SESSION['_flash'][$key] = $message;

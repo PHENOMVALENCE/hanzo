@@ -36,11 +36,15 @@ $pageTitle = 'Production Updates';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/factory_sidebar_start.php';
 ?>
-<main class="container py-4">
-    <h1 class="h3 mb-3">Production Updates</h1>
-    <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
-    <form method="post" enctype="multipart/form-data" class="row g-2 bg-white border rounded p-3 mb-3">
+<main class="hanzo-buyer-main-inner">
+    <header class="hanzo-buyer-page-head">
+        <h1 class="hanzo-buyer-page-title">Production updates</h1>
+        <p class="text-muted small mb-0">Log milestones and optional photos; HANZO shares progress with buyers.</p>
+    </header>
+    <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
+    <form method="post" enctype="multipart/form-data" class="row g-2 hanzo-buyer-form-card p-3 mb-4">
         <div class="col-md-3">
             <select class="form-select" name="order_id" required>
                 <option value="">Select order</option>
@@ -52,17 +56,17 @@ require __DIR__ . '/../includes/navbar.php';
         <div class="col-md-2"><input type="file" name="photo" class="form-control" accept=".jpg,.jpeg,.png,.webp"></div>
         <div class="col-md-12"><button class="btn btn-hanzo-primary">Submit update</button></div>
     </form>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Order</th><th>Status</th><th>Description</th><th>Photo</th><th>Update Time</th></tr></thead>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Order</th><th scope="col">Status</th><th scope="col">Description</th><th scope="col">Photo</th><th scope="col">Update time</th></tr></thead>
             <tbody>
                 <?php foreach ($updates as $u): ?>
                     <tr>
-                        <td><?= e($u['order_code']) ?></td>
-                        <td><span class="badge bg-secondary"><?= e($u['status_title']) ?></span></td>
-                        <td><?= e((string) $u['description']) ?></td>
-                        <td><?php if (!empty($u['photo'])): ?><a href="<?= e(app_url((string) $u['photo'])) ?>" target="_blank">View</a><?php else: ?><span class="text-muted">-</span><?php endif; ?></td>
-                        <td class="small"><?= e($u['created_at']) ?></td>
+                        <td class="fw-semibold"><?= e($u['order_code']) ?></td>
+                        <td><span class="badge text-bg-secondary"><?= e($u['status_title']) ?></span></td>
+                        <td class="small"><?= e((string) $u['description']) ?></td>
+                        <td><?php if (!empty($u['photo'])): ?><a class="btn btn-sm btn-outline-primary" href="<?= e(app_url((string) $u['photo'])) ?>" target="_blank">View</a><?php else: ?><span class="text-muted">—</span><?php endif; ?></td>
+                        <td class="small text-muted"><?= e(format_datetime((string) $u['created_at'])) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <?php if ($updates === []): ?><tr><td colspan="5" class="text-center text-muted py-3">No production updates yet.</td></tr><?php endif; ?>
@@ -70,5 +74,6 @@ require __DIR__ . '/../includes/navbar.php';
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/factory_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

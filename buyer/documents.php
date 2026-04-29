@@ -18,13 +18,14 @@ $pageTitle = 'Buyer Documents';
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
+require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
-<main class="container py-4">
+<main class="hanzo-buyer-main-inner">
     <h1 class="h3 mb-3">Order Documents</h1>
     <p class="text-muted">Invoices, shipping docs, and HANZO-issued files are available here once uploaded by admin.</p>
-    <div class="table-responsive border rounded bg-white">
-        <table class="table mb-0">
-            <thead class="table-light"><tr><th>Order</th><th>Type</th><th>Uploaded By</th><th>Date</th><th>Download</th></tr></thead>
+    <div class="table-responsive hanzo-buyer-table-wrap">
+        <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
+            <thead><tr><th scope="col">Order</th><th scope="col">Type</th><th scope="col">Uploaded by</th><th scope="col">Date</th><th scope="col">Download</th></tr></thead>
             <tbody>
                 <?php foreach ($docs as $d): ?>
                     <tr>
@@ -48,7 +49,7 @@ require __DIR__ . '/../includes/navbar.php';
                                 <?= e($d['uploaded_by']) ?>
                             </span>
                         </td>
-                        <td class="small"><?= e($d['created_at']) ?></td>
+                        <td class="small text-muted"><?= e(format_datetime((string) $d['created_at'])) ?></td>
                         <td><a href="<?= e(app_url($d['file_path'])) ?>" target="_blank" class="btn btn-sm btn-outline-primary">Open</a></td>
                     </tr>
                 <?php endforeach; ?>
@@ -57,5 +58,6 @@ require __DIR__ . '/../includes/navbar.php';
         </table>
     </div>
 </main>
+<?php require __DIR__ . '/../includes/buyer_sidebar_end.php'; ?>
 <?php $footerMode = 'full'; require __DIR__ . '/../includes/footer.php'; ?>
 

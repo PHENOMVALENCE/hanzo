@@ -12,6 +12,7 @@ $items = [
     'payments' => ['Payments', 'bi-credit-card', 'admin/payments.php'],
     'shipping' => ['Shipping', 'bi-truck', 'admin/shipping.php'],
     'documents' => ['Documents', 'bi-folder2-open', 'admin/documents.php'],
+    'profile' => ['My profile', 'bi-person-badge', 'profile.php'],
     'reports' => ['Reports', 'bi-bar-chart', 'admin/dashboard.php#reports'],
     'settings' => ['Settings', 'bi-gear', 'admin/dashboard.php#settings'],
 ];
