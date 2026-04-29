@@ -57,7 +57,7 @@ $hideShopNav = false;
 require __DIR__ . '/includes/navbar.php';
 ?>
 
-<main class="container-fluid px-4 py-4">
+<main class="container-fluid px-3 px-sm-4 py-4">
     <div class="row g-4">
         <aside class="col-lg-3 d-none d-lg-block">
             <div class="hanzo-sidebar p-0 mb-3">

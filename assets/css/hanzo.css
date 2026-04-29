@@ -16,20 +16,128 @@ body.hanzo-body {
   font-family: 'Open Sans', 'Roboto', system-ui, sans-serif;
   background-color: #f8fafc;
   color: #1a1a1a;
+  overflow-x: hidden;
 }
 
+.letter-spacing-tight {
+  letter-spacing: 0.04em;
+}
 .text-hanzo-gold { color: var(--hanzo-gold) !important; }
 .bg-hanzo-navy { background-color: var(--hanzo-navy) !important; }
 .bg-hanzo-navy-light { background-color: var(--hanzo-navy-light) !important; }
 .border-hanzo-gold { border-color: var(--hanzo-gold) !important; }
 
 .hanzo-topbar {
-  background: var(--hanzo-navy);
+  background: linear-gradient(180deg, #0f2034 0%, var(--hanzo-navy) 100%);
   color: #cbd5e1;
   font-size: 0.875rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
-.hanzo-topbar a { color: #e2e8f0; text-decoration: none; }
+.hanzo-topbar a { color: #e2e8f0; text-decoration: none; font-weight: 500; }
 .hanzo-topbar a:hover { color: var(--hanzo-gold); }
+.hanzo-topbar-tagline {
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+.hanzo-topbar-sep {
+  opacity: 0.45;
+  margin: 0 0.35rem;
+}
+.hanzo-topbar-auth-guest a {
+  font-weight: 600;
+}
+
+.hanzo-shop-header-main {
+  box-shadow: 0 4px 24px rgba(13, 27, 42, 0.06);
+}
+.hanzo-search-cat {
+  max-width: 200px;
+  min-width: 0;
+}
+
+.hanzo-account-dd .dropdown-toggle::after {
+  margin-left: 0.15rem;
+  vertical-align: 0.2em;
+}
+.hanzo-account-trigger {
+  background: #fff;
+  border: 1px solid var(--hanzo-border);
+  color: var(--hanzo-navy);
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem 0.35rem 0.45rem;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 3px rgba(13, 27, 42, 0.06);
+  max-width: 100%;
+}
+.hanzo-account-trigger:hover {
+  border-color: rgba(201, 162, 39, 0.45);
+  background: #fffef8;
+  color: var(--hanzo-navy);
+}
+.hanzo-account-trigger:focus-visible {
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
+}
+.hanzo-account-avatar {
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--hanzo-gold) 0%, var(--hanzo-gold-dark) 100%);
+  color: var(--hanzo-navy);
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.hanzo-account-avatar-sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.8rem;
+}
+.hanzo-account-name {
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (min-width: 1200px) {
+  .hanzo-account-name {
+    max-width: 11rem;
+  }
+}
+.hanzo-account-menu {
+  min-width: 15rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--hanzo-border);
+  margin-top: 0.35rem !important;
+}
+.hanzo-account-menu .dropdown-item {
+  font-weight: 500;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+.hanzo-account-menu .dropdown-item:active {
+  background-color: rgba(201, 162, 39, 0.18);
+  color: var(--hanzo-navy);
+}
+.hanzo-account-dd-nav .dropdown-menu {
+  margin-top: 0 !important;
+}
+@media (min-width: 992px) {
+  .hanzo-nav-account-mobile {
+    display: none !important;
+  }
+}
+@media (max-width: 991.98px) {
+  .hanzo-navbar .collapse.show .hanzo-nav-cta-wrap,
+  .hanzo-navbar .collapsing .hanzo-nav-cta-wrap {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--hanzo-border);
+  }
+}
 
 .hanzo-brand {
   font-weight: 700;
@@ -219,6 +327,8 @@ body.hanzo-body {
 .hanzo-buyer-shell,
 .hanzo-factory-shell {
   background: #f0f4f8;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 .hanzo-buyer-mobile-bar,
 .hanzo-factory-mobile-bar {
@@ -359,11 +469,13 @@ body.hanzo-body {
 .hanzo-buyer-main-column,
 .hanzo-factory-main-column {
   background: #f0f4f8;
+  min-width: 0;
 }
 .hanzo-buyer-main-inner {
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
+  min-width: 0;
 }
 .hanzo-buyer-page-head {
   border-left: 4px solid var(--hanzo-gold);
@@ -412,6 +524,11 @@ body.hanzo-body {
   border-radius: 0.75rem;
   border: 1px solid var(--hanzo-border) !important;
   box-shadow: 0 4px 22px rgba(13, 27, 42, 0.06);
+}
+.hanzo-buyer-file-input.form-control[type='file'] {
+  min-height: calc(1.6em + 0.85rem + 2px);
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
 }
 .hanzo-buyer-inline-actions .btn {
   min-width: 4.25rem;
@@ -500,6 +617,11 @@ body.hanzo-body {
 .hanzo-footer a { color: #e2e8f0; text-decoration: none; }
 .hanzo-footer a:hover { color: var(--hanzo-gold); }
 
+.hanzo-admin-nav-email {
+  max-width: min(100%, 15rem);
+  vertical-align: middle;
+}
+
 .spinner-hanzo .spinner-border {
   color: var(--hanzo-gold);
 }
@@ -510,6 +632,65 @@ body.hanzo-body {
   color: var(--hanzo-navy);
 }
 
-@media (max-width: 991.98px) {
-  .hanzo-search-wrap .form-select { max-width: 140px; }
+/* --- Mobile & small-screen layout (shop, workspaces, public pages) --- */
+@media (max-width: 575.98px) {
+  .hanzo-buyer-page-title {
+    font-size: 1.25rem;
+  }
+  .hanzo-shop-header-actions {
+    width: 100%;
+    justify-content: stretch !important;
+  }
+  .hanzo-shop-header-actions > .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .hanzo-account-dd {
+    width: 100%;
+    max-width: 100%;
+  }
+  .hanzo-account-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+  .hanzo-topbar-tagline {
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hanzo-search-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 0.75rem;
+  }
+  .hanzo-search-wrap .form-control {
+    border-radius: 0.65rem 0.65rem 0 0 !important;
+    min-height: 3rem;
+  }
+  .hanzo-search-wrap .form-select,
+  .hanzo-search-wrap .hanzo-search-cat {
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    border-top: 1px solid var(--hanzo-border) !important;
+  }
+  .hanzo-search-wrap .btn-hanzo-primary {
+    border-radius: 0 0 0.65rem 0.65rem !important;
+    width: 100%;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+  .hanzo-buyer-table-wrap {
+    border-radius: 0.5rem;
+  }
+  .hanzo-buyer-table {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .hanzo-search-wrap .hanzo-search-cat {
+    max-width: min(200px, 38vw);
+  }
 }

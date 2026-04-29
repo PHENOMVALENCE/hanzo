@@ -31,7 +31,7 @@ $hideShopNav = true;
 require __DIR__ . '/../includes/navbar.php';
 ?>
 
-<main class="container-fluid px-4 py-4">
+<main class="container-fluid px-3 px-sm-4 py-4">
     <h1 class="h3 mb-3">Buyer inquiries</h1>
     <?php if ($m = flash_get('success')): ?>
         <div class="alert alert-success"><?= e($m) ?></div>

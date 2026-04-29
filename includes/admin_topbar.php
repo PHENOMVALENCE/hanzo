@@ -2,12 +2,12 @@
 declare(strict_types=1);
 $adminPageTitle = $adminPageTitle ?? 'Dashboard';
 ?>
-<header class="admin-topbar sticky-top">
-    <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-outline-secondary d-lg-none" id="adminSidebarToggle"><i class="bi bi-list"></i></button>
-        <h1 class="h5 mb-0"><?= e($adminPageTitle) ?></h1>
+<header class="admin-topbar sticky-top flex-wrap">
+    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1 me-2" style="min-width: 0;">
+        <button class="btn btn-outline-secondary d-lg-none flex-shrink-0" type="button" id="adminSidebarToggle" aria-label="Open sidebar menu"><i class="bi bi-list" aria-hidden="true"></i></button>
+        <h1 class="h5 mb-0 text-truncate min-w-0"><?= e($adminPageTitle) ?></h1>
     </div>
-    <div class="d-flex align-items-center gap-2">
+    <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap justify-content-end ms-auto">
         <div class="input-group input-group-sm d-none d-md-flex admin-topbar-search">
             <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
             <input type="text" class="form-control" id="adminGlobalSearch" placeholder="Search orders, buyers, products...">
@@ -17,8 +17,8 @@ $adminPageTitle = $adminPageTitle ?? 'Dashboard';
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">5</span>
         </button>
         <div class="dropdown">
-            <button class="btn btn-hanzo-primary dropdown-toggle" data-bs-toggle="dropdown">
-                <i class="bi bi-lightning-charge me-1"></i> Quick Actions
+            <button class="btn btn-hanzo-primary dropdown-toggle btn-sm px-2 px-sm-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-lightning-charge me-sm-1" aria-hidden="true"></i><span class="d-none d-sm-inline">Quick Actions</span><span class="d-sm-none">Actions</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addFactoryModal">Add Factory</button></li>
@@ -30,8 +30,8 @@ $adminPageTitle = $adminPageTitle ?? 'Dashboard';
             </ul>
         </div>
         <div class="dropdown">
-            <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                <i class="bi bi-person-circle me-1"></i> <?= e(auth_user()['name'] ?? 'Admin') ?>
+            <button class="btn btn-outline-secondary dropdown-toggle btn-sm text-truncate" style="max-width: 10rem;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle me-1" aria-hidden="true"></i><span class="d-none d-md-inline"><?= e(auth_user()['name'] ?? 'Admin') ?></span><span class="d-md-none">Account</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="<?= e(app_url('admin/reports.php')) ?>">Reports &amp; analytics</a></li>

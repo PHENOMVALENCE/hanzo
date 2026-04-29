@@ -119,3 +119,48 @@
   .admin-pipeline { grid-template-columns: 1fr; }
 }
 
+/* Admin forms & tables: stack grid columns and inline row actions on small screens */
+@media (max-width: 991.98px) {
+  .admin-shell .row > [class*='col-lg']:not([class*='col-12']) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+@media (max-width: 767.98px) {
+  .admin-shell .row > [class*='col-md']:not([class*='col-12']):not([class*='col-sm']) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .admin-shell .admin-dt-toolbar > [class*='col-'] {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .admin-shell .admin-card td form.d-flex {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch !important;
+    width: 100%;
+    max-width: 100%;
+  }
+  .admin-shell .admin-card td form.d-flex .form-select,
+  .admin-shell .admin-card td form.d-flex .btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  .admin-shell .admin-card td form.d-flex.gap-1 {
+    gap: 0.5rem !important;
+  }
+  .admin-topbar .dropdown .btn.dropdown-toggle {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .admin-topbar > div:last-child {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 0.35rem;
+    margin-left: 0 !important;
+  }
+}

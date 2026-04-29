@@ -25,7 +25,7 @@ $hideShopNav = false;
 require __DIR__ . '/includes/navbar.php';
 ?>
 
-<main class="container-fluid px-4 py-4">
+<main class="container-fluid px-3 px-sm-4 py-4">
     <h1 class="h3 mb-4">Product categories</h1>
     <div class="row g-4">
         <?php foreach ($cats as $cat): ?>

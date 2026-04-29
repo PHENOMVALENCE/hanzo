@@ -64,29 +64,65 @@ require __DIR__ . '/../includes/navbar.php';
 require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
 <main class="hanzo-buyer-main-inner">
-    <h1 class="h3 mb-3">Payments</h1>
-    <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
-    <?php foreach ($errors as $er): ?><div class="alert alert-danger"><?= e($er) ?></div><?php endforeach; ?>
+    <header class="hanzo-buyer-page-head mb-4">
+        <h1 class="hanzo-buyer-page-title">Payments</h1>
+        <p class="text-muted small mb-0">Record a transfer against an open order. HANZO verifies proof before your order status updates.</p>
+    </header>
+    <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
+    <?php foreach ($errors as $er): ?><div class="alert alert-danger border-0 shadow-sm"><?= e($er) ?></div><?php endforeach; ?>
 
-    <form method="post" enctype="multipart/form-data" class="row g-2 bg-white hanzo-buyer-form-card p-3 mb-4">
-        <div class="col-md-3">
-            <select class="form-select" name="order_id" required>
-                <option value="">Select order</option>
-                <?php foreach ($orderList as $o): ?>
-                    <option value="<?= (int) $o['id'] ?>" <?= ($prefillOrderId === (int) $o['id']) ? 'selected' : '' ?>>
-                        <?= e($o['order_code']) ?> (<?= e($o['status']) ?>)
-                    </option>
-                <?php endforeach; ?>
-            </select>
+    <div class="hanzo-buyer-form-card bg-white mb-4 overflow-hidden">
+        <div class="px-3 px-md-4 py-3 border-bottom bg-light bg-opacity-50">
+            <h2 class="h6 mb-0 fw-semibold text-dark">Submit payment</h2>
+            <p class="small text-muted mb-0 mt-1">All fields marked with <span class="text-danger">*</span> are required.</p>
         </div>
-        <div class="col-md-2"><input class="form-control" type="number" step="0.01" name="amount" placeholder="Amount USD" required></div>
-        <div class="col-md-2"><input class="form-control" name="payment_type" placeholder="Deposit/Full"></div>
-        <div class="col-md-2"><input class="form-control" name="method" placeholder="Bank / Mobile Money" required></div>
-        <div class="col-md-2"><input class="form-control" name="reference" placeholder="Reference"></div>
-        <div class="col-md-1"><input type="file" class="form-control" name="proof_file" accept=".jpg,.jpeg,.png,.webp,.pdf"></div>
-        <div class="col-md-12"><button class="btn btn-hanzo-primary">Submit Payment</button></div>
-    </form>
+        <form method="post" enctype="multipart/form-data" class="p-3 p-md-4">
+            <div class="row g-3">
+                <div class="col-12 col-xl-6">
+                    <label for="pay-order" class="form-label">Order <span class="text-danger" aria-hidden="true">*</span></label>
+                    <select class="form-select" id="pay-order" name="order_id" required>
+                        <option value=""><?= $orderList === [] ? 'No orders yet' : 'Choose an order…' ?></option>
+                        <?php foreach ($orderList as $o): ?>
+                            <option value="<?= (int) $o['id'] ?>" <?= ($prefillOrderId === (int) $o['id']) ? 'selected' : '' ?>>
+                                <?= e($o['order_code']) ?> — <?= e(order_status_label((string) $o['status'])) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <label for="pay-amount" class="form-label">Amount <span class="text-danger" aria-hidden="true">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text">US$</span>
+                        <input class="form-control" id="pay-amount" type="number" step="0.01" min="0.01" name="amount" inputmode="decimal" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <label for="pay-type" class="form-label">Payment type</label>
+                    <input class="form-control" id="pay-type" name="payment_type" placeholder="e.g. Deposit, Full balance" autocomplete="off">
+                    <div class="form-text">Optional — helps operations match your invoice.</div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="pay-method" class="form-label">Method <span class="text-danger" aria-hidden="true">*</span></label>
+                    <input class="form-control" id="pay-method" name="method" placeholder="Bank transfer, mobile money, card…" required autocomplete="off">
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="pay-ref" class="form-label">Reference / transaction ID</label>
+                    <input class="form-control" id="pay-ref" name="reference" placeholder="Bank ref, M-Pesa code, etc." autocomplete="off">
+                </div>
+                <div class="col-12">
+                    <label for="pay-proof" class="form-label">Proof of payment <span class="text-muted fw-normal">(optional)</span></label>
+                    <input type="file" class="form-control hanzo-buyer-file-input" id="pay-proof" name="proof_file" accept=".jpg,.jpeg,.png,.webp,.pdf" aria-describedby="pay-proof-help">
+                    <div id="pay-proof-help" class="form-text">JPG, PNG, WebP, or PDF — max 5 MB.</div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-sm-row flex-wrap align-items-stretch align-items-sm-center justify-content-between gap-3 mt-4 pt-3 border-top">
+                <p class="small text-muted mb-0" style="max-width: 28rem;">After you submit, status stays <strong>Pending</strong> until an administrator marks the payment verified.</p>
+                <button type="submit" class="btn btn-hanzo-primary btn-lg px-4 align-self-stretch align-self-sm-auto">Submit payment</button>
+            </div>
+        </form>
+    </div>
 
+    <h2 class="h6 text-uppercase text-muted fw-semibold letter-spacing-tight mb-3">Your payment history</h2>
     <div class="table-responsive hanzo-buyer-table-wrap">
         <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
             <thead><tr><th scope="col">Order</th><th scope="col">Amount</th><th scope="col">Type</th><th scope="col">Method</th><th scope="col">Reference</th><th scope="col">Proof</th><th scope="col">Status</th><th scope="col">Date</th></tr></thead>

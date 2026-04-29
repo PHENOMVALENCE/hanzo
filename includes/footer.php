@@ -6,7 +6,7 @@ $footerMode = $footerMode ?? 'full';
 ?>
 <?php if ($footerMode === 'full'): ?>
 <footer class="hanzo-footer pt-5 pb-4">
-    <div class="container-fluid px-4">
+    <div class="container-fluid px-3 px-sm-4">
         <div class="row g-4">
             <div class="col-md-4">
                 <h5 class="text-white mb-3">HANZO</h5>
@@ -39,7 +39,7 @@ $footerMode = $footerMode ?? 'full';
 </footer>
 <?php else: ?>
 <footer class="border-top py-3 mt-auto bg-white">
-    <div class="container-fluid px-4 text-center small text-muted">&copy; <?= date('Y') ?> HANZO Admin</div>
+    <div class="container-fluid px-3 px-sm-4 text-center small text-muted">&copy; <?= date('Y') ?> HANZO Admin</div>
 </footer>
 <?php endif; ?>
 

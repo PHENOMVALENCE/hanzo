@@ -269,6 +269,93 @@ function factory_render_sidebar_nav(string $context = 'desktop'): void
     echo '</nav>';
 }
 
+/** Short label for account menu by role. */
+function hanzo_nav_role_label(?string $role): string
+{
+    return match ($role) {
+        'buyer' => 'Buyer',
+        'factory' => 'Supplier',
+        'admin' => 'Admin',
+        default => $role !== null && $role !== '' ? ucfirst($role) : 'Account',
+    };
+}
+
+function hanzo_nav_dashboard_url(?string $role): string
+{
+    return match ($role) {
+        'buyer' => app_url('buyer/dashboard.php'),
+        'factory' => app_url('factory/dashboard.php'),
+        'admin' => app_url('admin/dashboard.php'),
+        default => app_url('index.php'),
+    };
+}
+
+/**
+ * Shop header account dropdown (Bootstrap 5). Only when logged in.
+ *
+ * @param 'header'|'collapse' $variant header = pill next to search; collapse = mobile nav item
+ */
+function hanzo_render_shop_account_dropdown(string $variant = 'header'): void
+{
+    $u = auth_user();
+    if ($u === null) {
+        return;
+    }
+    $role = auth_role();
+    $name = trim((string) ($u['name'] ?? ''));
+    $email = trim((string) ($u['email'] ?? ''));
+    $display = $name !== '' ? $name : ($email !== '' ? $email : 'Account');
+    $rawInitial = $name !== '' ? $name : $email;
+    $initial = $rawInitial !== '' ? mb_strtoupper(mb_substr($rawInitial, 0, 1, 'UTF-8')) : '?';
+    $dashUrl = hanzo_nav_dashboard_url($role);
+    $label = hanzo_nav_role_label($role);
+
+    if ($variant === 'header') {
+        echo '<div class="dropdown hanzo-account-dd">';
+        echo '<button class="btn hanzo-account-trigger dropdown-toggle d-flex align-items-center gap-2" type="button" id="hanzoAccountDd" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">';
+        echo '<span class="hanzo-account-avatar" aria-hidden="true">' . e($initial) . '</span>';
+        echo '<span class="hanzo-account-trigger-text text-start d-none d-sm-inline-flex flex-column lh-sm">';
+        echo '<span class="hanzo-account-name fw-semibold text-dark">' . e($display) . '</span>';
+        echo '<span class="hanzo-account-role small text-muted">' . e($label) . '</span>';
+        echo '</span>';
+        echo '</button>';
+        echo '<ul class="dropdown-menu dropdown-menu-end shadow hanzo-account-menu py-2" aria-labelledby="hanzoAccountDd">';
+    } else {
+        echo '<li class="nav-item dropdown hanzo-account-dd-nav">';
+        echo '<a class="nav-link dropdown-toggle d-flex align-items-center gap-2 py-2" href="#" id="hanzoAccountDdNav" role="button" data-bs-toggle="dropdown" aria-expanded="false">';
+        echo '<span class="hanzo-account-avatar hanzo-account-avatar-sm" aria-hidden="true">' . e($initial) . '</span>';
+        echo '<span class="fw-semibold">' . e($display) . '</span>';
+        echo '</a>';
+        echo '<ul class="dropdown-menu dropdown-menu-end shadow border-0 hanzo-account-menu py-2" aria-labelledby="hanzoAccountDdNav">';
+    }
+
+    echo '<li><h6 class="dropdown-header px-3 mb-0 text-muted small text-uppercase letter-spacing-tight">Signed in</h6></li>';
+    if ($email !== '') {
+        echo '<li><span class="dropdown-item-text small text-muted px-3 pb-2 text-break">' . e($email) . '</span></li>';
+    }
+    echo '<li><hr class="dropdown-divider my-1"></li>';
+    echo '<li><a class="dropdown-item" href="' . e($dashUrl) . '"><i class="fas fa-th-large fa-fw me-2 text-muted" aria-hidden="true"></i>Dashboard</a></li>';
+    if ($role === 'buyer') {
+        echo '<li><a class="dropdown-item" href="' . e(app_url('buyer/notifications.php')) . '"><i class="fas fa-bell fa-fw me-2 text-muted" aria-hidden="true"></i>Order updates</a></li>';
+    }
+    if ($role === 'factory') {
+        echo '<li><a class="dropdown-item" href="' . e(app_url('factory/dashboard.php')) . '"><i class="fas fa-industry fa-fw me-2 text-muted" aria-hidden="true"></i>Factory workspace</a></li>';
+    }
+    if ($role === 'admin') {
+        echo '<li><a class="dropdown-item" href="' . e(app_url('admin/dashboard.php')) . '"><i class="fas fa-user-shield fa-fw me-2 text-muted" aria-hidden="true"></i>Admin panel</a></li>';
+    }
+    echo '<li><a class="dropdown-item" href="' . e(app_url('profile.php')) . '"><i class="fas fa-user-cog fa-fw me-2 text-muted" aria-hidden="true"></i>Profile &amp; settings</a></li>';
+    echo '<li><hr class="dropdown-divider my-1"></li>';
+    echo '<li><a class="dropdown-item text-danger" href="' . e(app_url('logout.php')) . '"><i class="fas fa-sign-out-alt fa-fw me-2" aria-hidden="true"></i>Log out</a></li>';
+
+    echo '</ul>';
+    if ($variant === 'collapse') {
+        echo '</li>';
+    } else {
+        echo '</div>';
+    }
+}
+
 function flash_set(string $key, string $message): void
 {
     $_SESSION['_flash'][$key] = $message;

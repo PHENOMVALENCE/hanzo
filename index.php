@@ -20,7 +20,7 @@ $hideShopNav = false;
 require __DIR__ . '/includes/navbar.php';
 ?>
 
-<main class="container-fluid px-4 py-4">
+<main class="container-fluid px-3 px-sm-4 py-4">
     <?php if ($m = flash_get('success')): ?>
         <div class="alert alert-success"><?= e($m) ?></div>
     <?php endif; ?>
