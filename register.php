@@ -13,7 +13,6 @@ if (auth_user()) {
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim((string) ($_POST['full_name'] ?? ''));
-    $company = trim((string) ($_POST['company_name'] ?? ''));
     $email = trim((string) ($_POST['email'] ?? ''));
     $phone = trim((string) ($_POST['phone'] ?? ''));
     $country = trim((string) ($_POST['country'] ?? 'Tanzania'));
@@ -42,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $ins = $pdo->prepare('INSERT INTO buyers (full_name, company_name, email, phone, country, city, password, status) VALUES (?,?,?,?,?,?,?,"active")');
-            $ins->execute([$name, $company !== '' ? $company : null, $email, $phone !== '' ? $phone : null, $country !== '' ? $country : null, $city !== '' ? $city : null, $hash]);
+            $ins->execute([$name, null, $email, $phone !== '' ? $phone : null, $country !== '' ? $country : null, $city !== '' ? $city : null, $hash]);
             $id = (int) $pdo->lastInsertId();
             login_user([
                 'id' => $id,
@@ -76,10 +75,6 @@ require __DIR__ . '/includes/navbar.php';
         <div class="mb-3">
             <label class="form-label">Email</label>
             <input type="email" name="email" class="form-control" required value="<?= e((string) ($_POST['email'] ?? '')) ?>">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Company name</label>
-            <input type="text" name="company_name" class="form-control" value="<?= e((string) ($_POST['company_name'] ?? '')) ?>">
         </div>
         <div class="row g-2">
             <div class="col-md-6 mb-3">
