@@ -5,9 +5,10 @@ declare(strict_types=1);
 $pageTitle = $pageTitle ?? 'HANZO';
 $extraHead = $extraHead ?? '';
 $bodyClass = $bodyClass ?? 'hanzo-body';
+hanzo_start_i18n_output_buffer();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= e(hanzo_html_lang()) ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

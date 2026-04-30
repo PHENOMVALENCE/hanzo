@@ -32,22 +32,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $img = save_uploaded_file($_FILES['main_image'], 'products', $up['filename']);
             }
         }
+        $nameEn = trim((string) ($_POST['name_en'] ?? $_POST['product_name']));
+        $nameSw = trim((string) ($_POST['name_sw'] ?? ''));
+        $nameZh = trim((string) ($_POST['name_zh'] ?? ''));
+        $descEn = trim((string) ($_POST['description_en'] ?? $_POST['description']));
+        $descSw = trim((string) ($_POST['description_sw'] ?? ''));
+        $descZh = trim((string) ($_POST['description_zh'] ?? ''));
         $payload = [
             (int) $_POST['factory_id'],
             (int) $_POST['category_id'],
-            trim((string) $_POST['product_name']),
-            trim((string) $_POST['description']),
+            $nameEn,
+            $descEn,
+            $nameEn,
+            $nameSw !== '' ? $nameSw : null,
+            $nameZh !== '' ? $nameZh : null,
+            $descEn,
+            $descSw !== '' ? $descSw : null,
+            $descZh !== '' ? $descZh : null,
             max(1, (int) $_POST['moq']),
             (float) $_POST['min_price'],
             (float) $_POST['max_price'],
             $img,
             (string) $_POST['status'],
         ];
+        if ($nameEn === '' || $descEn === '') {
+            flash_set('error', 'English product name and description are required.');
+            redirect('admin/products.php' . $selfQs);
+        }
         if ($id > 0) {
             $payload[] = $id;
-            $pdo->prepare('UPDATE products SET factory_id=?, category_id=?, product_name=?, description=?, moq=?, min_price=?, max_price=?, main_image=?, status=? WHERE id=?')->execute($payload);
+            $pdo->prepare('UPDATE products SET factory_id=?, category_id=?, product_name=?, description=?, name_en=?, name_sw=?, name_zh=?, description_en=?, description_sw=?, description_zh=?, moq=?, min_price=?, max_price=?, main_image=?, status=? WHERE id=?')->execute($payload);
         } else {
-            $pdo->prepare('INSERT INTO products (factory_id, category_id, product_name, description, moq, min_price, max_price, main_image, status) VALUES (?,?,?,?,?,?,?,?,?)')->execute($payload);
+            $pdo->prepare('INSERT INTO products (factory_id, category_id, product_name, description, name_en, name_sw, name_zh, description_en, description_sw, description_zh, moq, min_price, max_price, main_image, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')->execute($payload);
         }
         flash_set('success', 'Product saved.');
     }
@@ -117,16 +133,21 @@ require __DIR__ . '/../includes/admin_sidebar.php';
 <main>
     <h1 class="h3 mb-3">Products Management</h1>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
+    <?php if ($m = flash_get('error')): ?><div class="alert alert-danger"><?= e($m) ?></div><?php endif; ?>
     <form method="post" action="<?= e(app_url($adminPostAction)) ?>" enctype="multipart/form-data" class="row g-2 bg-white border rounded p-3 mb-3">
         <input type="hidden" name="id" value="<?= (int) ($edit['id'] ?? 0) ?>">
-        <div class="col-md-3"><input class="form-control" name="product_name" placeholder="Product" required value="<?= e((string) ($edit['product_name'] ?? '')) ?>"></div>
+        <div class="col-md-3"><input class="form-control" name="name_en" placeholder="Product (English)" required value="<?= e((string) ($edit['name_en'] ?? $edit['product_name'] ?? '')) ?>"></div>
+        <div class="col-md-3"><input class="form-control" name="name_sw" placeholder="Product (Swahili)" value="<?= e((string) ($edit['name_sw'] ?? '')) ?>"></div>
+        <div class="col-md-3"><input class="form-control" name="name_zh" placeholder="Product (Chinese)" value="<?= e((string) ($edit['name_zh'] ?? '')) ?>"></div>
         <div class="col-md-2"><select class="form-select" name="factory_id"><?php foreach ($factories as $f): ?><option value="<?= (int) $f['id'] ?>" <?= (int) ($edit['factory_id'] ?? 0) === (int) $f['id'] ? 'selected' : '' ?>><?= e($f['factory_name']) ?></option><?php endforeach; ?></select></div>
         <div class="col-md-2"><select class="form-select" name="category_id"><?php foreach ($categories as $c): ?><option value="<?= (int) $c['id'] ?>" <?= (int) ($edit['category_id'] ?? 0) === (int) $c['id'] ? 'selected' : '' ?>><?= e($c['name']) ?></option><?php endforeach; ?></select></div>
         <div class="col-md-1"><input class="form-control" name="moq" type="number" min="1" value="<?= e((string) ($edit['moq'] ?? 1)) ?>"></div>
         <div class="col-md-1"><input class="form-control" name="min_price" type="number" step="0.01" value="<?= e((string) ($edit['min_price'] ?? 0)) ?>"></div>
         <div class="col-md-1"><input class="form-control" name="max_price" type="number" step="0.01" value="<?= e((string) ($edit['max_price'] ?? 0)) ?>"></div>
         <div class="col-md-2"><select class="form-select" name="status"><option value="active">active</option><option value="draft" <?= (($edit['status'] ?? '') === 'draft') ? 'selected' : '' ?>>draft</option><option value="archived" <?= (($edit['status'] ?? '') === 'archived') ? 'selected' : '' ?>>archived</option></select></div>
-        <div class="col-md-10"><textarea class="form-control" name="description" rows="2" placeholder="Description"><?= e((string) ($edit['description'] ?? '')) ?></textarea></div>
+        <div class="col-md-4"><textarea class="form-control" name="description_en" rows="2" placeholder="Description (English)" required><?= e((string) ($edit['description_en'] ?? $edit['description'] ?? '')) ?></textarea></div>
+        <div class="col-md-4"><textarea class="form-control" name="description_sw" rows="2" placeholder="Description (Swahili)"><?= e((string) ($edit['description_sw'] ?? '')) ?></textarea></div>
+        <div class="col-md-4"><textarea class="form-control" name="description_zh" rows="2" placeholder="Description (Chinese)"><?= e((string) ($edit['description_zh'] ?? '')) ?></textarea></div>
         <div class="col-md-2"><input type="file" class="form-control" name="main_image" accept=".jpg,.jpeg,.png,.webp"></div>
         <div class="col-md-12"><button class="btn btn-hanzo-primary">Save Product</button></div>
     </form>

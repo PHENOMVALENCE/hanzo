@@ -55,14 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$pageTitle = 'Login';
+$pageTitle = __('login');
 require __DIR__ . '/includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/includes/navbar.php';
 ?>
 
 <main class="container py-5" style="max-width:440px;">
-    <h1 class="h3 mb-4">Login</h1>
+    <h1 class="h3 mb-4"><?= e(__('login')) ?></h1>
     <?php foreach ($errors as $er): ?>
         <div class="alert alert-danger"><?= e($er) ?></div>
     <?php endforeach; ?>
@@ -73,9 +73,9 @@ require __DIR__ . '/includes/navbar.php';
         <div class="mb-3">
             <label class="form-label">Account type</label>
             <select name="role" class="form-select" required>
-                <option value="buyer" <?= (($_POST['role'] ?? 'buyer') === 'buyer') ? 'selected' : '' ?>>Buyer</option>
-                <option value="factory" <?= (($_POST['role'] ?? '') === 'factory') ? 'selected' : '' ?>>Factory</option>
-                <option value="admin" <?= (($_POST['role'] ?? '') === 'admin') ? 'selected' : '' ?>>Admin</option>
+                <option value="buyer" <?= (($_POST['role'] ?? 'buyer') === 'buyer') ? 'selected' : '' ?>><?= e(__('buyers')) ?></option>
+                <option value="factory" <?= (($_POST['role'] ?? '') === 'factory') ? 'selected' : '' ?>><?= e(__('factory_workspace')) ?></option>
+                <option value="admin" <?= (($_POST['role'] ?? '') === 'admin') ? 'selected' : '' ?>><?= e(__('admin_panel')) ?></option>
             </select>
         </div>
         <div class="mb-3">
@@ -86,9 +86,9 @@ require __DIR__ . '/includes/navbar.php';
             <label class="form-label">Password</label>
             <input type="password" name="password" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-hanzo-primary w-100">Sign in</button>
+        <button type="submit" class="btn btn-hanzo-primary w-100"><?= e(__('login')) ?></button>
     </form>
-    <p class="text-center mt-3 small">New buyer? <a href="<?= e(app_url('register.php')) ?>">Create an account</a></p>
+    <p class="text-center mt-3 small"><?= e(__('register_buyer')) ?>? <a href="<?= e(app_url('register.php')) ?>"><?= e(__('create_account')) ?></a></p>
 </main>
 
 <?php

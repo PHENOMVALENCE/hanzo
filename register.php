@@ -56,14 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$pageTitle = 'Register';
+$pageTitle = __('register');
 require __DIR__ . '/includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/includes/navbar.php';
 ?>
 
 <main class="container py-5" style="max-width:480px;">
-    <h1 class="h3 mb-2">Buyer registration</h1>
+    <h1 class="h3 mb-2"><?= e(__('register_buyer')) ?></h1>
     <p class="text-muted small mb-4">Self-service signup is available for <strong>buyer</strong> accounts only. Factory and admin accounts are created by HANZO.</p>
     <?php foreach ($errors as $er): ?>
         <div class="alert alert-danger"><?= e($er) ?></div>
@@ -103,9 +103,9 @@ require __DIR__ . '/includes/navbar.php';
             <label class="form-label">Confirm password</label>
             <input type="password" name="password_confirm" class="form-control" required minlength="8">
         </div>
-        <button type="submit" class="btn btn-hanzo-primary w-100">Create buyer account</button>
+        <button type="submit" class="btn btn-hanzo-primary w-100"><?= e(__('create_account')) ?></button>
     </form>
-    <p class="text-center mt-3 small">Already registered? <a href="<?= e(app_url('login.php')) ?>">Login</a></p>
+    <p class="text-center mt-3 small">Already registered? <a href="<?= e(app_url('login.php')) ?>"><?= e(__('login')) ?></a></p>
 </main>
 
 <?php

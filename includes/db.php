@@ -5,6 +5,7 @@ declare(strict_types=1);
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once __DIR__ . '/language.php';
 
 $cfg = require __DIR__ . '/../config/db.php';
 $dsn = 'mysql:host=' . $cfg['host'] . ';dbname=' . $cfg['dbname'] . ';charset=' . $cfg['charset'];
@@ -25,3 +26,5 @@ try {
     echo '</body></html>';
     exit;
 }
+
+hanzo_language_bootstrap($pdo);

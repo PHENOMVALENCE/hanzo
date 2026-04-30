@@ -6,7 +6,8 @@ require_once __DIR__ . '/../includes/auth.php';
 require_buyer();
 
 $buyerId = auth_id();
-$st = $pdo->prepare('SELECT su.*, o.order_code, p.product_name 
+$productNameCols = db_has_column($pdo, 'products', 'name_en') ? ', p.name_en, p.name_sw, p.name_zh' : '';
+$st = $pdo->prepare('SELECT su.*, o.order_code, p.product_name' . $productNameCols . ' 
     FROM shipping_updates su 
     JOIN orders o ON o.id = su.order_id 
     JOIN products p ON p.id = o.product_id 
@@ -15,7 +16,7 @@ $st = $pdo->prepare('SELECT su.*, o.order_code, p.product_name
 $st->execute([$buyerId]);
 $updates = $st->fetchAll();
 
-$pageTitle = 'Shipment Tracking';
+$pageTitle = __('track_order');
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
@@ -30,7 +31,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
                 <?php foreach ($updates as $u): ?>
                     <tr>
                         <td><?= e($u['order_code']) ?></td>
-                        <td><?= e($u['product_name']) ?></td>
+                        <td><?= e(getLocalizedProductName($u)) ?></td>
                         <td><span class="badge bg-secondary"><?= e($u['status_title']) ?></span><br><small><?= e((string) $u['description']) ?></small></td>
                         <td><?= e((string) $u['location']) ?></td>
                         <td><?= e((string) $u['tracking_number']) ?></td>

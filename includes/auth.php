@@ -30,6 +30,9 @@ function login_user(array $row): void
         'name'  => $row['full_name'] ?? ($row['factory_name'] ?? 'User'),
         'role'  => $row['role'],
     ];
+    if (isset($row['preferred_language']) && is_string($row['preferred_language'])) {
+        hanzo_set_language($row['preferred_language']);
+    }
 }
 
 /** Reload session display fields from the database after profile updates. */
@@ -122,25 +125,25 @@ function require_factory(): void
 function auth_login_by_role(PDO $pdo, string $email, string $password, string $role): ?array
 {
     if ($role === 'admin') {
-        $st = $pdo->prepare('SELECT id, full_name, email, password, role, status FROM admins WHERE email = ? LIMIT 1');
+        $st = $pdo->prepare('SELECT id, full_name, email, password, role, status, preferred_language FROM admins WHERE email = ? LIMIT 1');
         $st->execute([$email]);
         $row = $st->fetch();
         if ($row && $row['status'] === 'active' && password_verify($password, $row['password'])) {
-            return ['id' => $row['id'], 'full_name' => $row['full_name'], 'email' => $row['email'], 'role' => 'admin'];
+            return ['id' => $row['id'], 'full_name' => $row['full_name'], 'email' => $row['email'], 'role' => 'admin', 'preferred_language' => $row['preferred_language'] ?? null];
         }
     } elseif ($role === 'buyer') {
-        $st = $pdo->prepare('SELECT id, full_name, email, password, status FROM buyers WHERE email = ? LIMIT 1');
+        $st = $pdo->prepare('SELECT id, full_name, email, password, status, preferred_language FROM buyers WHERE email = ? LIMIT 1');
         $st->execute([$email]);
         $row = $st->fetch();
         if ($row && $row['status'] === 'active' && password_verify($password, $row['password'])) {
-            return ['id' => $row['id'], 'full_name' => $row['full_name'], 'email' => $row['email'], 'role' => 'buyer'];
+            return ['id' => $row['id'], 'full_name' => $row['full_name'], 'email' => $row['email'], 'role' => 'buyer', 'preferred_language' => $row['preferred_language'] ?? null];
         }
     } elseif ($role === 'factory') {
-        $st = $pdo->prepare('SELECT id, factory_name, email, password, status FROM factories WHERE email = ? LIMIT 1');
+        $st = $pdo->prepare('SELECT id, factory_name, email, password, status, preferred_language FROM factories WHERE email = ? LIMIT 1');
         $st->execute([$email]);
         $row = $st->fetch();
         if ($row && $row['status'] === 'active' && password_verify($password, $row['password'])) {
-            return ['id' => $row['id'], 'factory_name' => $row['factory_name'], 'email' => $row['email'], 'role' => 'factory'];
+            return ['id' => $row['id'], 'factory_name' => $row['factory_name'], 'email' => $row['email'], 'role' => 'factory', 'preferred_language' => $row['preferred_language'] ?? null];
         }
     }
     return null;

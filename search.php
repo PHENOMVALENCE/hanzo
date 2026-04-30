@@ -69,8 +69,9 @@ if ($q !== '' || $catId > 0) {
     }
 }
 
-$pageTitle = $q !== '' ? 'Search: ' . $q : 'Search products';
-$sidebarCats = $pdo->query('SELECT id, name FROM categories WHERE status = "active" ORDER BY name')->fetchAll();
+$pageTitle = $q !== '' ? __('search_results') . ': ' . $q : __('search_products');
+$catExtraCols = db_has_column($pdo, 'categories', 'name_en') ? ', name_en, name_sw, name_zh' : '';
+$sidebarCats = $pdo->query('SELECT id, name' . $catExtraCols . ' FROM categories WHERE status = "active" ORDER BY name')->fetchAll();
 
 require __DIR__ . '/includes/header.php';
 $hideShopNav = false;
@@ -81,22 +82,22 @@ require __DIR__ . '/includes/navbar.php';
     <div class="row g-4">
         <aside class="col-lg-3 d-none d-lg-block">
             <div class="hanzo-sidebar p-0">
-                <div class="p-3 border-bottom fw-bold">Categories</div>
+                <div class="p-3 border-bottom fw-bold"><?= e(__('categories')) ?></div>
                 <div class="list-group list-group-flush">
                     <?php foreach ($sidebarCats as $sc): ?>
-                        <a class="list-group-item list-group-item-action" href="<?= e(app_url('search.php?cat=' . (int) $sc['id'])) ?>"><?= e($sc['name']) ?></a>
+                        <a class="list-group-item list-group-item-action" href="<?= e(app_url('search.php?cat=' . (int) $sc['id'])) ?>"><?= e(getLocalizedCategoryName($sc)) ?></a>
                     <?php endforeach; ?>
                 </div>
             </div>
         </aside>
         <div class="col-lg-9">
-            <h1 class="h3 mb-3">Search results</h1>
+            <h1 class="h3 mb-3"><?= e(__('search_results')) ?></h1>
             <?php if ($q === '' && $catId === 0): ?>
-                <p class="text-muted">Enter a keyword in the search bar or pick a category from the sidebar.</p>
+                <p class="text-muted"><?= e(__('enter_keyword')) ?></p>
             <?php elseif ($products === []): ?>
-                <p>No products matched your search.</p>
+                <p><?= e(__('no_search_results')) ?></p>
             <?php else: ?>
-                <p class="text-muted small mb-3"><?= count($products) ?> listing(s)</p>
+                <p class="text-muted small mb-3"><?= count($products) . ' ' . e(__('listings_count')) ?></p>
                 <div class="row">
                     <?php foreach ($products as $p): ?>
                         <?php require __DIR__ . '/includes/product_card.php'; ?>

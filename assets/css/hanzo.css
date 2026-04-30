@@ -50,8 +50,34 @@ body.hanzo-body {
 .hanzo-shop-header-main {
   box-shadow: 0 4px 24px rgba(13, 27, 42, 0.06);
 }
+.hanzo-header-brand-col {
+  min-width: 0;
+}
+.hanzo-header-brand-meta {
+  line-height: 1.2;
+}
 .hanzo-search-cat {
   max-width: 200px;
+  min-width: 0;
+}
+.hanzo-lang-switcher {
+  max-width: 100%;
+}
+.hanzo-lang-label {
+  line-height: 1;
+}
+.hanzo-mobile-lang-group {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.hanzo-mobile-lang-group .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.hanzo-mobile-lang-switch .btn-group .btn {
   min-width: 0;
 }
 
@@ -637,6 +663,13 @@ body.hanzo-body {
   .hanzo-buyer-page-title {
     font-size: 1.25rem;
   }
+  .hanzo-shop-header-main {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  .hanzo-brand {
+    font-size: 1.25rem;
+  }
   .hanzo-shop-header-actions {
     width: 100%;
     justify-content: stretch !important;
@@ -653,6 +686,9 @@ body.hanzo-body {
     width: 100%;
     justify-content: center;
   }
+  .hanzo-header-lang-switch {
+    width: 100%;
+  }
   .hanzo-topbar-tagline {
     font-size: 0.75rem;
     line-height: 1.35;
@@ -660,6 +696,15 @@ body.hanzo-body {
 }
 
 @media (max-width: 767.98px) {
+  .hanzo-shop-header-main .row {
+    row-gap: 0.75rem !important;
+  }
+  .hanzo-header-brand-col {
+    text-align: left !important;
+  }
+  .hanzo-header-brand-meta {
+    display: none !important;
+  }
   .hanzo-search-wrap {
     flex-direction: column;
     align-items: stretch;
@@ -675,6 +720,14 @@ body.hanzo-body {
     border-radius: 0 !important;
     border-top: 1px solid var(--hanzo-border) !important;
   }
+  /* Native mobile select popups can overflow the header area.
+     Hide category select on small screens and keep search stable. */
+  .hanzo-search-wrap .hanzo-search-cat {
+    display: none;
+  }
+  .hanzo-search-wrap .form-control {
+    border-radius: 0.65rem 0.65rem 0 0 !important;
+  }
   .hanzo-search-wrap .btn-hanzo-primary {
     border-radius: 0 0 0.65rem 0.65rem !important;
     width: 100%;
@@ -686,6 +739,21 @@ body.hanzo-body {
   }
   .hanzo-buyer-table {
     font-size: 0.875rem;
+  }
+  .hanzo-navbar .navbar-toggler {
+    margin-left: auto;
+  }
+  .hanzo-mobile-lang-switch {
+    padding-top: 0.25rem;
+    width: 100%;
+  }
+  .hanzo-mobile-lang-switch .hanzo-lang-switcher {
+    width: 100%;
+  }
+  .hanzo-mobile-lang-switch .hanzo-mobile-lang-group .btn {
+    font-size: 0.8rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
   }
 }
 

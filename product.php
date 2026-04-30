@@ -7,16 +7,17 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/auth.php';
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$st = $pdo->prepare('SELECT p.*, c.id AS category_id, c.name AS category_name FROM products p JOIN categories c ON c.id = p.category_id WHERE p.id = ? AND p.status = "active"');
+$catExtraCols = db_has_column($pdo, 'categories', 'name_en') ? ', c.name_en, c.name_sw, c.name_zh' : '';
+$st = $pdo->prepare('SELECT p.*, c.id AS category_id, c.name AS category_name' . $catExtraCols . ' FROM products p JOIN categories c ON c.id = p.category_id WHERE p.id = ? AND p.status = "active"');
 $st->execute([$id]);
 $product = $st->fetch();
 if (!$product) {
     http_response_code(404);
-    $pageTitle = 'Product not found';
+    $pageTitle = __('product_not_found');
     require __DIR__ . '/includes/header.php';
     $hideShopNav = false;
     require __DIR__ . '/includes/navbar.php';
-    echo '<main class="container py-5"><p>Product not found.</p><a href="' . e(app_url('index.php')) . '">Home</a></main>';
+    echo '<main class="container py-5"><p>' . e(__('product_not_found')) . '</p><a href="' . e(app_url('index.php')) . '">' . e(__('home')) . '</a></main>';
     $footerMode = 'full';
     require __DIR__ . '/includes/footer.php';
     exit;
@@ -42,12 +43,15 @@ if ($allImages === []) {
 
 $specs = [];
 
-$simSt = $pdo->prepare('SELECT p.*, c.name AS category_name FROM products p JOIN categories c ON c.id = p.category_id WHERE p.category_id = ? AND p.id != ? AND p.status = "active" ORDER BY p.created_at DESC LIMIT 4');
+$simSt = $pdo->prepare('SELECT p.*, c.name AS category_name' . $catExtraCols . ' FROM products p JOIN categories c ON c.id = p.category_id WHERE p.category_id = ? AND p.id != ? AND p.status = "active" ORDER BY p.created_at DESC LIMIT 4');
 $simSt->execute([(int) $product['category_id'], $id]);
 $similar = $simSt->fetchAll();
 
-$pageTitle = $product['product_name'];
-$sidebarCats = $pdo->query('SELECT id, name FROM categories WHERE status = "active" ORDER BY name')->fetchAll();
+$pageTitle = getLocalizedProductName($product);
+$sidebarCats = $pdo->query('SELECT id, name' . (db_has_column($pdo, 'categories', 'name_en') ? ', name_en, name_sw, name_zh' : '') . ' FROM categories WHERE status = "active" ORDER BY name')->fetchAll();
+$productName = getLocalizedProductName($product);
+$productDescription = getLocalizedProductDescription($product);
+$productCategoryName = getLocalizedCategoryName($product + ['name' => $product['category_name'] ?? '']);
 
 require __DIR__ . '/includes/header.php';
 $hideShopNav = false;
@@ -57,19 +61,19 @@ require __DIR__ . '/includes/navbar.php';
 <main class="container-fluid px-3 px-sm-4 py-4">
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= e(app_url('index.php')) ?>">Home</a></li>
-            <li class="breadcrumb-item"><a href="<?= e(app_url('category.php?id=' . (int) $product['category_id'])) ?>"><?= e($product['category_name']) ?></a></li>
-            <li class="breadcrumb-item active" aria-current="page"><?= e($product['product_name']) ?></li>
+            <li class="breadcrumb-item"><a href="<?= e(app_url('index.php')) ?>"><?= e(__('home')) ?></a></li>
+            <li class="breadcrumb-item"><a href="<?= e(app_url('category.php?id=' . (int) $product['category_id'])) ?>"><?= e($productCategoryName) ?></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= e($productName) ?></li>
         </ol>
     </nav>
 
     <div class="row g-4">
         <aside class="col-lg-2 d-none d-lg-block">
             <div class="hanzo-sidebar p-0">
-                <div class="p-2 small fw-bold border-bottom">Categories</div>
+                <div class="p-2 small fw-bold border-bottom"><?= e(__('categories')) ?></div>
                 <div class="list-group list-group-flush small">
                     <?php foreach ($sidebarCats as $sc): ?>
-                        <a class="list-group-item list-group-item-action py-2" href="<?= e(app_url('category.php?id=' . (int) $sc['id'])) ?>"><?= e($sc['name']) ?></a>
+                        <a class="list-group-item list-group-item-action py-2" href="<?= e(app_url('category.php?id=' . (int) $sc['id'])) ?>"><?= e(getLocalizedCategoryName($sc)) ?></a>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -81,7 +85,7 @@ require __DIR__ . '/includes/navbar.php';
                         <div class="carousel-inner">
                             <?php foreach ($allImages as $idx => $im): ?>
                                 <div class="carousel-item <?= $idx === 0 ? 'active' : '' ?>">
-                                    <img src="<?= e(product_image_url($im)) ?>" class="d-block w-100" style="max-height:420px;object-fit:contain;" alt="<?= e($product['product_name']) ?>">
+                                    <img src="<?= e(product_image_url($im)) ?>" class="d-block w-100" style="max-height:420px;object-fit:contain;" alt="<?= e($productName) ?>">
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -105,27 +109,27 @@ require __DIR__ . '/includes/navbar.php';
                     <?php endif; ?>
                 </div>
                 <div class="col-md-6">
-                    <span class="cat-badge"><?= e($product['category_name']) ?></span>
-                    <h1 class="h2 mt-2"><?= e($product['product_name']) ?></h1>
+                    <span class="cat-badge"><?= e($productCategoryName) ?></span>
+                    <h1 class="h2 mt-2"><?= e($productName) ?></h1>
                     <p class="price-range fs-5"><?= format_usd_range($product['min_price'], $product['max_price'], 'Piece') ?></p>
-                    <p class="mb-1"><strong>MOQ:</strong> <?= format_moq((int) $product['moq'], 'Piece') ?></p>
-                    <p class="mb-1"><strong>Category:</strong> <?= e($product['category_name']) ?></p>
-                    <p class="text-muted"><?= e(mb_strimwidth((string) $product['description'], 0, 180, '...', 'UTF-8')) ?></p>
-                    <a class="btn btn-hanzo-primary btn-lg" href="<?= e(app_url('buyer/product-details.php?id=' . (int) $product['id'])) ?>">Request quotation</a>
-                    <p class="small text-muted mt-3">Direct factory contact details are not published. HANZO coordinates verification, samples, and quotations.</p>
+                    <p class="mb-1"><strong><?= e(__('moq')) ?>:</strong> <?= format_moq((int) $product['moq'], 'Piece') ?></p>
+                    <p class="mb-1"><strong><?= e(__('category')) ?>:</strong> <?= e($productCategoryName) ?></p>
+                    <p class="text-muted"><?= e(mb_strimwidth($productDescription, 0, 180, '...', 'UTF-8')) ?></p>
+                    <a class="btn btn-hanzo-primary btn-lg" href="<?= e(app_url('buyer/product-details.php?id=' . (int) $product['id'])) ?>"><?= e(__('request_quotation')) ?></a>
+                    <p class="small text-muted mt-3"><?= e(__('direct_contact_note')) ?></p>
                 </div>
             </div>
 
             <div class="mt-5">
-                <h2 class="h4 hanzo-section-title">Description</h2>
+                <h2 class="h4 hanzo-section-title"><?= e(__('description')) ?></h2>
                 <div class="bg-white border rounded p-4">
-                    <?= nl2br(e($product['description'])) ?>
+                    <?= nl2br(e($productDescription)) ?>
                 </div>
             </div>
 
             <?php if ($specs !== []): ?>
                 <div class="mt-4">
-                    <h2 class="h4 hanzo-section-title">Specifications</h2>
+                    <h2 class="h4 hanzo-section-title"><?= e(__('specifications')) ?></h2>
                     <div class="table-responsive border rounded">
                         <table class="table table-spec mb-0">
                             <tbody>
@@ -143,7 +147,7 @@ require __DIR__ . '/includes/navbar.php';
 
             <?php if ($similar !== []): ?>
                 <div class="mt-5">
-                    <h2 class="h4 hanzo-section-title">Similar products</h2>
+                    <h2 class="h4 hanzo-section-title"><?= e(__('similar_products')) ?></h2>
                     <div class="row">
                         <?php foreach ($similar as $p): ?>
                             <?php require __DIR__ . '/includes/product_card.php'; ?>

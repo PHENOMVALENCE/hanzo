@@ -35,7 +35,8 @@ $st = $pdo->prepare('SELECT COUNT(*) FROM orders WHERE factory_id = ? AND status
 $st->execute([$factoryId]);
 $stats['pipeline'] = (int) $st->fetchColumn();
 
-$recentSt = $pdo->prepare('SELECT o.order_code, o.status, o.created_at, o.quantity, p.product_name
+$productNameCols = db_has_column($pdo, 'products', 'name_en') ? ', p.name_en, p.name_sw, p.name_zh' : '';
+$recentSt = $pdo->prepare('SELECT o.order_code, o.status, o.created_at, o.quantity, p.product_name' . $productNameCols . '
     FROM orders o
     JOIN products p ON p.id = o.product_id
     WHERE o.factory_id = ?
@@ -44,7 +45,7 @@ $recentSt = $pdo->prepare('SELECT o.order_code, o.status, o.created_at, o.quanti
 $recentSt->execute([$factoryId]);
 $recentOrders = $recentSt->fetchAll();
 
-$pageTitle = 'Factory Dashboard';
+$pageTitle = __('factory_dashboard');
 require __DIR__ . '/../includes/header.php';
 $hideShopNav = false;
 require __DIR__ . '/../includes/navbar.php';
@@ -149,7 +150,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
                             <?php $ost = (string) $o['status']; ?>
                             <tr>
                                 <td class="fw-semibold text-nowrap"><?= e($o['order_code']) ?></td>
-                                <td><?= e($o['product_name']) ?></td>
+                                <td><?= e(getLocalizedProductName($o)) ?></td>
                                 <td><?= (int) $o['quantity'] ?></td>
                                 <td><span class="badge <?= e(order_status_badge_class($ost)) ?>"><?= e(order_status_label($ost)) ?></span></td>
                                 <td class="small text-muted text-nowrap"><?= e(format_datetime((string) $o['created_at'])) ?></td>

@@ -77,6 +77,24 @@ function product_image_url(?string $path): string
     return app_url($path);
 }
 
+function db_has_column(PDO $pdo, string $table, string $column): bool
+{
+    static $cache = [];
+    $key = $table . '.' . $column;
+    if (isset($cache[$key])) {
+        return $cache[$key];
+    }
+    try {
+        $sql = sprintf('SHOW COLUMNS FROM `%s` LIKE ?', str_replace('`', '``', $table));
+        $st = $pdo->prepare($sql);
+        $st->execute([$column]);
+        $cache[$key] = $st->fetch() !== false;
+    } catch (Throwable) {
+        $cache[$key] = false;
+    }
+    return $cache[$key];
+}
+
 /** Resolved URL for a category card: explicit DB image, else first product thumbnail, else placeholder. */
 function category_image_url(array $cat): string
 {
@@ -91,22 +109,70 @@ function category_image_url(array $cat): string
     return product_image_url(null);
 }
 
+function getLocalizedProductName(array $product): string
+{
+    $lang = hanzo_current_language();
+    $key = 'name_' . $lang;
+    $fallback = trim((string) ($product['name_en'] ?? ''));
+    $native = trim((string) ($product['product_name'] ?? ($product['name'] ?? '')));
+    $translated = trim((string) ($product[$key] ?? ''));
+    if ($translated !== '') {
+        return $translated;
+    }
+    if ($fallback !== '') {
+        return $fallback;
+    }
+    return $native;
+}
+
+function getLocalizedProductDescription(array $product): string
+{
+    $lang = hanzo_current_language();
+    $key = 'description_' . $lang;
+    $fallback = trim((string) ($product['description_en'] ?? ''));
+    $native = trim((string) ($product['description'] ?? ''));
+    $translated = trim((string) ($product[$key] ?? ''));
+    if ($translated !== '') {
+        return $translated;
+    }
+    if ($fallback !== '') {
+        return $fallback;
+    }
+    return $native;
+}
+
+function getLocalizedCategoryName(array $category): string
+{
+    $lang = hanzo_current_language();
+    $key = 'name_' . $lang;
+    $fallback = trim((string) ($category['name_en'] ?? ''));
+    $native = trim((string) ($category['name'] ?? ''));
+    $translated = trim((string) ($category[$key] ?? ''));
+    if ($translated !== '') {
+        return $translated;
+    }
+    if ($fallback !== '') {
+        return $fallback;
+    }
+    return $native;
+}
+
 /** Human-readable label for order workflow status (buyer-facing). */
 function order_status_label(string $status): string
 {
-    static $map = [
-        'pending' => 'Pending review',
-        'assigned' => 'With supplier',
-        'quoted' => 'Quoted — action needed',
-        'accepted' => 'Accepted',
-        'in_production' => 'In production',
-        'quality_control' => 'Quality control',
-        'shipped' => 'Shipped',
-        'in_customs' => 'In customs',
-        'delivered' => 'Delivered',
-        'cancelled' => 'Cancelled',
-    ];
-    return $map[$status] ?? ucwords(str_replace('_', ' ', $status));
+    return match ($status) {
+        'pending' => __('order_pending'),
+        'assigned' => __('order_assigned'),
+        'quoted' => __('order_quoted'),
+        'accepted' => __('order_accepted'),
+        'in_production' => __('order_in_production'),
+        'quality_control' => __('order_quality_control'),
+        'shipped' => __('order_shipped'),
+        'in_customs' => __('order_in_customs'),
+        'delivered' => __('order_delivered'),
+        'cancelled' => __('order_cancelled'),
+        default => ucwords(str_replace('_', ' ', $status)),
+    };
 }
 
 function order_status_badge_class(string $status): string
@@ -144,11 +210,11 @@ function format_date(?string $sqlDate): string
 function quotation_status_label(string $status): string
 {
     return match ($status) {
-        'draft' => 'Draft',
-        'sent' => 'Awaiting your response',
-        'accepted' => 'Accepted',
-        'rejected' => 'Rejected',
-        'expired' => 'Expired',
+        'draft' => __('quotation_draft'),
+        'sent' => __('quotation_sent'),
+        'accepted' => __('quotation_accepted'),
+        'rejected' => __('quotation_rejected'),
+        'expired' => __('quotation_expired'),
         default => ucfirst($status),
     };
 }
@@ -168,9 +234,9 @@ function quotation_status_badge_class(string $status): string
 function payment_status_label(string $status): string
 {
     return match ($status) {
-        'pending' => 'Awaiting verification',
-        'verified' => 'Verified',
-        'rejected' => 'Rejected',
+        'pending' => __('payment_pending'),
+        'verified' => __('payment_verified'),
+        'rejected' => __('payment_rejected'),
         default => ucfirst($status),
     };
 }
@@ -329,24 +395,24 @@ function hanzo_render_shop_account_dropdown(string $variant = 'header'): void
         echo '<ul class="dropdown-menu dropdown-menu-end shadow border-0 hanzo-account-menu py-2" aria-labelledby="hanzoAccountDdNav">';
     }
 
-    echo '<li><h6 class="dropdown-header px-3 mb-0 text-muted small text-uppercase letter-spacing-tight">Signed in</h6></li>';
+    echo '<li><h6 class="dropdown-header px-3 mb-0 text-muted small text-uppercase letter-spacing-tight">' . e(__('signed_in')) . '</h6></li>';
     if ($email !== '') {
         echo '<li><span class="dropdown-item-text small text-muted px-3 pb-2 text-break">' . e($email) . '</span></li>';
     }
     echo '<li><hr class="dropdown-divider my-1"></li>';
-    echo '<li><a class="dropdown-item" href="' . e($dashUrl) . '"><i class="fas fa-th-large fa-fw me-2 text-muted" aria-hidden="true"></i>Dashboard</a></li>';
+    echo '<li><a class="dropdown-item" href="' . e($dashUrl) . '"><i class="fas fa-th-large fa-fw me-2 text-muted" aria-hidden="true"></i>' . e(__('dashboard')) . '</a></li>';
     if ($role === 'buyer') {
-        echo '<li><a class="dropdown-item" href="' . e(app_url('buyer/notifications.php')) . '"><i class="fas fa-bell fa-fw me-2 text-muted" aria-hidden="true"></i>Order updates</a></li>';
+        echo '<li><a class="dropdown-item" href="' . e(app_url('buyer/notifications.php')) . '"><i class="fas fa-bell fa-fw me-2 text-muted" aria-hidden="true"></i>' . e(__('order_updates')) . '</a></li>';
     }
     if ($role === 'factory') {
-        echo '<li><a class="dropdown-item" href="' . e(app_url('factory/dashboard.php')) . '"><i class="fas fa-industry fa-fw me-2 text-muted" aria-hidden="true"></i>Factory workspace</a></li>';
+        echo '<li><a class="dropdown-item" href="' . e(app_url('factory/dashboard.php')) . '"><i class="fas fa-industry fa-fw me-2 text-muted" aria-hidden="true"></i>' . e(__('factory_workspace')) . '</a></li>';
     }
     if ($role === 'admin') {
-        echo '<li><a class="dropdown-item" href="' . e(app_url('admin/dashboard.php')) . '"><i class="fas fa-user-shield fa-fw me-2 text-muted" aria-hidden="true"></i>Admin panel</a></li>';
+        echo '<li><a class="dropdown-item" href="' . e(app_url('admin/dashboard.php')) . '"><i class="fas fa-user-shield fa-fw me-2 text-muted" aria-hidden="true"></i>' . e(__('admin_panel')) . '</a></li>';
     }
-    echo '<li><a class="dropdown-item" href="' . e(app_url('profile.php')) . '"><i class="fas fa-user-cog fa-fw me-2 text-muted" aria-hidden="true"></i>Profile &amp; settings</a></li>';
+    echo '<li><a class="dropdown-item" href="' . e(app_url('profile.php')) . '"><i class="fas fa-user-cog fa-fw me-2 text-muted" aria-hidden="true"></i>' . e(__('profile_settings')) . '</a></li>';
     echo '<li><hr class="dropdown-divider my-1"></li>';
-    echo '<li><a class="dropdown-item text-danger" href="' . e(app_url('logout.php')) . '"><i class="fas fa-sign-out-alt fa-fw me-2" aria-hidden="true"></i>Log out</a></li>';
+    echo '<li><a class="dropdown-item text-danger" href="' . e(app_url('logout.php')) . '"><i class="fas fa-sign-out-alt fa-fw me-2" aria-hidden="true"></i>' . e(__('logout')) . '</a></li>';
 
     echo '</ul>';
     if ($variant === 'collapse') {

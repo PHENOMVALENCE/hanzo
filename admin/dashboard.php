@@ -78,7 +78,7 @@ $activities = [
     ['icon' => 'bi-truck', 'text' => 'Shipping status updated', 'time' => '1d ago'],
 ];
 
-$pageTitle = 'Admin Dashboard';
+$pageTitle = __('admin_dashboard');
 require __DIR__ . '/../includes/header.php';
 $adminActive = 'dashboard';
 $adminPageTitle = 'Dashboard';

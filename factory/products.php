@@ -10,9 +10,13 @@ $cats = $pdo->query('SELECT id, name FROM categories WHERE status="active" ORDER
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save') {
     $id = (int) ($_POST['id'] ?? 0);
-    $name = trim((string) ($_POST['product_name'] ?? ''));
+    $nameEn = trim((string) ($_POST['name_en'] ?? ($_POST['product_name'] ?? '')));
+    $nameSw = trim((string) ($_POST['name_sw'] ?? ''));
+    $nameZh = trim((string) ($_POST['name_zh'] ?? ''));
     $category = (int) ($_POST['category_id'] ?? 0);
-    $desc = trim((string) ($_POST['description'] ?? ''));
+    $descEn = trim((string) ($_POST['description_en'] ?? ($_POST['description'] ?? '')));
+    $descSw = trim((string) ($_POST['description_sw'] ?? ''));
+    $descZh = trim((string) ($_POST['description_zh'] ?? ''));
     $moq = max(1, (int) ($_POST['moq'] ?? 1));
     $min = (float) ($_POST['min_price'] ?? 0);
     $max = (float) ($_POST['max_price'] ?? 0);
@@ -21,6 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save'
         $status = 'draft';
     }
     $img = null;
+    if ($nameEn === '' || $descEn === '') {
+        flash_set('error', 'English product name and description are required.');
+        redirect('factory/products.php' . ($id > 0 ? '?edit=' . $id : ''));
+    }
     if ($id > 0) {
         $cur = $pdo->prepare('SELECT main_image FROM products WHERE id = ? AND factory_id = ?');
         $cur->execute([$id, $factoryId]);
@@ -33,11 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save'
         }
     }
     if ($id > 0) {
-        $pdo->prepare('UPDATE products SET category_id=?, product_name=?, description=?, moq=?, min_price=?, max_price=?, status=?, main_image=? WHERE id=? AND factory_id=?')
-            ->execute([$category, $name, $desc, $moq, $min, $max, $status, $img, $id, $factoryId]);
+        $pdo->prepare('UPDATE products SET category_id=?, product_name=?, description=?, name_en=?, name_sw=?, name_zh=?, description_en=?, description_sw=?, description_zh=?, moq=?, min_price=?, max_price=?, status=?, main_image=? WHERE id=? AND factory_id=?')
+            ->execute([$category, $nameEn, $descEn, $nameEn, $nameSw !== '' ? $nameSw : null, $nameZh !== '' ? $nameZh : null, $descEn, $descSw !== '' ? $descSw : null, $descZh !== '' ? $descZh : null, $moq, $min, $max, $status, $img, $id, $factoryId]);
     } else {
-        $pdo->prepare('INSERT INTO products (factory_id, category_id, product_name, description, moq, min_price, max_price, status, main_image) VALUES (?,?,?,?,?,?,?,?,?)')
-            ->execute([$factoryId, $category, $name, $desc, $moq, $min, $max, $status, $img]);
+        $pdo->prepare('INSERT INTO products (factory_id, category_id, product_name, description, name_en, name_sw, name_zh, description_en, description_sw, description_zh, moq, min_price, max_price, status, main_image) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
+            ->execute([$factoryId, $category, $nameEn, $descEn, $nameEn, $nameSw !== '' ? $nameSw : null, $nameZh !== '' ? $nameZh : null, $descEn, $descSw !== '' ? $descSw : null, $descZh !== '' ? $descZh : null, $moq, $min, $max, $status, $img]);
     }
     flash_set('success', 'Product saved.');
     redirect('factory/products.php');
@@ -68,6 +76,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
         <p class="text-muted small mb-0">Listings visible to HANZO buyers. Use drafts until pricing and imagery are final.</p>
     </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
+    <?php if ($m = flash_get('error')): ?><div class="alert alert-danger border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
 
     <div class="hanzo-buyer-form-card bg-white mb-4 overflow-hidden">
         <div class="px-3 px-md-4 py-3 border-bottom bg-light bg-opacity-50 d-flex flex-wrap justify-content-between align-items-start gap-2">
@@ -84,8 +93,8 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
             <input type="hidden" name="id" value="<?= (int) ($ef['id'] ?? 0) ?>">
             <div class="row g-3">
                 <div class="col-12 col-lg-6">
-                    <label for="fp-name" class="form-label">Product name <span class="text-danger" aria-hidden="true">*</span></label>
-                    <input class="form-control" id="fp-name" name="product_name" placeholder="e.g. LED panel kit, 400W" required value="<?= e((string) ($ef['product_name'] ?? '')) ?>">
+                    <label for="fp-name" class="form-label">Product name (English) <span class="text-danger" aria-hidden="true">*</span></label>
+                    <input class="form-control" id="fp-name" name="name_en" placeholder="e.g. LED panel kit, 400W" required value="<?= e((string) ($ef['name_en'] ?? $ef['product_name'] ?? '')) ?>">
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <label for="fp-cat" class="form-label">Category <span class="text-danger" aria-hidden="true">*</span></label>
@@ -118,9 +127,25 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
                         <input class="form-control" id="fp-max" step="0.01" type="number" name="max_price" min="0" inputmode="decimal" placeholder="0.00" value="<?= e((string) ($ef['max_price'] ?? '')) ?>" required>
                     </div>
                 </div>
+                <div class="col-12 col-md-6">
+                    <label for="fp-name-sw" class="form-label">Product name (Swahili)</label>
+                    <input class="form-control" id="fp-name-sw" name="name_sw" placeholder="Optional translation" value="<?= e((string) ($ef['name_sw'] ?? '')) ?>">
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="fp-name-zh" class="form-label">Product name (Chinese)</label>
+                    <input class="form-control" id="fp-name-zh" name="name_zh" placeholder="Optional translation" value="<?= e((string) ($ef['name_zh'] ?? '')) ?>">
+                </div>
                 <div class="col-12">
-                    <label for="fp-desc" class="form-label">Description</label>
-                    <textarea class="form-control" id="fp-desc" name="description" rows="4" placeholder="Materials, specs, packaging, lead time — anything buyers and HANZO need to quote accurately."><?= e((string) ($ef['description'] ?? '')) ?></textarea>
+                    <label for="fp-desc" class="form-label">Description (English) <span class="text-danger" aria-hidden="true">*</span></label>
+                    <textarea class="form-control" id="fp-desc" name="description_en" rows="4" required placeholder="Materials, specs, packaging, lead time — anything buyers and HANZO need to quote accurately."><?= e((string) ($ef['description_en'] ?? $ef['description'] ?? '')) ?></textarea>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="fp-desc-sw" class="form-label">Description (Swahili)</label>
+                    <textarea class="form-control" id="fp-desc-sw" name="description_sw" rows="3" placeholder="Optional translation"><?= e((string) ($ef['description_sw'] ?? '')) ?></textarea>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="fp-desc-zh" class="form-label">Description (Chinese)</label>
+                    <textarea class="form-control" id="fp-desc-zh" name="description_zh" rows="3" placeholder="Optional translation"><?= e((string) ($ef['description_zh'] ?? '')) ?></textarea>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <label for="fp-status" class="form-label">Listing status</label>

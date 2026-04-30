@@ -13,15 +13,15 @@ $footerMode = $footerMode ?? 'full';
                 <p class="small">Controlled B2B trade between East African buyers and verified overseas factories. Inquiries, quotations, and logistics are coordinated through HANZO — not direct factory contact.</p>
             </div>
             <div class="col-md-2">
-                <h6 class="text-white mb-3">Buyers</h6>
+                <h6 class="text-white mb-3"><?= e(__('buyers')) ?></h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="<?= e(app_url('register.php')) ?>">Create account</a></li>
-                    <li class="mb-2"><a href="<?= e(app_url('categories.php')) ?>">Browse categories</a></li>
-                    <li class="mb-2"><a href="<?= e(app_url('dashboard.php')) ?>">Dashboard</a></li>
+                    <li class="mb-2"><a href="<?= e(app_url('register.php')) ?>"><?= e(__('create_account')) ?></a></li>
+                    <li class="mb-2"><a href="<?= e(app_url('categories.php')) ?>"><?= e(__('browse_categories')) ?></a></li>
+                    <li class="mb-2"><a href="<?= e(app_url('dashboard.php')) ?>"><?= e(__('dashboard')) ?></a></li>
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6 class="text-white mb-3">Popular sectors</h6>
+                <h6 class="text-white mb-3"><?= e(__('popular_sectors')) ?></h6>
                 <ul class="list-unstyled small">
                     <li class="mb-2"><a href="<?= e(app_url('category.php?id=4')) ?>">Machinery &amp; equipment</a></li>
                     <li class="mb-2"><a href="<?= e(app_url('category.php?id=12')) ?>">Bikes &amp; motorcycles</a></li>
@@ -29,8 +29,8 @@ $footerMode = $footerMode ?? 'full';
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6 class="text-white mb-3">Compliance</h6>
-                <p class="small mb-0">Supplier identities and pricing are managed internally. Public listings do not display direct factory contact details.</p>
+                <h6 class="text-white mb-3"><?= e(__('compliance')) ?></h6>
+                <p class="small mb-0"><?= e(__('compliance_text')) ?></p>
             </div>
         </div>
         <hr class="border-secondary mt-4 mb-3">
