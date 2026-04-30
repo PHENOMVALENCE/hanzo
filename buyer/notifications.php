@@ -45,7 +45,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
     <header class="hanzo-buyer-page-head d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
         <div>
             <h1 class="hanzo-buyer-page-title">Order notifications</h1>
-            <p class="text-muted small mb-0">Updates when your order status changes across HANZO, suppliers, and shipping.</p>
+            <p class="text-muted small mb-0">Updates when your order status changes across China Chapu, suppliers, and shipping.</p>
         </div>
         <?php if ($schemaReady && $items !== []): ?>
             <form method="post" class="m-0">

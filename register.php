@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'full_name' => $name,
                 'role' => 'buyer',
             ]);
-            flash_set('success', 'Welcome to HANZO. You can now send inquiries.');
+            flash_set('success', 'Welcome to China Chapu. You can now send inquiries.');
             redirect('buyer/dashboard.php');
         }
     }
@@ -63,7 +63,7 @@ require __DIR__ . '/includes/navbar.php';
 
 <main class="container py-5" style="max-width:480px;">
     <h1 class="h3 mb-2"><?= e(__('register_buyer')) ?></h1>
-    <p class="text-muted small mb-4">Self-service signup is available for <strong>buyer</strong> accounts only. Factory and admin accounts are created by HANZO.</p>
+    <p class="text-muted small mb-4">Self-service signup is available for <strong>buyer</strong> accounts only. Factory and admin accounts are created by China Chapu.</p>
     <?php foreach ($errors as $er): ?>
         <div class="alert alert-danger"><?= e($er) ?></div>
     <?php endforeach; ?>

@@ -48,7 +48,7 @@ function buyer_notify_order_submitted(PDO $pdo, int $orderId): void
     }
     $buyerId = (int) $row['buyer_id'];
     $code = (string) $row['order_code'];
-    $msg = 'Your sourcing request was received and is pending HANZO review.';
+    $msg = 'Your sourcing request was received and is pending China Chapu review.';
     buyer_notification_insert($pdo, $buyerId, $orderId, 'Order ' . $code . ' submitted', $msg);
 }
 

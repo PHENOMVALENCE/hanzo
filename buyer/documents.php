@@ -22,7 +22,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
 ?>
 <main class="hanzo-buyer-main-inner">
     <h1 class="h3 mb-3">Order Documents</h1>
-    <p class="text-muted">Invoices, shipping docs, and HANZO-issued files are available here once uploaded by admin.</p>
+    <p class="text-muted">Invoices, shipping docs, and China Chapu-issued files are available here once uploaded by admin.</p>
     <div class="table-responsive hanzo-buyer-table-wrap">
         <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
             <thead><tr><th scope="col">Order</th><th scope="col">Type</th><th scope="col">Uploaded by</th><th scope="col">Date</th><th scope="col">Download</th></tr></thead>

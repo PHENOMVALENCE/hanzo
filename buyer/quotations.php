@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             buyer_notify_order_status_changed($pdo, $oidQ, $prevOs, $newOs);
             if ($decision === 'accepted') {
                 $pdo->prepare('INSERT INTO shipping_updates (order_id, status_title, description, location, tracking_number, updated_by) VALUES (?,?,?,?,?,?)')
-                    ->execute([(int) $q['order_id'], 'Quotation accepted', 'Buyer accepted official HANZO quotation.', 'HANZO', null, $buyerId]);
+                    ->execute([(int) $q['order_id'], 'Quotation accepted', 'Buyer accepted official China Chapu quotation.', 'China Chapu', null, $buyerId]);
             }
             flash_set('success', 'Quotation decision recorded.');
         }
@@ -51,7 +51,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
 <main class="hanzo-buyer-main-inner">
     <header class="hanzo-buyer-page-head">
         <h1 class="hanzo-buyer-page-title">Official quotations</h1>
-        <p class="text-muted small mb-0">Review landed-cost quotes from HANZO and accept or reject before they expire.</p>
+        <p class="text-muted small mb-0">Review landed-cost quotes from China Chapu and accept or reject before they expire.</p>
     </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
     <div class="table-responsive hanzo-buyer-table-wrap">

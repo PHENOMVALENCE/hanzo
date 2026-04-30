@@ -53,7 +53,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
 ?>
 <main class="hanzo-buyer-main-inner hanzo-factory-dashboard">
     <div class="hanzo-factory-hero">
-        <div class="hanzo-factory-hero-badge">HANZO verified partner</div>
+        <div class="hanzo-factory-hero-badge">China Chapu verified partner</div>
         <h1 class="hanzo-factory-hero-title"><?= e((string) ($factory['factory_name'] ?? 'Factory')) ?></h1>
         <p class="hanzo-factory-hero-meta mb-0">
             <?php
@@ -62,7 +62,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
                 echo e(implode(', ', $loc)) . ' · ';
             }
             ?>
-            Manage catalog, fulfil assigned orders, and post production milestones through HANZO.
+            Manage catalog, fulfil assigned orders, and post production milestones through China Chapu.
         </p>
     </div>
 
@@ -157,7 +157,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
                             </tr>
                         <?php endforeach; ?>
                         <?php if ($recentOrders === []): ?>
-                            <tr><td colspan="5" class="text-center text-muted py-5">No orders assigned yet. HANZO will route RFQs to you when matched.</td></tr>
+                            <tr><td colspan="5" class="text-center text-muted py-5">No orders assigned yet. China Chapu will route RFQs to you when matched.</td></tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -175,7 +175,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
             </div>
             <div class="alert alert-light border small mb-0" style="border-color: var(--hanzo-border) !important;">
                 <strong class="d-block mb-1 text-hanzo-gold">Privacy &amp; workflow</strong>
-                Buyer identities and direct contact details stay with HANZO. Update order status and production notes here so East African buyers receive accurate milestones through the platform.
+                Buyer identities and direct contact details stay with China Chapu. Update order status and production notes here so East African buyers receive accurate milestones through the platform.
             </div>
         </div>
     </div>

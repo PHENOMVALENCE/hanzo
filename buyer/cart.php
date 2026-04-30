@@ -14,7 +14,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
 <main class="hanzo-buyer-main-inner">
     <h1 class="h3 mb-3">Quick Request Cart</h1>
     <div class="alert alert-info">
-        HANZO uses RFQ-style sourcing. Instead of direct checkout, open a product and submit request details.
+        China Chapu uses RFQ-style sourcing. Instead of direct checkout, open a product and submit request details.
     </div>
     <div class="d-flex gap-2">
         <a class="btn btn-hanzo-primary" href="<?= e(app_url('buyer/products.php')) ?>">Browse products</a>

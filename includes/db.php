@@ -21,7 +21,7 @@ try {
 } catch (PDOException $e) {
     http_response_code(500);
     echo '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Database error</title></head><body>';
-    echo '<h3>HANZO Database Connection Failed</h3>';
+    echo '<h3>China Chapu Database Connection Failed</h3>';
     echo '<p>Import <code>database/hanzo.sql</code> and verify credentials in <code>config/db.php</code>.</p>';
     echo '</body></html>';
     exit;

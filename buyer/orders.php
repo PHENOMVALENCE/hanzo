@@ -24,7 +24,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
 <main class="hanzo-buyer-main-inner">
     <header class="hanzo-buyer-page-head">
         <h1 class="hanzo-buyer-page-title">My orders</h1>
-        <p class="text-muted small mb-0">Order codes, quote status, and payment shortcuts for your HANZO requests.</p>
+        <p class="text-muted small mb-0">Order codes, quote status, and payment shortcuts for your China Chapu requests.</p>
     </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success"><?= e($m) ?></div><?php endif; ?>
     <div class="table-responsive hanzo-buyer-table-wrap">

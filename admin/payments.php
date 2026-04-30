@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->prepare('UPDATE orders SET status=? WHERE id=?')->execute([$nextStatus, $oidPay]);
                 buyer_notify_order_status_changed($pdo, $oidPay, $prevOs, $nextStatus);
                 $pdo->prepare('INSERT INTO shipping_updates (order_id, status_title, description, location, tracking_number, updated_by) VALUES (?,?,?,?,?,?)')
-                    ->execute([(int) $p['order_id'], 'Payment verified', 'Payment verification completed by HANZO admin.', 'HANZO', null, auth_id()]);
+                    ->execute([(int) $p['order_id'], 'Payment verified', 'Payment verification completed by China Chapu admin.', 'China Chapu', null, auth_id()]);
             }
         }
         flash_set('success', 'Payment verification updated.');

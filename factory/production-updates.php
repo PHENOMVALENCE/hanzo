@@ -41,7 +41,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
 <main class="hanzo-buyer-main-inner">
     <header class="hanzo-buyer-page-head">
         <h1 class="hanzo-buyer-page-title">Production updates</h1>
-        <p class="text-muted small mb-0">Log milestones and optional photos; HANZO shares progress with buyers.</p>
+        <p class="text-muted small mb-0">Log milestones and optional photos; China Chapu shares progress with buyers.</p>
     </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
     <form method="post" enctype="multipart/form-data" class="row g-2 hanzo-buyer-form-card p-3 mb-4">

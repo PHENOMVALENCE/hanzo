@@ -119,10 +119,10 @@ function hanzo_i18n_replace_pairs(): array
     $sw = [
         'B2B sourcing for Tanzania & East Africa' => 'Ununuzi wa B2B kwa Tanzania na Afrika Mashariki',
         'Categories' => 'Makundi',
-        'Why HANZO?' => 'Kwa nini HANZO?',
+        'Why HANZO?' => 'Kwa nini China Chapu?',
         'Verified suppliers, structured quotations, and clearing support — without exposing direct factory contacts on the public catalogue.' => 'Wasambazaji waliothibitishwa, nukuu zilizopangwa, na msaada wa uondoshaji mizigo — bila kuonyesha mawasiliano ya moja kwa moja ya kiwanda kwenye katalogi ya umma.',
         'Source smarter from Asia to East Africa' => 'Nunua kwa ufanisi zaidi kutoka Asia hadi Afrika Mashariki',
-        'Browse verified product lines, send inquiries, and receive official HANZO quotations with transparent landed-cost breakdowns.' => 'Vinjari bidhaa zilizothibitishwa, tuma maombi, na upokee nukuu rasmi za HANZO zenye mgawanyo wazi wa gharama za kufikisha bidhaa.',
+        'Browse verified product lines, send inquiries, and receive official HANZO quotations with transparent landed-cost breakdowns.' => 'Vinjari bidhaa zilizothibitishwa, tuma maombi, na upokee nukuu rasmi za China Chapu zenye mgawanyo wazi wa gharama za kufikisha bidhaa.',
         'Explore categories' => 'Chunguza makundi',
         'Selected trending' => 'Zinazovuma zilizochaguliwa',
         'Hot selling' => 'Zinazouzwa sana',
@@ -158,10 +158,10 @@ function hanzo_i18n_replace_pairs(): array
     $zh = [
         'B2B sourcing for Tanzania & East Africa' => '面向坦桑尼亚与东非的 B2B 采购',
         'Categories' => '分类',
-        'Why HANZO?' => '为什么选择 HANZO？',
+        'Why HANZO?' => '为什么选择 China Chapu？',
         'Verified suppliers, structured quotations, and clearing support — without exposing direct factory contacts on the public catalogue.' => '认证供应商、结构化报价和清关支持——在公开目录中不暴露工厂直接联系方式。',
         'Source smarter from Asia to East Africa' => '从亚洲到东非，更聪明地采购',
-        'Browse verified product lines, send inquiries, and receive official HANZO quotations with transparent landed-cost breakdowns.' => '浏览认证产品线，发送询价，并获得 HANZO 官方报价及透明的到岸成本明细。',
+        'Browse verified product lines, send inquiries, and receive official HANZO quotations with transparent landed-cost breakdowns.' => '浏览认证产品线，发送询价，并获得 China Chapu 官方报价及透明的到岸成本明细。',
         'Explore categories' => '探索分类',
         'Selected trending' => '精选热销',
         'Hot selling' => '热卖商品',
@@ -232,7 +232,7 @@ function t(string $key): string
     $lang = hanzo_current_language();
     $en = [
         'nav.buyer_support' => 'Buyer support',
-        'nav.tagline' => 'East Africa sourcing desk · USD quotes · Verified suppliers via HANZO',
+        'nav.tagline' => 'Fast sourcing from China to East Africa',
         'nav.login' => 'Log in',
         'nav.register_buyer' => 'Register as buyer',
         'nav.categories' => 'Categories',
@@ -285,7 +285,7 @@ function t(string $key): string
     ];
     $sw = [
         'nav.buyer_support' => 'Msaada wa wanunuzi',
-        'nav.tagline' => 'Kitengo cha ununuzi Afrika Mashariki · Nukuu za USD · Wasambazaji waliothibitishwa na HANZO',
+        'nav.tagline' => 'Ununuzi wa haraka kutoka China hadi Afrika Mashariki',
         'nav.login' => 'Ingia',
         'nav.register_buyer' => 'Jisajili kama mnunuzi',
         'nav.categories' => 'Makundi',
@@ -338,7 +338,7 @@ function t(string $key): string
     ];
     $zh = [
         'nav.buyer_support' => '买家支持',
-        'nav.tagline' => '东非采购中心 · 美元报价 · HANZO 认证供应商',
+        'nav.tagline' => '从中国到东非的快速采购',
         'nav.login' => '登录',
         'nav.register_buyer' => '注册买家账户',
         'nav.categories' => '分类',

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($errors === []) {
         $pdo->prepare('INSERT INTO payments (order_id, buyer_id, amount, payment_type, method, reference, proof_file, status) VALUES (?,?,?,?,?,?,?,"pending")')
             ->execute([$orderId, $buyerId, $amount, $paymentType !== '' ? $paymentType : null, $method, $reference !== '' ? $reference : null, $proofPath]);
-        flash_set('success', 'Payment submitted. HANZO admin will verify it.');
+        flash_set('success', 'Payment submitted. China Chapu admin will verify it.');
         redirect('buyer/payments.php');
     }
 }
@@ -66,7 +66,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
 <main class="hanzo-buyer-main-inner">
     <header class="hanzo-buyer-page-head mb-4">
         <h1 class="hanzo-buyer-page-title">Payments</h1>
-        <p class="text-muted small mb-0">Record a transfer against an open order. HANZO verifies proof before your order status updates.</p>
+        <p class="text-muted small mb-0">Record a transfer against an open order. China Chapu verifies proof before your order status updates.</p>
     </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
     <?php foreach ($errors as $er): ?><div class="alert alert-danger border-0 shadow-sm"><?= e($er) ?></div><?php endforeach; ?>

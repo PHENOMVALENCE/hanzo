@@ -73,7 +73,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
 <main class="hanzo-buyer-main-inner">
     <header class="hanzo-buyer-page-head mb-4">
         <h1 class="hanzo-buyer-page-title">My products</h1>
-        <p class="text-muted small mb-0">Listings visible to HANZO buyers. Use drafts until pricing and imagery are final.</p>
+        <p class="text-muted small mb-0">Listings visible to China Chapu buyers. Use drafts until pricing and imagery are final.</p>
     </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
     <?php if ($m = flash_get('error')): ?><div class="alert alert-danger border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
@@ -82,7 +82,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
         <div class="px-3 px-md-4 py-3 border-bottom bg-light bg-opacity-50 d-flex flex-wrap justify-content-between align-items-start gap-2">
             <div>
                 <h2 class="h6 mb-0 fw-semibold text-dark"><?= is_array($edit) ? 'Edit product' : 'Add a product' ?></h2>
-                <p class="small text-muted mb-0 mt-1">HANZO may review listings before they appear as <span class="text-success fw-semibold">active</span> in the marketplace.</p>
+                <p class="small text-muted mb-0 mt-1">China Chapu may review listings before they appear as <span class="text-success fw-semibold">active</span> in the marketplace.</p>
             </div>
             <?php if (is_array($edit)): ?>
                 <a class="btn btn-sm btn-outline-secondary flex-shrink-0" href="<?= e(app_url('factory/products.php')) ?>">Clear &amp; add new</a>
@@ -137,7 +137,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
                 </div>
                 <div class="col-12">
                     <label for="fp-desc" class="form-label">Description (English) <span class="text-danger" aria-hidden="true">*</span></label>
-                    <textarea class="form-control" id="fp-desc" name="description_en" rows="4" required placeholder="Materials, specs, packaging, lead time — anything buyers and HANZO need to quote accurately."><?= e((string) ($ef['description_en'] ?? $ef['description'] ?? '')) ?></textarea>
+                    <textarea class="form-control" id="fp-desc" name="description_en" rows="4" required placeholder="Materials, specs, packaging, lead time — anything buyers and China Chapu need to quote accurately."><?= e((string) ($ef['description_en'] ?? $ef['description'] ?? '')) ?></textarea>
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="fp-desc-sw" class="form-label">Description (Swahili)</label>

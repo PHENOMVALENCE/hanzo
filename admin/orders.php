@@ -87,7 +87,7 @@ require __DIR__ . '/../includes/admin_sidebar.php';
 <?php require __DIR__ . '/../includes/admin_topbar.php'; ?>
 <main>
     <h1 class="h3 mb-3">Orders</h1>
-    <p class="text-muted mb-3">Track confirmed orders flowing from accepted HANZO quotations. Future milestones (production, shipment, delivery, payment) can be layered on top of this core view.</p>
+    <p class="text-muted mb-3">Track confirmed orders flowing from accepted China Chapu quotations. Future milestones (production, shipment, delivery, payment) can be layered on top of this core view.</p>
 
     <div class="admin-card p-3">
         <form method="get" class="row g-2 admin-dt-toolbar mb-3" action="<?= e(app_url($dtPath)) ?>">

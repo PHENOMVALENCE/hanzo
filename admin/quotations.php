@@ -148,7 +148,7 @@ require __DIR__ . '/../includes/admin_sidebar.php';
                 <div class="col-md-2"><label class="form-label">Insurance</label><input class="form-control" type="number" step="0.01" name="insurance_cost" value="0"></div>
                 <div class="col-md-2"><label class="form-label">Clearing</label><input class="form-control" type="number" step="0.01" name="clearing_cost" value="0"></div>
                 <div class="col-md-2"><label class="form-label">Local Delivery</label><input class="form-control" type="number" step="0.01" name="local_delivery_cost" value="0"></div>
-                <div class="col-md-2"><label class="form-label">HANZO Margin</label><input class="form-control" type="number" step="0.01" name="hanzo_margin" value="0"></div>
+                <div class="col-md-2"><label class="form-label">China Chapu Margin</label><input class="form-control" type="number" step="0.01" name="hanzo_margin" value="0"></div>
                 <div class="col-md-2"><label class="form-label">Status</label><select class="form-select" name="status"><option value="draft">draft</option><option value="sent">sent</option></select></div>
                 <div class="col-md-2"><label class="form-label">Valid Until</label><input type="date" name="valid_until" class="form-control"></div>
                 <div class="col-md-12"><button class="btn btn-hanzo-primary">Create Quotation</button></div>

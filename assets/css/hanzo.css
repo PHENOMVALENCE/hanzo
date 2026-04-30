@@ -168,6 +168,18 @@ body.hanzo-body {
 .hanzo-brand {
   color: var(--hanzo-navy) !important;
 }
+.hanzo-brand-fallback {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.hanzo-header-brand-col .hanzo-brand-fallback {
+  color: var(--hanzo-navy);
+  font-size: 1.2rem;
+}
+.hanzo-footer .hanzo-brand-fallback {
+  font-size: 1.05rem;
+}
 .hanzo-header-brand-col .navbar-brand {
   display: inline-flex !important;
   align-items: center;
@@ -190,10 +202,13 @@ body.hanzo-body {
   object-fit: contain;
 }
 .hanzo-footer-logo {
-  height: 42px;
-  width: auto;
-  max-width: 220px;
-  object-fit: contain;
+  width: 62px;
+  height: 62px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.45rem;
+  background: #fff;
+  padding: 0.25rem;
 }
 /* Makes dark logos visible on dark backgrounds */
 .hanzo-brand-logo-invert {

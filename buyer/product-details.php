@@ -44,7 +44,7 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
             <p class="price-range fs-5"><?= format_usd_range($product['min_price'], $product['max_price'], 'Piece') ?></p>
             <p><strong>MOQ:</strong> <?= (int) $product['moq'] ?> pieces</p>
             <p><?= nl2br(e($product['description'])) ?></p>
-            <p class="small text-muted">Factory identity is protected. Quotations and communication are managed by HANZO.</p>
+            <p class="small text-muted">Factory identity is protected. Quotations and communication are managed by China Chapu.</p>
             <a href="<?= e(app_url('inquiry.php?product_id=' . (int) $product['id'])) ?>" class="btn btn-hanzo-primary btn-lg">Submit Order Request</a>
         </div>
     </div>

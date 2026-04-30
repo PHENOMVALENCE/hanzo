@@ -21,7 +21,8 @@ $items = [
     <div class="admin-sidebar-brand">
         <button class="btn btn-link text-white p-0 me-2 d-lg-none" id="adminSidebarClose"><i class="bi bi-x-lg"></i></button>
         <a href="<?= e(app_url('admin/dashboard.php')) ?>" class="admin-sidebar-brand-link">
-            <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="HANZO" class="admin-sidebar-logo hanzo-brand-logo-invert">
+            <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="China Chapu" class="admin-sidebar-logo hanzo-brand-logo-invert" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+            <span class="hanzo-brand-fallback text-white">China Chapu</span>
             <span class="small text-white-50">Admin</span>
         </a>
     </div>

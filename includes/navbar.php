@@ -37,8 +37,9 @@ if (!$hideShopNav) {
 <div class="container-fluid px-3 px-sm-4 py-3 hanzo-shop-header-main bg-white border-bottom">
     <div class="row align-items-center g-3">
         <div class="col-12 col-lg-3 col-xl-3 text-center text-lg-start hanzo-header-brand-col">
-            <a href="<?= e(app_url('index.php')) ?>" class="navbar-brand hanzo-brand d-inline-block mb-0">
-                <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="HANZO" class="hanzo-brand-logo">
+            <a href="<?= e(app_url('index.php')) ?>" class="navbar-brand hanzo-brand d-inline-flex align-items-center gap-2 mb-0">
+                <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="China Chapu" class="hanzo-brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+                <span class="hanzo-brand-fallback">China Chapu</span>
             </a>
             <div class="small text-muted d-none d-md-block hanzo-header-brand-meta"><?= e(__('brand_subtitle')) ?></div>
         </div>
@@ -117,7 +118,8 @@ if (!$hideShopNav) {
 <nav class="navbar navbar-expand-lg bg-hanzo-navy navbar-dark">
     <div class="container-fluid px-3 px-sm-4">
         <a class="navbar-brand hanzo-brand text-white d-inline-flex align-items-center gap-2" href="<?= e(app_url('admin/index.php')) ?>">
-            <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="HANZO" class="hanzo-brand-logo hanzo-brand-logo-invert">
+            <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="China Chapu" class="hanzo-brand-logo hanzo-brand-logo-invert" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+            <span class="hanzo-brand-fallback text-white">China Chapu</span>
             <span class="small text-white-50">Admin</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">

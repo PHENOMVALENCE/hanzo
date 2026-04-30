@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$pageTitle = $pageTitle ?? 'HANZO';
+$pageTitle = $pageTitle ?? 'China Chapu';
 $extraHead = $extraHead ?? '';
 $bodyClass = $bodyClass ?? 'hanzo-body';
 hanzo_start_i18n_output_buffer();
@@ -12,8 +12,8 @@ hanzo_start_i18n_output_buffer();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= e($pageTitle) ?> — HANZO</title>
-    <meta name="description" content="HANZO connects East African buyers with verified factories through a controlled B2B trade platform.">
+    <title><?= e($pageTitle) ?> | China Chapu</title>
+    <meta name="description" content="China Chapu helps East African businesses source products from verified Chinese factories, manage quotations, payments, shipping, and documentation in one platform.">
     <link rel="icon" type="image/png" href="<?= e(app_url('assets/images/logo.png')) ?>">
     <link rel="shortcut icon" type="image/png" href="<?= e(app_url('assets/images/logo.png')) ?>">
     <link rel="apple-touch-icon" href="<?= e(app_url('assets/images/logo.png')) ?>">

@@ -44,7 +44,7 @@ require __DIR__ . '/../includes/factory_sidebar_start.php';
 <main class="hanzo-buyer-main-inner">
     <header class="hanzo-buyer-page-head">
         <h1 class="hanzo-buyer-page-title">Assigned orders</h1>
-        <p class="text-muted small mb-0">Advance order status and add optional lead-time notes for HANZO operations.</p>
+        <p class="text-muted small mb-0">Advance order status and add optional lead-time notes for China Chapu operations.</p>
     </header>
     <?php if ($m = flash_get('success')): ?><div class="alert alert-success border-0 shadow-sm"><?= e($m) ?></div><?php endif; ?>
     <div class="table-responsive hanzo-buyer-table-wrap">

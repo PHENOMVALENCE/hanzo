@@ -9,10 +9,11 @@ $footerMode = $footerMode ?? 'full';
     <div class="container-fluid px-3 px-sm-4">
         <div class="row g-4">
             <div class="col-md-4">
-                <a href="<?= e(app_url('index.php')) ?>" class="d-inline-block mb-3">
-                    <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="HANZO" class="hanzo-footer-logo hanzo-brand-logo-invert">
+                <a href="<?= e(app_url('index.php')) ?>" class="d-inline-flex align-items-center gap-2 mb-3 text-decoration-none">
+                    <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="China Chapu" class="hanzo-footer-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+                    <span class="hanzo-brand-fallback text-white">China Chapu</span>
                 </a>
-                <p class="small">Controlled B2B trade between East African buyers and verified overseas factories. Inquiries, quotations, and logistics are coordinated through HANZO — not direct factory contact.</p>
+                <p class="small">A B2B marketplace helping East African businesses source products from verified Chinese factories through one managed workflow.</p>
             </div>
             <div class="col-md-2">
                 <h6 class="text-white mb-3"><?= e(__('buyers')) ?></h6>
@@ -36,12 +37,12 @@ $footerMode = $footerMode ?? 'full';
             </div>
         </div>
         <hr class="border-secondary mt-4 mb-3">
-        <div class="text-center small">&copy; <?= date('Y') ?> HANZO. All rights reserved.</div>
+        <div class="text-center small">&copy; <?= date('Y') ?> China Chapu. All rights reserved.</div>
     </div>
 </footer>
 <?php else: ?>
 <footer class="border-top py-3 mt-auto bg-white">
-    <div class="container-fluid px-3 px-sm-4 text-center small text-muted">&copy; <?= date('Y') ?> HANZO Admin</div>
+    <div class="container-fluid px-3 px-sm-4 text-center small text-muted">&copy; <?= date('Y') ?> China Chapu Admin</div>
 </footer>
 <?php endif; ?>
 

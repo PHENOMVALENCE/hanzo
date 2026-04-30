@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->prepare('INSERT INTO documents (order_id, document_type, file_path, uploaded_by) VALUES (?,?,?,?)')
                 ->execute([$orderId, 'buyer_reference', $docPath, 'buyer']);
         }
-        flash_set('success', 'Order request submitted to HANZO. Admin will assign a factory and prepare official quotation.');
+        flash_set('success', 'Order request submitted to China Chapu. Admin will assign a factory and prepare official quotation.');
         redirect('buyer/orders.php');
     }
 }
