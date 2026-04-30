@@ -23,7 +23,7 @@ return [
     'swahili' => 'Kiswahili',
     'chinese' => '中文',
     'buyer_support' => '买家支持',
-    'tagline' => '东非采购中心 · 美元报价 · HANZO 认证供应商',
+    'tagline' => '面向东非的可信 B2B 采购 · 认证供应商 · 透明美元报价',
     'register_buyer' => '注册买家账户',
     'join_free' => '免费加入',
     'product_directory' => '产品目录',

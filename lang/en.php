@@ -23,7 +23,7 @@ return [
     'swahili' => 'Kiswahili',
     'chinese' => '中文',
     'buyer_support' => 'Buyer support',
-    'tagline' => 'East Africa sourcing desk · USD quotes · Verified suppliers via HANZO',
+    'tagline' => 'Trusted B2B sourcing for East Africa · Verified suppliers · Transparent USD quotations',
     'register_buyer' => 'Register as buyer',
     'join_free' => 'Join free',
     'product_directory' => 'Product directory',

@@ -23,7 +23,7 @@ return [
     'swahili' => 'Kiswahili',
     'chinese' => '中文',
     'buyer_support' => 'Msaada wa wanunuzi',
-    'tagline' => 'Kitengo cha ununuzi Afrika Mashariki · Nukuu za USD · Wasambazaji waliothibitishwa na HANZO',
+    'tagline' => 'Ununuzi wa B2B unaoaminika kwa Afrika Mashariki · Wasambazaji waliothibitishwa · Nukuu wazi za USD',
     'register_buyer' => 'Jisajili kama mnunuzi',
     'join_free' => 'Jiunge bure',
     'product_directory' => 'Orodha ya bidhaa',
