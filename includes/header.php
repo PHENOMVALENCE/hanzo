@@ -14,7 +14,8 @@ hanzo_start_i18n_output_buffer();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= e($pageTitle) ?> | China Chapu</title>
     <meta name="description" content="China Chapu helps East African businesses source products from verified Chinese factories, manage quotations, payments, shipping, and documentation in one platform.">
-    <link rel="icon" type="image/png" href="<?= e(app_url('assets/images/logo.png')) ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= e(app_url('assets/images/logo.png')) ?>">
+    <link rel="icon" type="image/png" sizes="192x192" href="<?= e(app_url('assets/images/logo.png')) ?>">
     <link rel="shortcut icon" type="image/png" href="<?= e(app_url('assets/images/logo.png')) ?>">
     <link rel="apple-touch-icon" href="<?= e(app_url('assets/images/logo.png')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
