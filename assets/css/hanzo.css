@@ -166,11 +166,24 @@ body.hanzo-body {
 }
 
 .hanzo-brand {
-  font-weight: 700;
-  letter-spacing: 0.04em;
   color: var(--hanzo-navy) !important;
 }
-.hanzo-brand span { color: var(--hanzo-gold); }
+.hanzo-brand-logo {
+  height: 40px;
+  width: auto;
+  max-width: 190px;
+  object-fit: contain;
+}
+.hanzo-footer-logo {
+  height: 42px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+}
+/* Makes dark logos visible on dark backgrounds */
+.hanzo-brand-logo-invert {
+  filter: brightness(0) invert(1);
+}
 
 .hanzo-search-wrap {
   border: 2px solid var(--hanzo-border);
@@ -669,6 +682,14 @@ body.hanzo-body {
   }
   .hanzo-brand {
     font-size: 1.25rem;
+  }
+  .hanzo-brand-logo {
+    height: 32px;
+    max-width: 150px;
+  }
+  .hanzo-footer-logo {
+    height: 36px;
+    max-width: 180px;
   }
   .hanzo-shop-header-actions {
     width: 100%;

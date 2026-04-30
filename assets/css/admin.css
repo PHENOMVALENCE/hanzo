@@ -28,6 +28,20 @@
   box-shadow: 4px 0 24px rgba(13, 27, 42, 0.12);
 }
 .admin-sidebar-brand { height: 64px; display: flex; align-items: center; padding: 0 1rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+.admin-sidebar-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #fff;
+  text-decoration: none;
+  min-width: 0;
+}
+.admin-sidebar-logo {
+  height: 28px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+}
 .admin-menu { display: flex; flex-direction: column; gap: .35rem; padding: .75rem; height: calc(100vh - 64px); overflow-y: auto; }
 .admin-menu-item { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; gap: .6rem; padding: .6rem .75rem; border-radius: .5rem; font-size: .93rem; }
 .admin-menu-item:hover { background: rgba(255,255,255,.08); color: #fff; }

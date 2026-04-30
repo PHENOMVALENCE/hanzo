@@ -9,7 +9,9 @@ $footerMode = $footerMode ?? 'full';
     <div class="container-fluid px-3 px-sm-4">
         <div class="row g-4">
             <div class="col-md-4">
-                <h5 class="text-white mb-3">HANZO</h5>
+                <a href="<?= e(app_url('index.php')) ?>" class="d-inline-block mb-3">
+                    <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="HANZO" class="hanzo-footer-logo hanzo-brand-logo-invert">
+                </a>
                 <p class="small">Controlled B2B trade between East African buyers and verified overseas factories. Inquiries, quotations, and logistics are coordinated through HANZO — not direct factory contact.</p>
             </div>
             <div class="col-md-2">

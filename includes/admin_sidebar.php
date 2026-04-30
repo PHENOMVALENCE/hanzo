@@ -20,7 +20,10 @@ $items = [
 <aside id="adminSidebar" class="admin-sidebar">
     <div class="admin-sidebar-brand">
         <button class="btn btn-link text-white p-0 me-2 d-lg-none" id="adminSidebarClose"><i class="bi bi-x-lg"></i></button>
-        <span class="fw-bold">HANZO Admin</span>
+        <a href="<?= e(app_url('admin/dashboard.php')) ?>" class="admin-sidebar-brand-link">
+            <img src="<?= e(app_url('assets/images/logo.png')) ?>" alt="HANZO" class="admin-sidebar-logo hanzo-brand-logo-invert">
+            <span class="small text-white-50">Admin</span>
+        </a>
     </div>
     <nav class="admin-menu">
         <?php foreach ($items as $key => $item): ?>
