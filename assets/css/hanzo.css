@@ -168,10 +168,25 @@ body.hanzo-body {
 .hanzo-brand {
   color: var(--hanzo-navy) !important;
 }
+.hanzo-header-brand-col .navbar-brand {
+  display: inline-flex !important;
+  align-items: center;
+  max-width: 200px;
+  overflow: hidden;
+}
 .hanzo-brand-logo {
   height: 40px;
   width: auto;
   max-width: 190px;
+  display: block;
+  object-fit: contain;
+}
+/* Hard guard: keep logo controlled even if class is missing/cached markup differs. */
+.hanzo-shop-header-main .navbar-brand img[src*="assets/images/logo"] {
+  display: block;
+  width: auto !important;
+  max-width: 200px !important;
+  max-height: 44px !important;
   object-fit: contain;
 }
 .hanzo-footer-logo {
@@ -683,9 +698,16 @@ body.hanzo-body {
   .hanzo-brand {
     font-size: 1.25rem;
   }
+  .hanzo-header-brand-col .navbar-brand {
+    max-width: 160px;
+  }
   .hanzo-brand-logo {
     height: 32px;
     max-width: 150px;
+  }
+  .hanzo-shop-header-main .navbar-brand img[src*="assets/images/logo"] {
+    max-width: 160px !important;
+    max-height: 34px !important;
   }
   .hanzo-footer-logo {
     height: 36px;

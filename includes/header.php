@@ -14,6 +14,9 @@ hanzo_start_i18n_output_buffer();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= e($pageTitle) ?> — HANZO</title>
     <meta name="description" content="HANZO connects East African buyers with verified factories through a controlled B2B trade platform.">
+    <link rel="icon" type="image/png" href="<?= e(app_url('assets/images/logo.png')) ?>">
+    <link rel="shortcut icon" type="image/png" href="<?= e(app_url('assets/images/logo.png')) ?>">
+    <link rel="apple-touch-icon" href="<?= e(app_url('assets/images/logo.png')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
