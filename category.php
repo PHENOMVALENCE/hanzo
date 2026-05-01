@@ -101,6 +101,9 @@ require __DIR__ . '/includes/navbar.php';
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-hanzo-primary w-100"><?= e(__('apply')) ?></button>
                 </div>
+                <div class="col-12">
+                    <p class="small text-muted mb-0"><?= e(__('filter_prices_catalog_usd_note')) ?></p>
+                </div>
             </form>
 
             <div class="row">

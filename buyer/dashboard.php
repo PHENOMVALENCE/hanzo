@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/order_finance.php';
 
 require_buyer();
 
@@ -23,6 +24,8 @@ $productNameCols = db_has_column($pdo, 'products', 'name_en') ? ', p.name_en, p.
 $orders = $pdo->prepare('SELECT o.*, p.product_name' . $productNameCols . ' FROM orders o JOIN products p ON p.id = o.product_id WHERE o.buyer_id = ? ORDER BY o.created_at DESC LIMIT 10');
 $orders->execute([$buyerId]);
 $recentOrders = $orders->fetchAll();
+$recentOrderIds = array_map(static fn (array $row): int => (int) $row['id'], $recentOrders);
+$recentBalanceMap = hanzo_order_balance_map($pdo, $recentOrderIds);
 
 $pageTitle = __('buyer_dashboard');
 require __DIR__ . '/../includes/header.php';
@@ -90,19 +93,26 @@ require __DIR__ . '/../includes/buyer_sidebar_start.php';
     </div>
     <div class="table-responsive hanzo-buyer-table-wrap">
         <table class="table table-hover align-middle mb-0 hanzo-buyer-table">
-            <thead><tr><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Qty</th><th scope="col">Status</th><th scope="col">Date</th></tr></thead>
+            <thead><tr><th scope="col">Order</th><th scope="col">Product</th><th scope="col">Qty</th><th scope="col">Status</th><th scope="col" class="text-end">Agreed</th><th scope="col" class="text-end">Paid</th><th scope="col" class="text-end">Due</th><th scope="col">Date</th></tr></thead>
             <tbody>
                 <?php foreach ($recentOrders as $o): ?>
-                    <?php $stRaw = (string) $o['status']; ?>
+                    <?php
+                    $stRaw = (string) $o['status'];
+                    $roid = (int) $o['id'];
+                    $rb = $recentBalanceMap[$roid] ?? ['agreed_usd' => null, 'paid_usd' => 0.0, 'due_usd' => null];
+                    ?>
                     <tr>
-                        <td><a href="<?= e(app_url('buyer/orders.php')) ?>" class="fw-semibold link-dark text-decoration-none"><?= e($o['order_code']) ?></a></td>
+                        <td><a href="<?= e(app_url('buyer/orders.php#order-' . $roid)) ?>" class="fw-semibold link-dark text-decoration-none"><?= e($o['order_code']) ?></a></td>
                         <td><?= e(getLocalizedProductName($o)) ?></td>
                         <td><?= (int) $o['quantity'] ?></td>
                         <td><span class="badge <?= e(order_status_badge_class($stRaw)) ?>"><?= e(order_status_label($stRaw)) ?></span></td>
+                        <td class="small text-end text-nowrap"><?= e(hanzo_format_order_money_usd($rb['agreed_usd'])) ?></td>
+                        <td class="small text-end text-nowrap"><?= e(hanzo_format_order_money_usd($rb['paid_usd'])) ?></td>
+                        <td class="small text-end text-nowrap fw-semibold text-hanzo-gold"><?= e(hanzo_format_order_money_usd($rb['due_usd'])) ?></td>
                         <td class="small text-muted"><?= e(format_datetime((string) $o['created_at'])) ?></td>
                     </tr>
                 <?php endforeach; ?>
-                <?php if ($recentOrders === []): ?><tr><td colspan="5" class="text-center text-muted py-5">No orders yet. <a href="<?= e(app_url('buyer/products.php')) ?>">Browse products</a> to place your first inquiry.</td></tr><?php endif; ?>
+                <?php if ($recentOrders === []): ?><tr><td colspan="8" class="text-center text-muted py-5">No orders yet. <a href="<?= e(app_url('buyer/products.php')) ?>">Browse products</a> to place your first inquiry.</td></tr><?php endif; ?>
             </tbody>
         </table>
     </div>

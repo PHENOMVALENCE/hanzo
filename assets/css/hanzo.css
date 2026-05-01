@@ -48,8 +48,67 @@ body.hanzo-body {
 }
 
 .hanzo-shop-header-main {
+  position: relative;
+  z-index: 1038;
   box-shadow: 0 4px 24px rgba(13, 27, 42, 0.06);
 }
+
+/* Below shop header: locale/currency menus must not sit under sticky navbar + “My inquiries” */
+.hanzo-navbar.hanzo-navbar.sticky-top {
+  z-index: 1020;
+}
+
+.hanzo-shop-header-actions-col {
+  min-width: 0;
+  overflow: visible;
+}
+
+.hanzo-header-search-col {
+  min-width: 0;
+}
+
+.hanzo-shop-header-actions-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.65rem;
+}
+
+@media (min-width: 992px) {
+  .hanzo-shop-header-actions-stack {
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+.hanzo-shop-header-actions-primary {
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .hanzo-shop-header-actions-primary {
+    width: auto;
+  }
+}
+
+/* Desktop header row: no clipped hint under toggle — full note lives in currency dropdown */
+.hanzo-shop-header-actions-locale .hanzo-locale-panel__hint {
+  display: none !important;
+}
+
+.hanzo-shop-header-actions-locale .hanzo-lang-switcher .hanzo-locale-panel,
+.hanzo-shop-header-actions-locale .hanzo-currency-switcher .hanzo-locale-panel {
+  align-items: flex-end;
+}
+
+@media (min-width: 992px) {
+  .hanzo-shop-header-actions-locale {
+    flex-wrap: nowrap !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+  }
+}
+
 .hanzo-header-brand-col {
   min-width: 0;
 }
@@ -60,25 +119,182 @@ body.hanzo-body {
   max-width: 200px;
   min-width: 0;
 }
-.hanzo-lang-switcher {
+/* Language & currency: dropdown menus (LANGUAGE / CURRENCY toggles) */
+.hanzo-lang-switcher,
+.hanzo-currency-switcher {
   max-width: 100%;
+  overflow: visible;
 }
-.hanzo-lang-label {
-  line-height: 1;
+
+.hanzo-nav-locale-wrap {
+  overflow: visible;
 }
-.hanzo-mobile-lang-group {
-  border-radius: 0.5rem;
-  overflow: hidden;
+
+.hanzo-locale-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
 }
-.hanzo-mobile-lang-group .btn {
-  flex: 1 1 0;
-  min-width: 0;
-  white-space: nowrap;
+
+.hanzo-locale-panel__hint {
+  font-size: 0.65rem;
+  line-height: 1.4;
+  color: #64748b;
+  max-width: 14rem;
+}
+
+.hanzo-mobile-locale-row .hanzo-locale-panel__hint {
+  max-width: none;
+}
+
+.hanzo-locale-dropdown {
+  position: relative;
+}
+
+.hanzo-shop-header-main .dropdown-menu {
+  z-index: 1045;
+}
+
+button.hanzo-locale-dropdown__toggle.dropdown-toggle {
+  font-family: inherit;
+  font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  padding: 0.5rem 0.7rem;
+  min-height: 2.5rem;
+  margin: 0;
+  border: 1px solid #dce3eb;
+  background-color: #fff;
+  background-image: none;
+  color: var(--hanzo-navy);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgba(13, 27, 42, 0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  vertical-align: middle;
 }
-.hanzo-mobile-lang-switch .btn-group .btn {
-  min-width: 0;
+
+button.hanzo-locale-dropdown__toggle.dropdown-toggle:hover {
+  border-color: rgba(201, 162, 39, 0.45);
+  background: #fffef8;
+  color: var(--hanzo-navy);
+}
+
+button.hanzo-locale-dropdown__toggle.dropdown-toggle:focus-visible {
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.28);
+}
+
+button.hanzo-locale-dropdown__toggle.dropdown-toggle.show {
+  border-color: var(--hanzo-gold);
+  background: #fffef8;
+}
+
+button.hanzo-locale-dropdown__toggle.dropdown-toggle::after {
+  margin-left: 0.35rem;
+  vertical-align: 0.14em;
+}
+
+.hanzo-locale-dropdown__menu {
+  min-width: 11.5rem;
+  max-width: min(100vw - 2rem, 18rem);
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-y: visible !important;
+  padding: 0.4rem;
+  border-radius: 0.65rem;
+  border: 1px solid #cfd8e3 !important;
+  background: #fff;
+  margin-top: 0.35rem !important;
+  box-shadow:
+    0 4px 6px -2px rgba(13, 27, 42, 0.06),
+    0 14px 38px -6px rgba(13, 27, 42, 0.18) !important;
+}
+
+.hanzo-locale-dropdown__menu .dropdown-divider {
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+  border-top-color: var(--hanzo-border);
+  opacity: 1;
+}
+
+.hanzo-locale-dropdown__menu .dropdown-item.hanzo-locale-dropdown__item {
+  border-radius: 0.35rem;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.875rem;
+}
+
+.hanzo-locale-dropdown__menu .dropdown-item.hanzo-locale-dropdown__item.active,
+.hanzo-locale-dropdown__menu .dropdown-item.hanzo-locale-dropdown__item:active {
+  background: rgba(201, 162, 39, 0.22);
+  color: var(--hanzo-navy);
+}
+
+.hanzo-locale-dropdown__check {
+  color: var(--hanzo-gold-dark);
+  font-size: 1.05rem;
+}
+
+.hanzo-locale-dropdown__menu-note {
+  max-width: 16rem;
+}
+
+@media (min-width: 992px) {
+  .hanzo-shop-header-actions-locale button.hanzo-locale-dropdown__toggle.dropdown-toggle {
+    min-height: 2.125rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    border-radius: 0.45rem;
+    box-shadow: 0 1px 3px rgba(13, 27, 42, 0.07);
+  }
+}
+
+/* Mobile nav: hide duplicate rate note inside menu (hint below toggles is enough) */
+.hanzo-mobile-locale-row .hanzo-locale-dropdown__footer-note {
+  display: none !important;
+}
+
+/* Mobile / collapsed nav: full-width toggles & menus */
+.hanzo-mobile-locale-row .hanzo-locale-dropdown {
+  width: 100%;
+}
+
+.hanzo-mobile-locale-row button.hanzo-locale-dropdown__toggle.dropdown-toggle {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.hanzo-mobile-locale-row .hanzo-locale-dropdown__menu {
+  width: 100%;
+  min-width: 100%;
+}
+
+/* Admin dark navbar */
+.navbar-dark button.hanzo-locale-dropdown__toggle.dropdown-toggle {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: none;
+}
+
+.navbar-dark button.hanzo-locale-dropdown__toggle.dropdown-toggle:hover,
+.navbar-dark button.hanzo-locale-dropdown__toggle.dropdown-toggle.show {
+  border-color: rgba(201, 162, 39, 0.65);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.navbar-dark .hanzo-locale-dropdown__menu {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .hanzo-account-dd .dropdown-toggle::after {
@@ -216,6 +432,10 @@ body.hanzo-body {
 }
 
 .hanzo-search-wrap {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  width: 100%;
   border: 2px solid var(--hanzo-border);
   border-radius: 999px;
   overflow: hidden;
@@ -230,6 +450,20 @@ body.hanzo-body {
 .hanzo-search-wrap .form-select {
   border: 0;
   box-shadow: none !important;
+}
+.hanzo-search-wrap .form-control {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+.hanzo-search-wrap .hanzo-search-cat {
+  flex: 0 1 200px;
+  min-width: min(200px, 36vw);
+}
+@media (min-width: 992px) {
+  .hanzo-search-wrap .hanzo-search-cat {
+    min-width: 9.5rem;
+  }
 }
 .hanzo-search-wrap .btn-hanzo-primary {
   border-radius: 0 999px 999px 0;
@@ -728,11 +962,11 @@ body.hanzo-body {
     height: 36px;
     max-width: 180px;
   }
-  .hanzo-shop-header-actions {
+  .hanzo-shop-header-actions-primary {
     width: 100%;
     justify-content: stretch !important;
   }
-  .hanzo-shop-header-actions > .btn {
+  .hanzo-shop-header-actions-primary > .btn {
     flex: 1 1 auto;
     min-width: 0;
   }
@@ -744,8 +978,8 @@ body.hanzo-body {
     width: 100%;
     justify-content: center;
   }
-  .hanzo-header-lang-switch {
-    width: 100%;
+  .hanzo-shop-header-actions-stack {
+    align-items: stretch;
   }
   .hanzo-topbar-tagline {
     font-size: 0.75rem;
@@ -801,17 +1035,30 @@ body.hanzo-body {
   .hanzo-navbar .navbar-toggler {
     margin-left: auto;
   }
-  .hanzo-mobile-lang-switch {
-    padding-top: 0.25rem;
+  .hanzo-mobile-locale-row {
+    padding-top: 0.35rem;
     width: 100%;
   }
-  .hanzo-mobile-lang-switch .hanzo-lang-switcher {
+  .hanzo-mobile-lang-switch,
+  .hanzo-mobile-currency-switch {
     width: 100%;
+    min-width: 0;
   }
-  .hanzo-mobile-lang-switch .hanzo-mobile-lang-group .btn {
-    font-size: 0.8rem;
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
+  .hanzo-mobile-locale-row button.hanzo-locale-dropdown__toggle.dropdown-toggle {
+    min-height: 2.75rem;
+    font-size: 0.72rem;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+  .hanzo-mobile-locale-row .hanzo-locale-panel__hint {
+    font-size: 0.6875rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .hanzo-navbar #hanzoMainNav.collapse.show,
+  .hanzo-navbar #hanzoMainNav.collapsing {
+    overflow: visible;
   }
 }
 

@@ -43,7 +43,7 @@ if (!$hideShopNav) {
             </a>
             <div class="small text-muted d-none d-md-block hanzo-header-brand-meta"><?= e(__('brand_subtitle')) ?></div>
         </div>
-        <div class="col-12 col-lg-6 col-xl-6">
+        <div class="col-12 col-lg-5 col-xl-5 hanzo-header-search-col">
             <form class="hanzo-search-wrap d-flex align-items-stretch" action="<?= e(app_url('search.php')) ?>" method="get">
                 <input type="text" name="q" class="form-control py-3 ps-3" placeholder="<?= e(__('search_placeholder')) ?>" value="<?= e($_GET['q'] ?? '') ?>">
                 <select name="cat" class="form-select py-3 hanzo-search-cat" aria-label="Category">
@@ -55,15 +55,22 @@ if (!$hideShopNav) {
                 <button class="btn btn-hanzo-primary px-4" type="submit"><i class="fa fa-search" aria-hidden="true"></i><span class="d-none d-md-inline ms-1"><?= e(__('search')) ?></span></button>
             </form>
         </div>
-        <div class="col-12 col-lg-3 col-xl-3 text-center text-lg-end d-flex flex-wrap align-items-center justify-content-center justify-content-lg-end gap-2 hanzo-shop-header-actions">
-            <a class="btn btn-hanzo-outline btn-sm" href="<?= e(app_url('categories.php')) ?>"><i class="fa fa-th-large me-1" aria-hidden="true"></i><span class="d-none d-sm-inline"><?= e(__('categories')) ?></span><span class="d-sm-none"><?= e(__('categories')) ?></span></a>
-            <?php if (auth_user()): ?>
-                <?php hanzo_render_shop_account_dropdown('header'); ?>
-            <?php else: ?>
-                <a class="btn btn-hanzo-primary btn-sm d-lg-none" href="<?= e(app_url('login.php')) ?>"><?= e(__('login')) ?></a>
-                <a class="btn btn-hanzo-primary btn-sm" href="<?= e(app_url('register.php')) ?>"><?= e(__('join_free')) ?></a>
-            <?php endif; ?>
-            <div class="hanzo-header-lang-switch d-none d-lg-block"><?php require __DIR__ . '/language-switcher.php'; ?></div>
+        <div class="col-12 col-lg-4 col-xl-4 hanzo-shop-header-actions-col">
+            <div class="hanzo-shop-header-actions-stack">
+                <div class="hanzo-shop-header-actions-primary d-flex flex-wrap align-items-center justify-content-center justify-content-lg-end gap-2">
+                    <a class="btn btn-hanzo-outline btn-sm" href="<?= e(app_url('categories.php')) ?>"><i class="fa fa-th-large me-1" aria-hidden="true"></i><span class="d-none d-sm-inline"><?= e(__('categories')) ?></span><span class="d-sm-none"><?= e(__('categories')) ?></span></a>
+                    <?php if (auth_user()): ?>
+                        <?php hanzo_render_shop_account_dropdown('header'); ?>
+                    <?php else: ?>
+                        <a class="btn btn-hanzo-primary btn-sm d-lg-none" href="<?= e(app_url('login.php')) ?>"><?= e(__('login')) ?></a>
+                        <a class="btn btn-hanzo-primary btn-sm" href="<?= e(app_url('register.php')) ?>"><?= e(__('join_free')) ?></a>
+                    <?php endif; ?>
+                </div>
+                <div class="hanzo-shop-header-actions-locale d-none d-lg-flex flex-wrap align-items-center justify-content-center justify-content-lg-end gap-2">
+                    <div class="hanzo-header-lang-switch flex-shrink-0"><?php require __DIR__ . '/language-switcher.php'; ?></div>
+                    <div class="hanzo-header-currency-switch flex-shrink-0"><?php require __DIR__ . '/currency-switcher.php'; ?></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -94,8 +101,13 @@ if (!$hideShopNav) {
                     <?php hanzo_render_shop_account_dropdown('collapse'); ?>
                 </ul>
             <?php endif; ?>
-            <div class="d-flex flex-wrap align-items-center gap-2 ms-lg-auto hanzo-nav-cta-wrap">
-                <div class="d-lg-none w-100 hanzo-mobile-lang-switch"><?php require __DIR__ . '/language-switcher.php'; ?></div>
+            <div class="d-flex flex-wrap align-items-center gap-2 ms-lg-auto hanzo-nav-cta-wrap hanzo-nav-locale-wrap">
+                <div class="d-lg-none w-100 hanzo-mobile-locale-row">
+                    <div class="row g-2 gx-sm-3 mx-0">
+                        <div class="col-12 col-sm-6 hanzo-mobile-lang-switch"><?php require __DIR__ . '/language-switcher.php'; ?></div>
+                        <div class="col-12 col-sm-6 hanzo-mobile-currency-switch"><?php require __DIR__ . '/currency-switcher.php'; ?></div>
+                    </div>
+                </div>
                 <?php if (!auth_user()): ?>
                     <a class="btn btn-outline-secondary btn-sm d-lg-none" href="<?= e(app_url('register.php')) ?>"><?= e(__('join_free')) ?></a>
                 <?php endif; ?>

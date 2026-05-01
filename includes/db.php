@@ -6,6 +6,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/language.php';
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/pricing_currency.php';
 
 $cfg = require __DIR__ . '/../config/db.php';
 $dsn = 'mysql:host=' . $cfg['host'] . ';dbname=' . $cfg['dbname'] . ';charset=' . $cfg['charset'];
@@ -28,3 +30,4 @@ try {
 }
 
 hanzo_language_bootstrap($pdo);
+hanzo_price_currency_bootstrap();

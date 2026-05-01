@@ -30,24 +30,10 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = max(1, (int) ($_POST['quantity'] ?? 1));
     $delivery = trim((string) ($_POST['delivery_location'] ?? ''));
-    $timeline = trim((string) ($_POST['timeline'] ?? ''));
     $notes = trim((string) ($_POST['notes'] ?? ''));
 
     if ($delivery === '') {
         $errors[] = 'Delivery location is required.';
-    }
-    if ($timeline === '') {
-        $errors[] = 'Timeline is required.';
-    }
-
-    $docPath = null;
-    if (isset($_FILES['reference']) && $_FILES['reference']['error'] !== UPLOAD_ERR_NO_FILE) {
-        $check = validate_upload_image_doc($_FILES['reference']);
-        if (!$check['ok']) {
-            $errors = array_merge($errors, $check['errors']);
-        } else {
-            $docPath = save_uploaded_file($_FILES['reference'], 'documents', $check['filename']);
-        }
     }
 
     if ($errors === []) {
@@ -60,11 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($notes !== '') {
             $pdo->prepare('INSERT INTO shipping_updates (order_id, status_title, description, location, updated_by) VALUES (?,?,?,?,?)')
-                ->execute([$orderId, 'Request submitted', $notes . ' | Timeline: ' . $timeline, $delivery, auth_id()]);
-        }
-        if ($docPath !== null) {
-            $pdo->prepare('INSERT INTO documents (order_id, document_type, file_path, uploaded_by) VALUES (?,?,?,?)')
-                ->execute([$orderId, 'buyer_reference', $docPath, 'buyer']);
+                ->execute([$orderId, 'Request submitted', $notes, $delivery, auth_id()]);
         }
         flash_set('success', 'Order request submitted to China Chapu. Admin will assign a factory and prepare official quotation.');
         redirect('buyer/orders.php');
@@ -93,7 +75,7 @@ require __DIR__ . '/includes/navbar.php';
         <div class="alert alert-danger"><?= e($er) ?></div>
     <?php endforeach; ?>
 
-    <form method="post" enctype="multipart/form-data" class="bg-white border rounded p-4 shadow-sm">
+    <form method="post" class="bg-white border rounded p-4 shadow-sm">
         <input type="hidden" name="product_id" value="<?= (int) $productId ?>">
         <div class="mb-3">
             <label class="form-label">Quantity</label>
@@ -101,19 +83,13 @@ require __DIR__ . '/includes/navbar.php';
         </div>
         <div class="mb-3">
             <label class="form-label">Delivery location</label>
-            <input type="text" name="delivery_location" class="form-control" maxlength="255" value="<?= e((string) ($_POST['delivery_location'] ?? '')) ?>" required>
+            <input type="text" name="delivery_location" class="form-control" maxlength="255" value="<?= e((string) ($_POST['delivery_location'] ?? '')) ?>" required aria-describedby="delivery-location-hint">
+            <div id="delivery-location-hint" class="form-text">Prefer a nearby monument or another known place (not just a street name) so we can pin the delivery spot.</div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Required timeline</label>
-            <input type="text" name="timeline" class="form-control" maxlength="255" value="<?= e((string) ($_POST['timeline'] ?? '')) ?>" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Notes / specifications</label>
-            <textarea name="notes" class="form-control" rows="4" maxlength="5000"><?= e((string) ($_POST['notes'] ?? '')) ?></textarea>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Reference image/document (optional)</label>
-            <input type="file" name="reference" class="form-control" accept=".jpg,.jpeg,.png,.webp,.pdf">
+            <label class="form-label">Notes / specifications <span class="text-muted fw-normal">(optional)</span></label>
+            <textarea name="notes" class="form-control" rows="4" maxlength="5000" aria-describedby="notes-hint"><?= e((string) ($_POST['notes'] ?? '')) ?></textarea>
+            <div id="notes-hint" class="form-text">Optional — add any extra details, materials, sizes, or packaging preferences if you want them on the request.</div>
         </div>
         <button type="submit" class="btn btn-hanzo-primary">Submit request</button>
     </form>

@@ -54,11 +54,20 @@ function redirect(string $path): void
     exit;
 }
 
+/** Product catalog prices are stored in USD; this respects the visitor’s display currency (USD / TZS / CNY). */
 function format_usd_range(float|string $min, float|string $max, string $unit): string
 {
-    $a = is_string($min) ? (float) $min : $min;
-    $b = is_string($max) ? (float) $max : $max;
-    return 'US$' . number_format($a, 2) . ' - US$' . number_format($b, 2) . ' / ' . e($unit);
+    return hanzo_format_product_price_range($min, $max, $unit);
+}
+
+/** Format a stored payment row amount for display (USD vs TZS). */
+function format_payment_amount_display(float $amount, ?string $currency = null): string
+{
+    $c = strtoupper(trim((string) ($currency ?? 'USD')));
+    if ($c === 'TZS') {
+        return 'TZS ' . number_format($amount, 0);
+    }
+    return 'US$' . number_format($amount, 2);
 }
 
 function format_moq(int $moq, string $unit): string

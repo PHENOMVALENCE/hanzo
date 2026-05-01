@@ -146,6 +146,7 @@ CREATE TABLE payments (
   order_id INT UNSIGNED NOT NULL,
   buyer_id INT UNSIGNED NOT NULL,
   amount DECIMAL(12,2) NOT NULL,
+  currency ENUM('USD','TZS') NOT NULL DEFAULT 'USD',
   payment_type VARCHAR(80) DEFAULT NULL,
   method VARCHAR(80) DEFAULT NULL,
   reference VARCHAR(120) DEFAULT NULL,

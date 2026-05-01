@@ -117,7 +117,7 @@ require __DIR__ . '/../includes/admin_sidebar.php';
                 <tr>
                     <td><?= e($p['order_code']) ?></td>
                     <td><?= e($p['buyer_name']) ?></td>
-                    <td>US$<?= e(number_format((float) $p['amount'], 2)) ?></td>
+                    <td><?= e(format_payment_amount_display((float) $p['amount'], isset($p['currency']) ? (string) $p['currency'] : null)) ?></td>
                     <td><?= e((string) $p['payment_type']) ?> / <?= e((string) $p['method']) ?></td>
                     <td><?= e((string) $p['reference']) ?></td>
                     <td><?php if (!empty($p['proof_file'])): ?><a href="<?= e(app_url((string) $p['proof_file'])) ?>" target="_blank">View</a><?php else: ?>-<?php endif; ?></td>
